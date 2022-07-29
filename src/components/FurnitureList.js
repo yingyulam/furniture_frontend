@@ -8,7 +8,7 @@ import Row from 'react-bootstrap/Row';
 import Container from 'react-bootstrap/Container';
 import Card from 'react-bootstrap/Card';
 import { BsStar, BsStarFill } from "react-icons/bs";
-import "./MoviesList.css";
+import "./FurnitureList.css";
 
 
 const MoviesList = ({
@@ -18,7 +18,7 @@ const MoviesList = ({
   deleteFavorite,
 }) => {
     // useState to set state values
-    const [movies, setMovies] = useState([]);
+    const [furniture, setFurniture] = useState([]);
     const [searchTitle, setSearchTitle] = useState("");
     const [searchRating, setSearchRating] = useState("");
     const [ratings, setRatings] = useState(["All Ratings"]);
@@ -39,11 +39,11 @@ const MoviesList = ({
             });
     }, []);
 
-    const retrieveMovies = useCallback(() => {
+    const retrieveFurniture = useCallback(() => {
         setCurrentSearchMode("");
         MovieDataService.getAll(currentPage)
         .then(response => {
-            setMovies(response.data.movies);
+            setFurniture(response.data.movies);
             setCurrentPage(response.data.page);
             setEntriesPerPage(response.data.entries_per_page);
         })
@@ -55,7 +55,7 @@ const MoviesList = ({
     const find = useCallback((query, by) => {
         MovieDataService.find(query, by, currentPage)
         .then(response => {
-            setMovies(response.data.movies);
+            setFurniture(response.data.movies);
         })
         .catch(e => {
             console.log(e);
@@ -70,11 +70,11 @@ const MoviesList = ({
     const findByRating = useCallback(() => {
         setCurrentSearchMode("findByRating");
         if (searchRating === "All Ratings") {
-            retrieveMovies();
+            retrieveFurniture();
         } else {
             find(searchRating, "rated");
         }
-    }, [find, searchRating, retrieveMovies]);
+    }, [find, searchRating, retrieveFurniture]);
 
     const retrieveNextPage = useCallback(() => {
         if (currentSearchMode === "findByTitle") {
@@ -82,9 +82,9 @@ const MoviesList = ({
         } else if (currentSearchMode === "findByRating") {
             findByRating();
         } else {
-            retrieveMovies();
+            retrieveFurniture();
         }
-    }, [currentSearchMode, findByTitle, findByRating, retrieveMovies]);
+    }, [currentSearchMode, findByTitle, findByRating, retrieveFurniture]);
 
 
     // Use effect to carry out side effect functionality
@@ -162,7 +162,7 @@ const MoviesList = ({
                     </Row>
                 </Form>
                 <Row className="movieRow">
-                  { movies.map((movie) => {
+                  { furniture.map((movie) => {
                     return (
                       <Col key={movie._id}>
                         <Card className="moviesListCard">
