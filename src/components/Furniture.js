@@ -8,12 +8,13 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
 import moment from 'moment';
+import './Movie.css'
 
-const Movie = ({ user }) => {
+const Furniture = ({ user }) => {
 
   let params = useParams();
 
-  const [movie, setMovie] = useState({
+  const [furniture, setFurniture] = useState({
     id: null,
     title: "",
     rated: "",
@@ -21,14 +22,12 @@ const Movie = ({ user }) => {
   });
 
   useEffect(() => {
-    const getMovie = id => {
-      // TODO: 
-      // Implement getMovie
+    const getFurniture = id => {
       MovieDataService.getMovieById(id).then((response) => {
-        setMovie(response.data);
+        setFurniture(response.data);
       }).catch(e => { console.log(e)});
     }
-    getMovie(params.id)
+    getFurniture(params.id)
   }, [params.id]);
 
   return (
@@ -39,7 +38,7 @@ const Movie = ({ user }) => {
             <div className="poster">
               <Image
                 className="bigPicture"
-                src={movie.poster+"/100px250"}
+                src={furniture.poster+"/100px250"}
                 onError={({ currentTarget }) => {
                   currentTarget.onerror = null;
                   currentTarget.src="/images/NoPosterAvailable-crop.jpg"
@@ -49,20 +48,42 @@ const Movie = ({ user }) => {
           </Col>
           <Col>
             <Card>
-              <Card.Header as="h5">{movie.title}</Card.Header>
+              <Card.Header as="h3">{furniture.title}</Card.Header>
               <Card.Body>
                 <Card.Text>
-                  {movie.plot}
+                  <h5>Price: {furniture.year}</h5>
                 </Card.Text>
-                { user &&
+                <Card.Text>
+                  <h5>Condition: {furniture.rated}</h5>
+                </Card.Text>
+                <Card.Text>
+                  <h5>Description</h5>
+                  <p>{furniture.plot}</p>
+                </Card.Text>
+                {/* { user &&
                   <Link to={"/movies/" + params.id + "/review"} >
                     Add Review
-                  </Link>}
+                  </Link>} */}
               </Card.Body>
             </Card>
-            <h2>Reviews</h2>
+
+            <Card>
+              <Card.Header as="h5">Seller Information</Card.Header>
+              <Card.Body>
+              <Card.Text>
+                Name: {furniture.directors}
+              </Card.Text>
+              <Card.Text>
+                Contact: {furniture.year*1000000+furniture.year}
+              </Card.Text>
+              </Card.Body>
+            </Card>
+
+
+
+            {/* <h2>Reviews</h2>
             <br></br>
-            { movie.reviews.map((review, index) => {
+            { furniture.reviews.map((review, index) => {
               return (
                 <div className="d-flex">
                   <div className="flex-shrink-0 reviewsText">
@@ -86,7 +107,7 @@ const Movie = ({ user }) => {
                               // TODO: Implement delete behavior
                               MovieDataService.deleteReview({...review, review_id: review._id})
                                 .then(response => {
-                                  setMovie((prevState) => {
+                                  setFurniture((prevState) => {
                                     prevState.reviews.splice(index, 1);
                                     return ({
                                       ...prevState
@@ -105,8 +126,8 @@ const Movie = ({ user }) => {
                     }
                   </div>
                 </div>
-              )
-            })}
+              ) */
+            /* })} */}
           </Col>
         </Row>
       </Container>
@@ -114,4 +135,4 @@ const Movie = ({ user }) => {
   )
 }
 
-export default Movie;
+export default Furniture;

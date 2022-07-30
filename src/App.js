@@ -9,8 +9,8 @@ import Navbar from 'react-bootstrap/Navbar';
 import Login from "./components/Login";
 import Logout from "./components/Logout";
 
-import MoviesList from "./components/MoviesList";
-import Movie from "./components/Movie";
+import FurnitureList from "./components/FurnitureList";
+import Furniture from "./components/Furniture";
 import AddReview from "./components/AddReview";
 import FavoritesDataService from "./services/favorites";
 import Favorites from "./components/Favorites";
@@ -84,17 +84,35 @@ function App() {
           <Container className="container-fluid">
             <Navbar.Brand className="brand" href="/">
               <img src="/images/movies-logo.png" alt="movies logo" className="moviesLogo"/>
-              MOVIE TIME
+                Once Upon A Furniture
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav" >
               <Nav className="ml-auto">
                 <Nav.Link as={Link} to={"/movies"}>
-                  Movies
+                  All
+                </Nav.Link>
+                <Nav.Link as={Link} to={"/movies"}>
+                  Living Room
+                </Nav.Link>
+                <Nav.Link as={Link} to={"/movies"}>
+                  Dinning Room
+                </Nav.Link>
+                <Nav.Link as={Link} to={"/movies"}>
+                  Bedroom
+                </Nav.Link>
+                <Nav.Link as={Link} to={"/movies"}>
+                  Bathroom
+                </Nav.Link>
+                <Nav.Link as={Link} to={"/movies"}>
+                  Garden
+                </Nav.Link>
+                <Nav.Link as={Link} to={"/movies"}>
+                  Other
                 </Nav.Link>
                 {user &&
                   <Nav.Link as={Link} to={"/favorites"}>
-                    Favorites
+                    Wishlist
                 </Nav.Link>}
               </Nav>
             </Navbar.Collapse>
@@ -108,7 +126,7 @@ function App() {
 
         <Routes>
           <Route exact path={"/"} element={
-            <MoviesList 
+            <FurnitureList 
               user={ user }
               addFavorite={ addFavorite }
               deleteFavorite={ deleteFavorite }
@@ -116,7 +134,7 @@ function App() {
             />}
             />
           <Route exact path={"/movies"} element={
-            <MoviesList 
+            <FurnitureList 
               user={ user }
               addFavorite={ addFavorite }
               deleteFavorite={ deleteFavorite }
@@ -127,7 +145,7 @@ function App() {
             user ? (
                   <Favorites user={ user }/>
                 ) : (
-                  <MoviesList 
+                  <FurnitureList 
                     user={ user }
                     addFavorite={ addFavorite }
                     deleteFavorite={ deleteFavorite }
@@ -136,7 +154,7 @@ function App() {
                 )}
             />
           <Route path={"/movies/:id/"} element={
-            <Movie user={ user } />}
+            <Furniture user={ user } />}
             />
           <Route path={"/movies/:id/review"} element={
             <AddReview user={ user } />}
