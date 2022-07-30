@@ -10,7 +10,7 @@ import Login from "./components/Login";
 import Logout from "./components/Logout";
 
 import FurnitureList from "./components/FurnitureList";
-import Movie from "./components/Movie";
+import Furniture from "./components/Furniture";
 import AddReview from "./components/AddReview";
 import FavoritesDataService from "./services/favorites";
 import Favorites from "./components/Favorites";
@@ -154,7 +154,7 @@ function App() {
                 )}
             />
           <Route path={"/movies/:id/"} element={
-            <Movie user={ user } />}
+            <Furniture user={ user } />}
             />
           <Route path={"/movies/:id/review"} element={
             <AddReview user={ user } />}
