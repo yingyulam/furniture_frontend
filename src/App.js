@@ -70,7 +70,7 @@ function App() {
 				console.log(e);
 			});
 		}
-	}, [favorites]);
+	}, [favorites, user]);
 
 	useEffect(() => {
 		retrieveFavorites();

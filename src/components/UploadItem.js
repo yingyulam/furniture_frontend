@@ -3,13 +3,19 @@ import { useNavigate } from "react-router";
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
+import ButtonGroup from "react-bootstrap/ButtonGroup";
 import MovieDataService from "../services/movies";
+import Axios from "axios";
 
 const UploadItem = ({ user }) => {
 	const navigate = useNavigate();
 	const [name, setName] = useState("");
 	const [price, setPrice] = useState();
 	const [description, setDescription] = useState("");
+	const [category, setCategory] = useState("None");
+	const [imageUrl, setImageUrl] = useState("");
+	const [imageSelected, setImageSelected] = useState("");
+	const [imageLoading, setImageLoading] = useState(false);
 
 	const saveItem = () => {
 		let data = {
@@ -17,10 +23,15 @@ const UploadItem = ({ user }) => {
 			name: name,
 			price: price,
 			description: description,
+			category: category,
+			imageUrl: imageUrl,
 		};
 
 		MovieDataService.uploadItem(data)
-			.then((res) => navigate("/movies"))
+			.then((res) => {
+				navigate("/movies");
+				console.log(res);
+			})
 			.catch((e) => console.log(e));
 	};
 
@@ -36,23 +47,55 @@ const UploadItem = ({ user }) => {
 		setDescription(e.target.value);
 	};
 
+	const uploadImage = () => {
+		const formData = new FormData();
+		formData.append("file", imageSelected);
+		formData.append("upload_preset", "dsvru7rj");
+		setImageLoading(true);
+		Axios.post(
+			"https://api.cloudinary.com/v1_1/ddprfjhmn/image/upload",
+			formData
+		).then((res) => {
+			setImageUrl(res.data.secure_url);
+			setImageLoading(false);
+		});
+	};
+
 	return (
 		<div>
-			<h2>Create item for sell on this website!</h2>
+			<h2 style={{ textAlign: "center", marginTop: "10px" }}>
+				Create item for sell on this website!
+			</h2>
 			<Container className="main-container">
 				<Form>
-					<Form.Group className="mb-3">
+					<Form.Group>
+						<div className="mb-3">
+							<input
+								type="file"
+								onChange={(e) => {
+									setImageSelected(e.target.files[0]);
+								}}
+							/>
+							<Button onClick={uploadImage} variant="success">
+								{" "}
+								Upload
+							</Button>
+						</div>
 						<Form.Control
 							type="text"
 							required
 							value={name}
 							onChange={onChangeName}
+							placeholder={"Name of item selling"}
+							className="mb-3"
 						/>
 						<Form.Control
 							type="number"
 							required
 							value={price}
 							onChange={onChangePrice}
+							placeholder={"Price"}
+							className="mb-3"
 						/>
 						<Form.Control
 							as="textarea"
@@ -60,9 +103,60 @@ const UploadItem = ({ user }) => {
 							required
 							value={description}
 							onChange={onChangeDescription}
+							placeholder={"description"}
+							className="mb-3"
 						/>
 					</Form.Group>
-					<Button variant="primary" onClick={saveItem}>
+
+					<ButtonGroup className="mb-2">
+						<Button
+							variant="light"
+							onClick={() => {
+								setCategory("Living");
+							}}
+						>
+							Living Room
+						</Button>
+						<Button
+							variant="light"
+							onClick={() => {
+								setCategory("Dinning");
+							}}
+						>
+							Dinning Room
+						</Button>
+						<Button
+							variant="light"
+							onClick={() => {
+								setCategory("Bedroom");
+							}}
+						>
+							Bedroom
+						</Button>
+						<Button
+							variant="light"
+							onClick={() => {
+								setCategory("Bathroom");
+							}}
+						>
+							Bathroom
+						</Button>
+						<Button
+							variant="light"
+							onClick={() => {
+								setCategory("Garden");
+							}}
+						>
+							Garden
+						</Button>
+					</ButtonGroup>
+					<br />
+					<Button
+						variant="primary"
+						onClick={saveItem}
+						className="mt-3"
+						disabled={imageLoading}
+					>
 						Submit
 					</Button>
 				</Form>
