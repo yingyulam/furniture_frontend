@@ -11,7 +11,7 @@ import { BsStar, BsStarFill } from "react-icons/bs";
 import "./FurnitureList.css";
 
 
-const MoviesList = ({
+const FurnitureList = ({
   user,
   favorites,
   addFavorite,
@@ -20,8 +20,8 @@ const MoviesList = ({
     // useState to set state values
     const [furniture, setFurniture] = useState([]);
     const [searchTitle, setSearchTitle] = useState("");
-    const [searchRating, setSearchRating] = useState("");
-    const [ratings, setRatings] = useState(["All Ratings"]);
+    // const [searchRating, setSearchRating] = useState("");
+    // const [ratings, setRatings] = useState(["All Ratings"]);
     const [currentPage, setCurrentPage] = useState(0);
     const [entriesPerPage, setEntriesPerPage] = useState(0);
     const [currentSearchMode, setCurrentSearchMode] = useState("");
@@ -29,15 +29,15 @@ const MoviesList = ({
     // useCallback to define functions which should only be created once 
     // and will be dependencies for useEffect
 
-    const retrieveRatings = useCallback(() => {
-        MovieDataService.getRatings()
-            .then(response => {
-                setRatings(["All Ratings"].concat(response.data))
-            })
-            .catch(e => {
-                console.log(e);
-            });
-    }, []);
+    // const retrieveRatings = useCallback(() => {
+    //     MovieDataService.getRatings()
+    //         .then(response => {
+    //             setRatings(["All Ratings"].concat(response.data))
+    //         })
+    //         .catch(e => {
+    //             console.log(e);
+    //         });
+    // }, []);
 
     const retrieveFurniture = useCallback(() => {
         setCurrentSearchMode("");
@@ -67,30 +67,30 @@ const MoviesList = ({
         find(searchTitle, "title");
     }, [find, searchTitle]);
 
-    const findByRating = useCallback(() => {
-        setCurrentSearchMode("findByRating");
-        if (searchRating === "All Ratings") {
-            retrieveFurniture();
-        } else {
-            find(searchRating, "rated");
-        }
-    }, [find, searchRating, retrieveFurniture]);
+    // const findByRating = useCallback(() => {
+    //     setCurrentSearchMode("findByRating");
+    //     if (searchRating === "All Ratings") {
+    //         retrieveFurniture();
+    //     } else {
+    //         find(searchRating, "rated");
+    //     }
+    // }, [find, searchRating, retrieveFurniture]);
 
     const retrieveNextPage = useCallback(() => {
         if (currentSearchMode === "findByTitle") {
             findByTitle();
-        } else if (currentSearchMode === "findByRating") {
-            findByRating();
+        // } else if (currentSearchMode === "findByRating") {
+        //     findByRating();
         } else {
             retrieveFurniture();
         }
-    }, [currentSearchMode, findByTitle, findByRating, retrieveFurniture]);
+    }, [currentSearchMode, findByTitle, retrieveFurniture]);
 
 
     // Use effect to carry out side effect functionality
-    useEffect(() => {
-        retrieveRatings();
-    }, [retrieveRatings]);
+    // useEffect(() => {
+    //     retrieveRatings();
+    // }, [retrieveRatings]);
 
     useEffect(() => {
         setCurrentPage(0);
@@ -108,10 +108,10 @@ const MoviesList = ({
         setSearchTitle(searchTitle);
     }
 
-    const onChangeSearchRating = e => {
-        const searchRating = e.target.value;
-        setSearchRating(searchRating);
-    }
+    // const onChangeSearchRating = e => {
+    //     const searchRating = e.target.value;
+    //     setSearchRating(searchRating);
+    // }
 
     return (
         <div className="App">
@@ -137,7 +137,7 @@ const MoviesList = ({
                         </Col>
                         <Col>
                           <Form.Group className="mb-3">
-                            <Form.Control
+                            {/* <Form.Control
                               as="select"
                               onChange={onChangeSearchRating}
                             >
@@ -149,51 +149,54 @@ const MoviesList = ({
                                   </option>
                                 )
                               })}
-                            </Form.Control>
+                            </Form.Control> */}
                           </Form.Group>
-                          <Button
+                          {/* <Button
                             variant="primary"
                             type="button"
                             onClick={findByRating}
                           >
                             Search
-                          </Button>
+                          </Button> */}
                         </Col>
                     </Row>
                 </Form>
                 <Row className="movieRow">
-                  { furniture.map((movie) => {
+                  { furniture.map((furniture) => {
                     return (
-                      <Col key={movie._id}>
+                      <Col key={furniture._id}>
                         <Card className="moviesListCard">
                         { user && (
-                          favorites.includes(movie._id) ?
+                          favorites.includes(furniture._id) ?
                           <BsStarFill className="star starFill" onClick={() => {
-                            deleteFavorite(movie._id);
+                            deleteFavorite(furniture._id);
                           }}/>
                           :
                           <BsStar className="star starEmpty" onClick={() => {
-                            addFavorite(movie._id);
+                            addFavorite(furniture._id);
                           }} />
                         )}
                           <Card.Img
                             className="smallPoster"
-                            src={movie.poster+"/100px180"} 
+                            src={furniture.imageUrl} 
                             onError={({ currentTarget }) => {
                               currentTarget.onerror = null;
                               currentTarget.src="/images/NoPosterAvailable-crop.jpg"
                             }}
                             />
                             <Card.Body>
-                              <Card.Title> {movie.title} </Card.Title>
-                              <Card.Text>
+                              <Card.Title> {furniture.name} </Card.Title>
+                              {/* <Card.Text>
                                 Rating: {movie.rated}
+                              </Card.Text> */}
+                              <Card.Text>
+                                Price: ${furniture.price}
                               </Card.Text>
                               <Card.Text>
-                                {movie.plot}
+                                {furniture.desc}
                               </Card.Text>
-                              <Link to={"/movies/" + movie._id}>
-                                View Reviews
+                              <Link to={"/movies/" + furniture._id}>
+                                View Product
                               </Link>
                             </Card.Body>
                         </Card>
@@ -215,4 +218,4 @@ const MoviesList = ({
 }
 
 
-export default MoviesList;
+export default FurnitureList;
