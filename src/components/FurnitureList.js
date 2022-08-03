@@ -11,7 +11,7 @@ import { BsStar, BsStarFill } from "react-icons/bs";
 import "./FurnitureList.css";
 
 
-const MoviesList = ({
+const FurnitureList = ({
   user,
   favorites,
   addFavorite,
@@ -32,7 +32,7 @@ const MoviesList = ({
     const retrieveRatings = useCallback(() => {
         MovieDataService.getRatings()
             .then(response => {
-                setRatings(["All Ratings"].concat(response.data))
+                setRatings(["All Categories"].concat(response.data))
             })
             .catch(e => {
                 console.log(e);
@@ -69,10 +69,10 @@ const MoviesList = ({
 
     const findByRating = useCallback(() => {
         setCurrentSearchMode("findByRating");
-        if (searchRating === "All Ratings") {
+        if (searchRating === "All Categories") {
             retrieveFurniture();
         } else {
-            find(searchRating, "rated");
+            find(searchRating, "category");
         }
     }, [find, searchRating, retrieveFurniture]);
 
@@ -87,7 +87,7 @@ const MoviesList = ({
     }, [currentSearchMode, findByTitle, findByRating, retrieveFurniture]);
 
 
-    // Use effect to carry out side effect functionality
+    //Use effect to carry out side effect functionality
     useEffect(() => {
         retrieveRatings();
     }, [retrieveRatings]);
@@ -162,38 +162,41 @@ const MoviesList = ({
                     </Row>
                 </Form>
                 <Row className="movieRow">
-                  { furniture.map((movie) => {
+                  { furniture.map((furniture) => {
                     return (
-                      <Col key={movie._id}>
+                      <Col key={furniture._id}>
                         <Card className="moviesListCard">
                         { user && (
-                          favorites.includes(movie._id) ?
+                          favorites.includes(furniture._id) ?
                           <BsStarFill className="star starFill" onClick={() => {
-                            deleteFavorite(movie._id);
+                            deleteFavorite(furniture._id);
                           }}/>
                           :
                           <BsStar className="star starEmpty" onClick={() => {
-                            addFavorite(movie._id);
+                            addFavorite(furniture._id);
                           }} />
                         )}
                           <Card.Img
                             className="smallPoster"
-                            src={movie.poster+"/100px180"} 
+                            src={furniture.imageUrl} 
                             onError={({ currentTarget }) => {
                               currentTarget.onerror = null;
                               currentTarget.src="/images/NoPosterAvailable-crop.jpg"
                             }}
                             />
                             <Card.Body>
-                              <Card.Title> {movie.title} </Card.Title>
-                              <Card.Text>
+                              <Card.Title> {furniture.name} </Card.Title>
+                              {/* <Card.Text>
                                 Rating: {movie.rated}
+                              </Card.Text> */}
+                              <Card.Text>
+                                Price: ${furniture.price}
                               </Card.Text>
                               <Card.Text>
-                                {movie.plot}
+                                {furniture.desc}
                               </Card.Text>
-                              <Link to={"/movies/" + movie._id}>
-                                View Reviews
+                              <Link to={"/movies/" + furniture._id}>
+                                View Product
                               </Link>
                             </Card.Body>
                         </Card>
@@ -215,4 +218,4 @@ const MoviesList = ({
 }
 
 
-export default MoviesList;
+export default FurnitureList;
