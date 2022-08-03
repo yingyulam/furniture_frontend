@@ -38,7 +38,7 @@ const Furniture = ({ user }) => {
             <div className="poster">
               <Image
                 className="bigPicture"
-                src={furniture.poster+"/100px250"}
+                src={furniture.imageUrl}
                 onError={({ currentTarget }) => {
                   currentTarget.onerror = null;
                   currentTarget.src="/images/NoPosterAvailable-crop.jpg"
@@ -48,17 +48,17 @@ const Furniture = ({ user }) => {
           </Col>
           <Col>
             <Card>
-              <Card.Header as="h3">{furniture.title}</Card.Header>
+              <Card.Header as="h3">{furniture.name}</Card.Header>
               <Card.Body>
                 <Card.Text>
-                  <h5>Price: {furniture.year}</h5>
+                  <h5>Price: ${furniture.price}</h5>
                 </Card.Text>
                 <Card.Text>
-                  <h5>Condition: {furniture.rated}</h5>
+                  <h5>Condition: placeholder text</h5>
                 </Card.Text>
                 <Card.Text>
                   <h5>Description</h5>
-                  <p>{furniture.plot}</p>
+                  <p>{furniture.desc}</p>
                 </Card.Text>
                 {/* { user &&
                   <Link to={"/movies/" + params.id + "/review"} >
@@ -71,10 +71,10 @@ const Furniture = ({ user }) => {
               <Card.Header as="h5">Seller Information</Card.Header>
               <Card.Body>
               <Card.Text>
-                Name: {furniture.directors}
+                Name: {furniture.user_id}
               </Card.Text>
               <Card.Text>
-                Contact: {furniture.year*1000000+furniture.year}
+                Contact: placeholder text
               </Card.Text>
               </Card.Body>
             </Card>
