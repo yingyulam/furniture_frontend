@@ -44,6 +44,7 @@ function App() {
 			} else {
 				// Expired
 				localStorage.setItem("login", null);
+				console.log(user);
 			}
 		}
 	}, []);
@@ -52,7 +53,7 @@ function App() {
 		if (user) {
 			FavoritesDataService.getFavorites(user.googleId)
 				.then((response) => {
-					console.log(response);
+					console.log(user);
 					setFavorites(response.data.favorites);
 				})
 				.catch((e) => {
@@ -124,9 +125,12 @@ function App() {
 								)}
 							</Nav>
 						</Navbar.Collapse>
-						<Button href="/upload" variant="secondary">
-							Sell
-						</Button>
+
+						{user && (
+							<Button href="/upload" variant="secondary">
+								Sell
+							</Button>
+						)}
 						{user ? <Logout setUser={setUser} /> : <Login setUser={setUser} />}
 					</Container>
 				</Navbar>
