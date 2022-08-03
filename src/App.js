@@ -120,7 +120,7 @@ function App() {
 								</Nav.Link>
 								{user && (
 									<Nav.Link as={Link} to={"/favorites"}>
-										Wishlist
+										My Account
 									</Nav.Link>
 								)}
 							</Nav>

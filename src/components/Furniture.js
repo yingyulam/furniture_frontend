@@ -16,9 +16,9 @@ const Furniture = ({ user }) => {
 
   const [furniture, setFurniture] = useState({
     id: null,
-    title: "",
-    rated: "",
-    reviews: [],
+    name: "",
+    category: "",
+    price: "",
   });
 
   useEffect(() => {
