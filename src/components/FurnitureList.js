@@ -21,7 +21,7 @@ const FurnitureList = ({
     const [furniture, setFurniture] = useState([]);
     const [searchTitle, setSearchTitle] = useState("");
     const [searchRating, setSearchRating] = useState("");
-    const [ratings, setRatings] = useState(["All Ratings"]);
+    const [ratings, setRatings] = useState(["All Categories"]);
     const [currentPage, setCurrentPage] = useState(0);
     const [entriesPerPage, setEntriesPerPage] = useState(0);
     const [currentSearchMode, setCurrentSearchMode] = useState("");
@@ -64,7 +64,7 @@ const FurnitureList = ({
 
     const findByTitle = useCallback(() => {
         setCurrentSearchMode("findByTitle");
-        find(searchTitle, "title");
+        find(searchTitle, "name");
     }, [find, searchTitle]);
 
     const findByRating = useCallback(() => {
