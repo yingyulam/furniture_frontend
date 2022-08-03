@@ -20,8 +20,8 @@ const FurnitureList = ({
     // useState to set state values
     const [furniture, setFurniture] = useState([]);
     const [searchTitle, setSearchTitle] = useState("");
-    // const [searchRating, setSearchRating] = useState("");
-    // const [ratings, setRatings] = useState(["All Ratings"]);
+    const [searchRating, setSearchRating] = useState("");
+    const [ratings, setRatings] = useState(["All Ratings"]);
     const [currentPage, setCurrentPage] = useState(0);
     const [entriesPerPage, setEntriesPerPage] = useState(0);
     const [currentSearchMode, setCurrentSearchMode] = useState("");
@@ -29,15 +29,15 @@ const FurnitureList = ({
     // useCallback to define functions which should only be created once 
     // and will be dependencies for useEffect
 
-    // const retrieveRatings = useCallback(() => {
-    //     MovieDataService.getRatings()
-    //         .then(response => {
-    //             setRatings(["All Ratings"].concat(response.data))
-    //         })
-    //         .catch(e => {
-    //             console.log(e);
-    //         });
-    // }, []);
+    const retrieveRatings = useCallback(() => {
+        MovieDataService.getRatings()
+            .then(response => {
+                setRatings(["All Categories"].concat(response.data))
+            })
+            .catch(e => {
+                console.log(e);
+            });
+    }, []);
 
     const retrieveFurniture = useCallback(() => {
         setCurrentSearchMode("");
@@ -67,30 +67,30 @@ const FurnitureList = ({
         find(searchTitle, "title");
     }, [find, searchTitle]);
 
-    // const findByRating = useCallback(() => {
-    //     setCurrentSearchMode("findByRating");
-    //     if (searchRating === "All Ratings") {
-    //         retrieveFurniture();
-    //     } else {
-    //         find(searchRating, "rated");
-    //     }
-    // }, [find, searchRating, retrieveFurniture]);
+    const findByRating = useCallback(() => {
+        setCurrentSearchMode("findByRating");
+        if (searchRating === "All Categories") {
+            retrieveFurniture();
+        } else {
+            find(searchRating, "category");
+        }
+    }, [find, searchRating, retrieveFurniture]);
 
     const retrieveNextPage = useCallback(() => {
         if (currentSearchMode === "findByTitle") {
             findByTitle();
-        // } else if (currentSearchMode === "findByRating") {
-        //     findByRating();
+        } else if (currentSearchMode === "findByRating") {
+            findByRating();
         } else {
             retrieveFurniture();
         }
-    }, [currentSearchMode, findByTitle, retrieveFurniture]);
+    }, [currentSearchMode, findByTitle, findByRating, retrieveFurniture]);
 
 
-    // Use effect to carry out side effect functionality
-    // useEffect(() => {
-    //     retrieveRatings();
-    // }, [retrieveRatings]);
+    //Use effect to carry out side effect functionality
+    useEffect(() => {
+        retrieveRatings();
+    }, [retrieveRatings]);
 
     useEffect(() => {
         setCurrentPage(0);
@@ -108,10 +108,10 @@ const FurnitureList = ({
         setSearchTitle(searchTitle);
     }
 
-    // const onChangeSearchRating = e => {
-    //     const searchRating = e.target.value;
-    //     setSearchRating(searchRating);
-    // }
+    const onChangeSearchRating = e => {
+        const searchRating = e.target.value;
+        setSearchRating(searchRating);
+    }
 
     return (
         <div className="App">
@@ -137,7 +137,7 @@ const FurnitureList = ({
                         </Col>
                         <Col>
                           <Form.Group className="mb-3">
-                            {/* <Form.Control
+                            <Form.Control
                               as="select"
                               onChange={onChangeSearchRating}
                             >
@@ -149,15 +149,15 @@ const FurnitureList = ({
                                   </option>
                                 )
                               })}
-                            </Form.Control> */}
+                            </Form.Control>
                           </Form.Group>
-                          {/* <Button
+                          <Button
                             variant="primary"
                             type="button"
                             onClick={findByRating}
                           >
                             Search
-                          </Button> */}
+                          </Button>
                         </Col>
                     </Row>
                 </Form>
