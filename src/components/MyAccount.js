@@ -5,11 +5,13 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
+import Card from 'react-bootstrap/Card';
+import Image from 'react-bootstrap/Image';
 import { useState, useEffect } from 'react';
 import './Favorites.css';
 import FavoritesDataService from '../services/favorites.js';
 
-const Favorites = ({user}) => {
+const MyAccount = ({user}) => {
 
   const [favorites, setFavorites] = useState([]);
 
@@ -29,7 +31,17 @@ const Favorites = ({user}) => {
       <Container className="favoritesContainer">
         <Row>
           <Col>
-            <h3>Placeholder for User Info</h3>
+            <Card>
+              <Card.Header as="h5">My Account</Card.Header>
+              <Card.Body>
+                <Card.Text>
+                  Name: {user.given_name} {user.family_name} 
+                </Card.Text>
+                <Card.Text>
+                  Email: {user.email}
+                </Card.Text>
+              </Card.Body>
+            </Card>
           </Col>
 
           <Col>
@@ -42,7 +54,7 @@ const Favorites = ({user}) => {
           </Col>
 
           <Col>
-            <h3>Placeholder for My Listings</h3>
+            <h3>My Listings Placeholder</h3>
           </Col>
           </Row>
       </Container>
@@ -50,4 +62,4 @@ const Favorites = ({user}) => {
   )
 }
 
-export default Favorites;
+export default MyAccount;
