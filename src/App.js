@@ -97,37 +97,21 @@ function App() {
 						<Navbar.Collapse id="responsive-navbar-nav">
 							<Nav className="ml-auto">
 								<Nav.Link as={Link} to={"/furniture"}>
-									All
+									Products
 								</Nav.Link>
-								<Nav.Link as={Link} to={"/furniture"}>
-									Living Room
-								</Nav.Link>
-								<Nav.Link as={Link} to={"/furniture"}>
-									Dinning Room
-								</Nav.Link>
-								<Nav.Link as={Link} to={"/furniture"}>
-									Bedroom
-								</Nav.Link>
-								<Nav.Link as={Link} to={"/furniture"}>
-									Bathroom
-								</Nav.Link>
-								<Nav.Link as={Link} to={"/furniture"}>
-									Garden
-								</Nav.Link>
-								<Nav.Link as={Link} to={"/furniture"}>
-									Other
-								</Nav.Link>
+
 								{user && (
 									<Nav.Link as={Link} to={"/favorites"}>
 										My Account
 									</Nav.Link>
 								)}
-							</Nav>
+              </Nav>
+              
 						</Navbar.Collapse>
 
 						{user && (
 							<Button href="/upload" variant="secondary">
-								Sell
+								+ Create New Listing
 							</Button>
 						)}
 						{user ? <Logout setUser={setUser} /> : <Login setUser={setUser} />}
