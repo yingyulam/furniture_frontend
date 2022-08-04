@@ -3,11 +3,15 @@ import FavoritesList from './FavoritesList';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import Container from 'react-bootstrap/Container';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+import Card from 'react-bootstrap/Card';
+import Image from 'react-bootstrap/Image';
 import { useState, useEffect } from 'react';
 import './Favorites.css';
 import FavoritesDataService from '../services/favorites.js';
 
-const Favorites = ({user}) => {
+const MyAccount = ({user}) => {
 
   const [favorites, setFavorites] = useState([]);
 
@@ -25,22 +29,37 @@ const Favorites = ({user}) => {
   return (
     <div>
       <Container className="favoritesContainer">
+        <Row>
+          <Col>
+            <Card>
+              <Card.Header as="h5">My Account</Card.Header>
+              <Card.Body>
+                <Card.Text>
+                  Name: {user.given_name} {user.family_name} 
+                </Card.Text>
+                <Card.Text>
+                  Email: {user.email}
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
 
-          <div className="favoritesPanel">
-            {favorites.length === 0? 
-              <p>You haven't chosen any favorites yet</p>
-                : <p>Drag your favorites to rank them</p>}
-          </div>
-          
+          <Col>
           <div className="favoritesList">
+            <h3>Wishlist</h3>
             <DndProvider backend={HTML5Backend}>
                 <FavoritesList user = {user} favorites = {favorites}/>
               </DndProvider>
           </div>
+          </Col>
 
+          <Col>
+            <h3>My Listings Placeholder</h3>
+          </Col>
+          </Row>
       </Container>
     </div>
   )
 }
 
-export default Favorites;
+export default MyAccount;

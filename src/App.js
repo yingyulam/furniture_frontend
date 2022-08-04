@@ -14,7 +14,7 @@ import FurnitureList from "./components/FurnitureList";
 import Furniture from "./components/Furniture";
 import AddReview from "./components/AddReview";
 import FavoritesDataService from "./services/favorites";
-import Favorites from "./components/Favorites";
+import MyAccount from "./components/MyAccount";
 import UploadItem from "./components/UploadItem";
 
 import "./App.css";
@@ -120,7 +120,7 @@ function App() {
 								</Nav.Link>
 								{user && (
 									<Nav.Link as={Link} to={"/favorites"}>
-										Wishlist
+										My Account
 									</Nav.Link>
 								)}
 							</Nav>
@@ -165,7 +165,7 @@ function App() {
 						path={"/favorites"}
 						element={
 							user ? (
-								<Favorites user={user} />
+								<MyAccount user={user} />
 							) : (
 								<FurnitureList
 									user={user}

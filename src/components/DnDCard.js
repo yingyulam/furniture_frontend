@@ -3,6 +3,7 @@ import { useDrag, useDrop } from 'react-dnd'
 import MovieDataService from '../services/movies.js';
 import Card from 'react-bootstrap/Card';
 import Image from 'react-bootstrap/Image';
+import { Link } from "react-router-dom";
 import './DnDCard.css';
 
 const style = {
@@ -105,7 +106,7 @@ export const DnDCard = ({ id, index, moveCard }) => {
           <div>
           <Image
             className="favoritesPoster"
-            src={movie.poster+"/100px250"}
+            src={movie.imageUrl}
             onError={({ currentTarget }) => {
               currentTarget.onerror = null;
               currentTarget.src="/images/NoPosterAvailable-crop.jpg"
@@ -114,7 +115,12 @@ export const DnDCard = ({ id, index, moveCard }) => {
           </div>
           
           <div className='favoritesTitle'>
-            <Card.Text >{movie.title}</Card.Text>
+            <Card.Header >{movie.name}</Card.Header>
+            <Card.Text>
+              <Link to={"/movies/" + movie._id}>
+                View Product
+              </Link>
+            </Card.Text>
           </div>
 
           <div>
