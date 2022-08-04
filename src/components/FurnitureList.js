@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import MovieDataService from "../services/movies";
+import FurnitureDataService from "../services/furniture";
 import { Link } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -24,7 +24,7 @@ const FurnitureList = ({ user, favorites, addFavorite, deleteFavorite }) => {
 	// and will be dependencies for useEffect
 
 	const retrieveRatings = useCallback(() => {
-		MovieDataService.getRatings()
+		FurnitureDataService.getRatings()
 			.then((response) => {
 				setRatings(["All Categories"].concat(response.data));
 			})
@@ -35,7 +35,7 @@ const FurnitureList = ({ user, favorites, addFavorite, deleteFavorite }) => {
 
 	const retrieveFurniture = useCallback(() => {
 		setCurrentSearchMode("");
-		MovieDataService.getAll(currentPage)
+		FurnitureDataService.getAll(currentPage)
 			.then((response) => {
 				setFurniture(response.data.movies);
 				setCurrentPage(response.data.page);
@@ -48,7 +48,7 @@ const FurnitureList = ({ user, favorites, addFavorite, deleteFavorite }) => {
 
 	const find = useCallback(
 		(query, by) => {
-			MovieDataService.find(query, by, currentPage)
+			FurnitureDataService.find(query, by, currentPage)
 				.then((response) => {
 					setFurniture(response.data.movies);
 				})

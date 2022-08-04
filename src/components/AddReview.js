@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import MovieDataService from "../services/movies";
+import FurnitureDataService from "../services/furniture";
 import { useNavigate, useParams, useLocation} from "react-router-dom";
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -40,7 +40,7 @@ const AddReview = ({ user }) => {
       // TODO: Handle case where an existing 
       // review is being updated
       let currentReview = location.state.currentReview;
-      MovieDataService.updateReview({...currentReview, review: review, review_id: currentReview._id})
+      FurnitureDataService.updateReview({...currentReview, review: review, review_id: currentReview._id})
       .then(response => {
         navigate("/movies/"+params.id)
       })
@@ -49,7 +49,7 @@ const AddReview = ({ user }) => {
       })
 
     } else {
-      MovieDataService.createReview(data)
+      FurnitureDataService.createReview(data)
         .then(response => {
           navigate("/movies/"+params.id)
         })

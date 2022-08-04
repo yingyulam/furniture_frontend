@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import MovieDataService from "../services/movies";
+import FurnitureDataService from "../services/furniture";
 import { Link, useParams } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
@@ -23,7 +23,7 @@ const Furniture = ({ user }) => {
 
 	useEffect(() => {
 		const getFurniture = (id) => {
-			MovieDataService.getMovieById(id)
+			FurnitureDataService.getFurnitureById(id)
 				.then((response) => {
 					setFurniture(response.data);
 				})

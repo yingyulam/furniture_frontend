@@ -1,6 +1,6 @@
 import axios from "axios";
 
-class MovieDataService {
+class FurnitureDataService {
 	getAll(page = 0) {
 		return axios.get(
 			`${process.env.REACT_APP_API_BASE_URL}/api/v1/movies?page=${page}`
@@ -19,7 +19,7 @@ class MovieDataService {
 		);
 	}
 
-	getMovieById(id) {
+	getFurnitureById(id) {
 		return axios.get(
 			`${process.env.REACT_APP_API_BASE_URL}/api/v1/movies/id/${id}`
 		);
@@ -54,4 +54,4 @@ class MovieDataService {
 	}
 }
 
-export default new MovieDataService();
+export default new FurnitureDataService();
