@@ -16,6 +16,8 @@ const FurnitureList = ({ user, favorites, addFavorite, deleteFavorite }) => {
 	const [searchTitle, setSearchTitle] = useState("");
 	const [searchRating, setSearchRating] = useState("");
 	const [ratings, setRatings] = useState(["All Categories"]);
+  const [conditions, setConditions] = useState(["All Conditions"]);
+  const [searchCondition, setSearchCondition] = useState("");
 	const [currentPage, setCurrentPage] = useState(0);
 	const [entriesPerPage, setEntriesPerPage] = useState(0);
 	const [currentSearchMode, setCurrentSearchMode] = useState("");
@@ -27,6 +29,16 @@ const FurnitureList = ({ user, favorites, addFavorite, deleteFavorite }) => {
 		FurnitureDataService.getRatings()
 			.then((response) => {
 				setRatings(["All Categories"].concat(response.data));
+			})
+			.catch((e) => {
+				console.log(e);
+			});
+	}, []);
+
+  const retrieveConditions = useCallback(() => {
+		FurnitureDataService.getConditions()
+			.then((response) => {
+				setConditions(["All Conditions"].concat(response.data));
 			})
 			.catch((e) => {
 				console.log(e);
@@ -73,20 +85,35 @@ const FurnitureList = ({ user, favorites, addFavorite, deleteFavorite }) => {
 		}
 	}, [find, searchRating, retrieveFurniture]);
 
+  const findByCondition = useCallback(() => {
+		setCurrentSearchMode("findByCondition");
+		if (searchCondition === "All Conditions") {
+			retrieveFurniture();
+		} else {
+			find(searchCondition, "condition");
+		}
+	}, [find, searchCondition, retrieveFurniture]);
+
 	const retrieveNextPage = useCallback(() => {
 		if (currentSearchMode === "findByTitle") {
 			findByTitle();
 		} else if (currentSearchMode === "findByRating") {
 			findByRating();
-		} else {
+		} else if (currentSearchMode === "findByCondition") {
+      findByCondition();
+    } else {
 			retrieveFurniture();
 		}
-	}, [currentSearchMode, findByTitle, findByRating, retrieveFurniture]);
+	}, [currentSearchMode, findByTitle, findByRating, findByCondition, retrieveFurniture]);
 
 	//Use effect to carry out side effect functionality
 	useEffect(() => {
 		retrieveRatings();
 	}, [retrieveRatings]);
+
+  useEffect(() => {
+		retrieveConditions();
+	}, [retrieveConditions]);
 
 	useEffect(() => {
 		setCurrentPage(0);
@@ -107,6 +134,11 @@ const FurnitureList = ({ user, favorites, addFavorite, deleteFavorite }) => {
 		const searchRating = e.target.value;
 		setSearchRating(searchRating);
 	};
+
+  const onChangeSearchCondition = (e) => {
+    const searchCondition = e.target.value;
+    setSearchCondition(searchCondition);
+  }
 
 	return (
 		<div className="App">
@@ -142,6 +174,24 @@ const FurnitureList = ({ user, favorites, addFavorite, deleteFavorite }) => {
 								Search
 							</Button>
 						</Col>
+
+            <Col>
+							<Form.Group className="mb-3">
+								<Form.Control as="select" onChange={onChangeSearchCondition}>
+									{conditions.map((condition, i) => {
+										return (
+											<option value={condition} key={i}>
+												{condition}
+											</option>
+										);
+									})}
+								</Form.Control>
+							</Form.Group>
+							<Button variant="primary" type="button" onClick={findByCondition}>
+								Search
+							</Button>
+						</Col>
+
 					</Row>
 				</Form>
 				<Row className="movieRow">
@@ -175,9 +225,6 @@ const FurnitureList = ({ user, favorites, addFavorite, deleteFavorite }) => {
 									/>
 									<Card.Body>
 										<Card.Title> {furniture.name} </Card.Title>
-										{/* <Card.Text>
-                                Rating: {movie.rated}
-                              </Card.Text> */}
 										<Card.Text>Price: ${furniture.price}</Card.Text>
 										<Card.Text>{furniture.description}</Card.Text>
 										<Link to={"/furniture/" + furniture._id}>View Product</Link>

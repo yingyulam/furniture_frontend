@@ -34,8 +34,6 @@ const Furniture = ({ user }) => {
 		getFurniture(params.id);
 	}, [params.id]);
 
-  console.log(furniture)
-
 	return (
 		<div>
 			<Container>
@@ -76,7 +74,6 @@ const Furniture = ({ user }) => {
 						<Card>
 							<Card.Header as="h5">Seller Information</Card.Header>
 							<Card.Body>
-                {console.log(furniture.user)}
 								<Card.Text>Name: {furniture.user.name}</Card.Text>
 								<Card.Text>Contact: {furniture.user.email}</Card.Text>
 							</Card.Body>
