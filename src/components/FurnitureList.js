@@ -37,7 +37,7 @@ const FurnitureList = ({ user, favorites, addFavorite, deleteFavorite }) => {
 		setCurrentSearchMode("");
 		FurnitureDataService.getAll(currentPage)
 			.then((response) => {
-				setFurniture(response.data.movies);
+				setFurniture(response.data.furniture);
 				setCurrentPage(response.data.page);
 				setEntriesPerPage(response.data.entries_per_page);
 			})
@@ -50,7 +50,7 @@ const FurnitureList = ({ user, favorites, addFavorite, deleteFavorite }) => {
 		(query, by) => {
 			FurnitureDataService.find(query, by, currentPage)
 				.then((response) => {
-					setFurniture(response.data.movies);
+					setFurniture(response.data.furniture);
 				})
 				.catch((e) => {
 					console.log(e);
