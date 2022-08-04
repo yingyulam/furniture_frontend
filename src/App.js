@@ -71,7 +71,7 @@ function App() {
 				console.log(e);
 			});
 		}
-	}, [favorites, user]);
+	}, [favorites]);
 
 	useEffect(() => {
 		retrieveFavorites();
