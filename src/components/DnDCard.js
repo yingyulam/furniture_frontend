@@ -117,7 +117,7 @@ export const DnDCard = ({ id, index, moveCard }) => {
           <div className='favoritesTitle'>
             <Card.Header >{furniture.name}</Card.Header>
             <Card.Text>
-              <Link to={"/movies/" + furniture._id}>
+              <Link to={"/furniture/" + furniture._id}>
                 View Product
               </Link>
             </Card.Text>

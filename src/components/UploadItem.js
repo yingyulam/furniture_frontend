@@ -43,7 +43,7 @@ const UploadItem = ({ user }) => {
 
 		FurnitureDataService.uploadItem(data)
 			.then((res) => {
-				navigate("/movies");
+				navigate("/furniture");
 			})
 			.catch((e) => console.log(e));
 	};

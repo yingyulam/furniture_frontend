@@ -180,7 +180,7 @@ const FurnitureList = ({ user, favorites, addFavorite, deleteFavorite }) => {
                               </Card.Text> */}
 										<Card.Text>Price: ${furniture.price}</Card.Text>
 										<Card.Text>{furniture.description}</Card.Text>
-										<Link to={"/movies/" + furniture._id}>View Product</Link>
+										<Link to={"/furniture/" + furniture._id}>View Product</Link>
 									</Card.Body>
 								</Card>
 							</Col>

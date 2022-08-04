@@ -42,7 +42,7 @@ const AddReview = ({ user }) => {
       let currentReview = location.state.currentReview;
       FurnitureDataService.updateReview({...currentReview, review: review, review_id: currentReview._id})
       .then(response => {
-        navigate("/movies/"+params.id)
+        navigate("/furniture/"+params.id)
       })
       .catch(e => {
         console.log(e);
@@ -51,7 +51,7 @@ const AddReview = ({ user }) => {
     } else {
       FurnitureDataService.createReview(data)
         .then(response => {
-          navigate("/movies/"+params.id)
+          navigate("/furniture/"+params.id)
         })
         .catch(e => {
           console.log(e);
