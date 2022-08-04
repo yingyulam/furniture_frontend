@@ -35,7 +35,7 @@ const MyAccount = ({user}) => {
               <Card.Header as="h5">My Account</Card.Header>
               <Card.Body>
                 <Card.Text>
-                  Name: {user.given_name} {user.family_name} 
+                  Name: {user.name}
                 </Card.Text>
                 <Card.Text>
                   Email: {user.email}
@@ -46,7 +46,7 @@ const MyAccount = ({user}) => {
 
           <Col>
           <div className="favoritesList">
-            <h3>Wishlist</h3>
+            <h3>My Wishlist</h3>
             <DndProvider backend={HTML5Backend}>
                 <FavoritesList user = {user} favorites = {favorites}/>
               </DndProvider>
@@ -54,7 +54,7 @@ const MyAccount = ({user}) => {
           </Col>
 
           <Col>
-            <h3>My Listings Placeholder</h3>
+            <h3>My Listings</h3>
           </Col>
           </Row>
       </Container>

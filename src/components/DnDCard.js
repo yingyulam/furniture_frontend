@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from 'react'
 import { useDrag, useDrop } from 'react-dnd'
-import MovieDataService from '../services/movies.js';
+import FurnitureDataService from '../services/furniture.js';
 import Card from 'react-bootstrap/Card';
 import Image from 'react-bootstrap/Image';
 import { Link } from "react-router-dom";
@@ -83,18 +83,18 @@ export const DnDCard = ({ id, index, moveCard }) => {
 
   drag(drop(ref))
 
-  const [movie, setMovie] = useState({
+  const [furniture, setFurniture] = useState({
     id: null,
-    title: ""
+    name: ""
   });
 
   useEffect(() => {
-    const getMovie = id => {
-      MovieDataService.getMovieById(id).then((response) => {
-        setMovie(response.data);
+    const getFurniture = id => {
+      FurnitureDataService.getFurnitureById(id).then((response) => {
+        setFurniture(response.data);
       }).catch(e => { console.log(e)});
     }
-    getMovie(id)
+    getFurniture(id)
   }, [id]);
 
   const ranking = index + 1;
@@ -106,7 +106,7 @@ export const DnDCard = ({ id, index, moveCard }) => {
           <div>
           <Image
             className="favoritesPoster"
-            src={movie.imageUrl}
+            src={furniture.imageUrl}
             onError={({ currentTarget }) => {
               currentTarget.onerror = null;
               currentTarget.src="/images/NoPosterAvailable-crop.jpg"
@@ -115,9 +115,9 @@ export const DnDCard = ({ id, index, moveCard }) => {
           </div>
           
           <div className='favoritesTitle'>
-            <Card.Header >{movie.name}</Card.Header>
+            <Card.Header >{furniture.name}</Card.Header>
             <Card.Text>
-              <Link to={"/movies/" + movie._id}>
+              <Link to={"/furniture/" + furniture._id}>
                 View Product
               </Link>
             </Card.Text>

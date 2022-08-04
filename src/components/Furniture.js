@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import MovieDataService from "../services/movies";
+import FurnitureDataService from "../services/furniture";
 import { Link, useParams } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
@@ -18,11 +18,12 @@ const Furniture = ({ user }) => {
 		name: "",
 		category: "",
 		price: "",
+    user: [],
 	});
 
 	useEffect(() => {
 		const getFurniture = (id) => {
-			MovieDataService.getMovieById(id)
+			FurnitureDataService.getFurnitureById(id)
 				.then((response) => {
 					setFurniture(response.data);
 				})
@@ -32,6 +33,8 @@ const Furniture = ({ user }) => {
 		};
 		getFurniture(params.id);
 	}, [params.id]);
+
+  console.log(furniture)
 
 	return (
 		<div>
@@ -55,14 +58,13 @@ const Furniture = ({ user }) => {
 							<Card.Header as="h3">{furniture.name}</Card.Header>
 							<Card.Body>
 								<Card.Text>
-									<h5>Price: ${furniture.price}</h5>
+									Price: ${furniture.price}
 								</Card.Text>
 								<Card.Text>
-									<h5>Condition: placeholder text</h5>
+									Condition: {furniture.condition}
 								</Card.Text>
 								<Card.Text>
-									<h5>Description</h5>
-									<p>{furniture.desc}</p>
+									{furniture.description}
 								</Card.Text>
 								{/* { user &&
                   <Link to={"/movies/" + params.id + "/review"} >
@@ -74,8 +76,9 @@ const Furniture = ({ user }) => {
 						<Card>
 							<Card.Header as="h5">Seller Information</Card.Header>
 							<Card.Body>
-								<Card.Text>Name: {furniture.user_id}</Card.Text>
-								<Card.Text>Contact: placeholder text</Card.Text>
+                {console.log(furniture.user)}
+								<Card.Text>Name: {furniture.user.name}</Card.Text>
+								<Card.Text>Contact: {furniture.user.email}</Card.Text>
 							</Card.Body>
 						</Card>
 

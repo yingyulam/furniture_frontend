@@ -96,25 +96,25 @@ function App() {
 						<Navbar.Toggle aria-controls="basic-navbar-nav" />
 						<Navbar.Collapse id="responsive-navbar-nav">
 							<Nav className="ml-auto">
-								<Nav.Link as={Link} to={"/movies"}>
+								<Nav.Link as={Link} to={"/furniture"}>
 									All
 								</Nav.Link>
-								<Nav.Link as={Link} to={"/movies"}>
+								<Nav.Link as={Link} to={"/furniture"}>
 									Living Room
 								</Nav.Link>
-								<Nav.Link as={Link} to={"/movies"}>
+								<Nav.Link as={Link} to={"/furniture"}>
 									Dinning Room
 								</Nav.Link>
-								<Nav.Link as={Link} to={"/movies"}>
+								<Nav.Link as={Link} to={"/furniture"}>
 									Bedroom
 								</Nav.Link>
-								<Nav.Link as={Link} to={"/movies"}>
+								<Nav.Link as={Link} to={"/furniture"}>
 									Bathroom
 								</Nav.Link>
-								<Nav.Link as={Link} to={"/movies"}>
+								<Nav.Link as={Link} to={"/furniture"}>
 									Garden
 								</Nav.Link>
-								<Nav.Link as={Link} to={"/movies"}>
+								<Nav.Link as={Link} to={"/furniture"}>
 									Other
 								</Nav.Link>
 								{user && (
@@ -149,7 +149,7 @@ function App() {
 					/>
 					<Route
 						exact
-						path={"/movies"}
+						path={"/furniture"}
 						element={
 							<FurnitureList
 								user={user}
@@ -176,9 +176,9 @@ function App() {
 						}
 					/>
 					<Route exact path={"/upload"} element={<UploadItem user={user} />} />
-					<Route path={"/movies/:id/"} element={<Furniture user={user} />} />
+					<Route path={"/furniture/:id/"} element={<Furniture user={user} />} />
 					<Route
-						path={"/movies/:id/review"}
+						path={"/furniture/:id/review"}
 						element={<AddReview user={user} />}
 					/>
 				</Routes>

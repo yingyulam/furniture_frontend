@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import MovieDataService from "../services/movies";
+import FurnitureDataService from "../services/furniture";
 import { Link } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -24,7 +24,7 @@ const FurnitureList = ({ user, favorites, addFavorite, deleteFavorite }) => {
 	// and will be dependencies for useEffect
 
 	const retrieveRatings = useCallback(() => {
-		MovieDataService.getRatings()
+		FurnitureDataService.getRatings()
 			.then((response) => {
 				setRatings(["All Categories"].concat(response.data));
 			})
@@ -35,9 +35,9 @@ const FurnitureList = ({ user, favorites, addFavorite, deleteFavorite }) => {
 
 	const retrieveFurniture = useCallback(() => {
 		setCurrentSearchMode("");
-		MovieDataService.getAll(currentPage)
+		FurnitureDataService.getAll(currentPage)
 			.then((response) => {
-				setFurniture(response.data.movies);
+				setFurniture(response.data.furniture);
 				setCurrentPage(response.data.page);
 				setEntriesPerPage(response.data.entries_per_page);
 			})
@@ -48,9 +48,9 @@ const FurnitureList = ({ user, favorites, addFavorite, deleteFavorite }) => {
 
 	const find = useCallback(
 		(query, by) => {
-			MovieDataService.find(query, by, currentPage)
+			FurnitureDataService.find(query, by, currentPage)
 				.then((response) => {
-					setFurniture(response.data.movies);
+					setFurniture(response.data.furniture);
 				})
 				.catch((e) => {
 					console.log(e);
@@ -179,8 +179,8 @@ const FurnitureList = ({ user, favorites, addFavorite, deleteFavorite }) => {
                                 Rating: {movie.rated}
                               </Card.Text> */}
 										<Card.Text>Price: ${furniture.price}</Card.Text>
-										<Card.Text>{furniture.desc}</Card.Text>
-										<Link to={"/movies/" + furniture._id}>View Product</Link>
+										<Card.Text>{furniture.description}</Card.Text>
+										<Link to={"/furniture/" + furniture._id}>View Product</Link>
 									</Card.Body>
 								</Card>
 							</Col>
