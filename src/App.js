@@ -44,7 +44,6 @@ function App() {
 			} else {
 				// Expired
 				localStorage.setItem("login", null);
-				console.log(user);
 			}
 		}
 	}, []);
@@ -71,7 +70,7 @@ function App() {
 				console.log(e);
 			});
 		}
-	}, [favorites, user]);
+	}, [favorites]);
 
 	useEffect(() => {
 		retrieveFavorites();

@@ -1,87 +1,85 @@
-import React, { useState, useEffect } from 'react';
-import MovieDataService from '../services/movies';
-import { Link, useParams } from 'react-router-dom';
-import Card from 'react-bootstrap/Card';
-import Container from 'react-bootstrap/Container';
-import Image from 'react-bootstrap/Image';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
-import Button from 'react-bootstrap/Button';
-import moment from 'moment';
-import './Movie.css'
+import React, { useState, useEffect } from "react";
+import MovieDataService from "../services/movies";
+import { Link, useParams } from "react-router-dom";
+import Card from "react-bootstrap/Card";
+import Container from "react-bootstrap/Container";
+import Image from "react-bootstrap/Image";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
+import Button from "react-bootstrap/Button";
+import moment from "moment";
+import "./Movie.css";
 
 const Furniture = ({ user }) => {
+	let params = useParams();
 
-  let params = useParams();
+	const [furniture, setFurniture] = useState({
+		id: null,
+		name: "",
+		category: "",
+		price: "",
+	});
 
-  const [furniture, setFurniture] = useState({
-    id: null,
-    name: "",
-    category: "",
-    price: "",
-  });
+	useEffect(() => {
+		const getFurniture = (id) => {
+			MovieDataService.getMovieById(id)
+				.then((response) => {
+					setFurniture(response.data);
+				})
+				.catch((e) => {
+					console.log(e);
+				});
+		};
+		getFurniture(params.id);
+	}, [params.id]);
 
-  useEffect(() => {
-    const getFurniture = id => {
-      MovieDataService.getMovieById(id).then((response) => {
-        setFurniture(response.data);
-      }).catch(e => { console.log(e)});
-    }
-    getFurniture(params.id)
-  }, [params.id]);
-
-  return (
-    <div>
-      <Container>
-        <Row>
-          <Col>
-            <div className="poster">
-              <Image
-                className="bigPicture"
-                src={furniture.imageUrl}
-                onError={({ currentTarget }) => {
-                  currentTarget.onerror = null;
-                  currentTarget.src="/images/NoPosterAvailable-crop.jpg"
-                }}
-                fluid />
-            </div>
-          </Col>
-          <Col>
-            <Card>
-              <Card.Header as="h3">{furniture.name}</Card.Header>
-              <Card.Body>
-                <Card.Text>
-                  <h5>Price: ${furniture.price}</h5>
-                </Card.Text>
-                <Card.Text>
-                  <h5>Condition: placeholder text</h5>
-                </Card.Text>
-                <Card.Text>
-                  <h5>Description</h5>
-                  <p>{furniture.desc}</p>
-                </Card.Text>
-                {/* { user &&
+	return (
+		<div>
+			<Container>
+				<Row>
+					<Col>
+						<div className="poster">
+							<Image
+								className="bigPicture"
+								src={furniture.imageUrl}
+								onError={({ currentTarget }) => {
+									currentTarget.onerror = null;
+									currentTarget.src = "/images/NoPosterAvailable-crop.jpg";
+								}}
+								fluid
+							/>
+						</div>
+					</Col>
+					<Col>
+						<Card>
+							<Card.Header as="h3">{furniture.name}</Card.Header>
+							<Card.Body>
+								<Card.Text>
+									<h5>Price: ${furniture.price}</h5>
+								</Card.Text>
+								<Card.Text>
+									<h5>Condition: placeholder text</h5>
+								</Card.Text>
+								<Card.Text>
+									<h5>Description</h5>
+									<p>{furniture.desc}</p>
+								</Card.Text>
+								{/* { user &&
                   <Link to={"/movies/" + params.id + "/review"} >
                     Add Review
                   </Link>} */}
-              </Card.Body>
-            </Card>
+							</Card.Body>
+						</Card>
 
-            <Card>
-              <Card.Header as="h5">Seller Information</Card.Header>
-              <Card.Body>
-              <Card.Text>
-                Name: {furniture.user_id}
-              </Card.Text>
-              <Card.Text>
-                Contact: placeholder text
-              </Card.Text>
-              </Card.Body>
-            </Card>
+						<Card>
+							<Card.Header as="h5">Seller Information</Card.Header>
+							<Card.Body>
+								<Card.Text>Name: {furniture.user_id}</Card.Text>
+								<Card.Text>Contact: placeholder text</Card.Text>
+							</Card.Body>
+						</Card>
 
-
-
-            {/* <h2>Reviews</h2>
+						{/* <h2>Reviews</h2>
             <br></br>
             { furniture.reviews.map((review, index) => {
               return (
@@ -127,12 +125,12 @@ const Furniture = ({ user }) => {
                   </div>
                 </div>
               ) */
-            /* })} */}
-          </Col>
-        </Row>
-      </Container>
-    </div>
-  )
-}
+						/* })} */}
+					</Col>
+				</Row>
+			</Container>
+		</div>
+	);
+};
 
 export default Furniture;
