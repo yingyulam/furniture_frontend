@@ -14,8 +14,8 @@ const FurnitureList = ({ user, favorites, addFavorite, deleteFavorite }) => {
 	// useState to set state values
 	const [furniture, setFurniture] = useState([]);
 	const [searchTitle, setSearchTitle] = useState("");
-	const [searchRating, setSearchRating] = useState("");
-	const [ratings, setRatings] = useState(["All Categories"]);
+	const [searchCategory, setSearchCategory] = useState("");
+	const [categories, setCategories] = useState(["All Categories"]);
   const [conditions, setConditions] = useState(["All Conditions"]);
   const [searchCondition, setSearchCondition] = useState("");
 	const [currentPage, setCurrentPage] = useState(0);
@@ -25,10 +25,10 @@ const FurnitureList = ({ user, favorites, addFavorite, deleteFavorite }) => {
 	// useCallback to define functions which should only be created once
 	// and will be dependencies for useEffect
 
-	const retrieveRatings = useCallback(() => {
-		FurnitureDataService.getRatings()
+	const retrieveCategories = useCallback(() => {
+		FurnitureDataService.getCategories()
 			.then((response) => {
-				setRatings(["All Categories"].concat(response.data));
+				setCategories(["All Categories"].concat(response.data));
 			})
 			.catch((e) => {
 				console.log(e);
@@ -76,14 +76,14 @@ const FurnitureList = ({ user, favorites, addFavorite, deleteFavorite }) => {
 		find(searchTitle, "name");
 	}, [find, searchTitle]);
 
-	const findByRating = useCallback(() => {
-		setCurrentSearchMode("findByRating");
-		if (searchRating === "All Categories") {
+	const findByCategory = useCallback(() => {
+		setCurrentSearchMode("findByCategory");
+		if (searchCategory === "All Categories") {
 			retrieveFurniture();
 		} else {
-			find(searchRating, "category");
+			find(searchCategory, "category");
 		}
-	}, [find, searchRating, retrieveFurniture]);
+	}, [find, searchCategory, retrieveFurniture]);
 
   const findByCondition = useCallback(() => {
 		setCurrentSearchMode("findByCondition");
@@ -97,19 +97,19 @@ const FurnitureList = ({ user, favorites, addFavorite, deleteFavorite }) => {
 	const retrieveNextPage = useCallback(() => {
 		if (currentSearchMode === "findByTitle") {
 			findByTitle();
-		} else if (currentSearchMode === "findByRating") {
-			findByRating();
+		} else if (currentSearchMode === "findByCategory") {
+			findByCategory();
 		} else if (currentSearchMode === "findByCondition") {
       findByCondition();
     } else {
 			retrieveFurniture();
 		}
-	}, [currentSearchMode, findByTitle, findByRating, findByCondition, retrieveFurniture]);
+	}, [currentSearchMode, findByTitle, findByCategory, findByCondition, retrieveFurniture]);
 
 	//Use effect to carry out side effect functionality
 	useEffect(() => {
-		retrieveRatings();
-	}, [retrieveRatings]);
+		retrieveCategories();
+	}, [retrieveCategories]);
 
   useEffect(() => {
 		retrieveConditions();
@@ -130,9 +130,9 @@ const FurnitureList = ({ user, favorites, addFavorite, deleteFavorite }) => {
 		setSearchTitle(searchTitle);
 	};
 
-	const onChangeSearchRating = (e) => {
-		const searchRating = e.target.value;
-		setSearchRating(searchRating);
+	const onChangeSearchCategory = (e) => {
+		const searchCategory = e.target.value;
+		setSearchCategory(searchCategory);
 	};
 
   const onChangeSearchCondition = (e) => {
@@ -160,17 +160,17 @@ const FurnitureList = ({ user, favorites, addFavorite, deleteFavorite }) => {
 						</Col>
 						<Col>
 							<Form.Group className="mb-3">
-								<Form.Control as="select" onChange={onChangeSearchRating}>
-									{ratings.map((rating, i) => {
+								<Form.Control as="select" onChange={onChangeSearchCategory}>
+									{categories.map((category, i) => {
 										return (
-											<option value={rating} key={i}>
-												{rating}
+											<option value={category} key={i}>
+												{category}
 											</option>
 										);
 									})}
 								</Form.Control>
 							</Form.Group>
-							<Button variant="primary" type="button" onClick={findByRating}>
+							<Button variant="primary" type="button" onClick={findByCategory}>
 								Search
 							</Button>
 						</Col>
