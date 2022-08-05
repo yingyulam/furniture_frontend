@@ -13,9 +13,9 @@ class FurnitureDataService {
 		);
 	}
 
-	getRatings() {
+	getCategories() {
 		return axios.get(
-			`${process.env.REACT_APP_API_BASE_URL}/api/v1/furniture/ratings`
+			`${process.env.REACT_APP_API_BASE_URL}/api/v1/furniture/categories`
 		);
 	}
 
