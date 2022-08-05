@@ -87,7 +87,7 @@ function App() {
 					<Container className="container-fluid">
 						<Navbar.Brand className="brand" href="/">
 							<img
-								src="/images/movies-logo.png"
+								src="/images/Sofa.svg"
 								alt="movies logo"
 								className="moviesLogo"
 							/>
@@ -105,8 +105,7 @@ function App() {
 										My Account
 									</Nav.Link>
 								)}
-              </Nav>
-              
+							</Nav>
 						</Navbar.Collapse>
 
 						{user && (
