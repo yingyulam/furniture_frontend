@@ -19,7 +19,7 @@ class FurnitureDataService {
 		);
 	}
 
-  getConditions() {
+	getConditions() {
 		return axios.get(
 			`${process.env.REACT_APP_API_BASE_URL}/api/v1/furniture/conditions`
 		);
@@ -28,6 +28,12 @@ class FurnitureDataService {
 	getFurnitureById(id) {
 		return axios.get(
 			`${process.env.REACT_APP_API_BASE_URL}/api/v1/furniture/id/${id}`
+		);
+	}
+
+	getHistoryByUserId(googleId) {
+		return axios.get(
+			`${process.env.REACT_APP_API_BASE_URL}/api/v1/furniture/history/${googleId}`
 		);
 	}
 

@@ -3,12 +3,12 @@ import { useCallback, useState, useEffect } from "react";
 import { DnDCard } from "./DnDCard.js";
 import FavoritesDataService from "../services/favorites.js";
 
-export const FavoritesList = ({ user, favorites }) => {
+export const CardList = ({ user, list, isFavorite }) => {
 	const [DnDCards, setDnDCards] = useState([]);
 
 	useEffect(() => {
-		setDnDCards(favorites);
-	}, [favorites]);
+		setDnDCards(list);
+	}, [list]);
 
 	const moveCard = useCallback((dragIndex, hoverIndex) => {
 		setDnDCards((prevCards) =>
@@ -30,18 +30,19 @@ export const FavoritesList = ({ user, favorites }) => {
 				id={dndCard}
 				text={dndCard}
 				moveCard={moveCard}
+				draggable={isFavorite}
 			/>
 		);
 	}, []);
 
 	useEffect(() => {
-		if (DnDCards.length > 0) {
+		if (DnDCards.length > 0 && isFavorite) {
 			FavoritesDataService.updateFavorites({
 				_id: user.googleId,
 				favorites: DnDCards,
 			});
 		}
-	}, [DnDCards, user]);
+	}, [DnDCards, user, isFavorite]);
 
 	return (
 		<>
@@ -50,4 +51,4 @@ export const FavoritesList = ({ user, favorites }) => {
 	);
 };
 
-export default FavoritesList;
+export default CardList;

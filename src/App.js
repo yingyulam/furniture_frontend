@@ -101,7 +101,7 @@ function App() {
 								</Nav.Link>
 
 								{user && (
-									<Nav.Link as={Link} to={"/favorites"}>
+									<Nav.Link as={Link} to={"/profile"}>
 										My Account
 									</Nav.Link>
 								)}
@@ -144,7 +144,7 @@ function App() {
 					/>
 					<Route
 						exact
-						path={"/favorites"}
+						path={"/profile"}
 						element={
 							user ? (
 								<MyAccount user={user} />

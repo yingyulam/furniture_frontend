@@ -1,16 +1,15 @@
 .favoritesPanel {
-  width: 33%;
-  min-height: 100vh;
-  padding: 1rem;
-  font-size: 2em;
+	width: 33%;
+	min-height: 100vh;
+	padding: 1rem;
+	font-size: 2em;
 }
 
 .favoritesContainer {
-  display: flex;
-  
+	display: flex;
 }
 
 .favoritesList {
-  width: 500px;
-  margin: 1em;
+	width: 25em;
+	margin: 1em;
 }

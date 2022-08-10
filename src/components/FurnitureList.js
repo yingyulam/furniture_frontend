@@ -7,6 +7,8 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
 import Card from "react-bootstrap/Card";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
 import { BsStar, BsStarFill } from "react-icons/bs";
 import "./FurnitureList.css";
 
@@ -16,8 +18,8 @@ const FurnitureList = ({ user, favorites, addFavorite, deleteFavorite }) => {
 	const [searchTitle, setSearchTitle] = useState("");
 	const [searchCategory, setSearchCategory] = useState("");
 	const [categories, setCategories] = useState(["All Categories"]);
-  const [conditions, setConditions] = useState(["All Conditions"]);
-  const [searchCondition, setSearchCondition] = useState("");
+	const [conditions, setConditions] = useState(["All Conditions"]);
+	const [searchCondition, setSearchCondition] = useState("");
 	const [currentPage, setCurrentPage] = useState(0);
 	const [entriesPerPage, setEntriesPerPage] = useState(0);
 	const [currentSearchMode, setCurrentSearchMode] = useState("");
@@ -35,7 +37,7 @@ const FurnitureList = ({ user, favorites, addFavorite, deleteFavorite }) => {
 			});
 	}, []);
 
-  const retrieveConditions = useCallback(() => {
+	const retrieveConditions = useCallback(() => {
 		FurnitureDataService.getConditions()
 			.then((response) => {
 				setConditions(["All Conditions"].concat(response.data));
@@ -85,7 +87,7 @@ const FurnitureList = ({ user, favorites, addFavorite, deleteFavorite }) => {
 		}
 	}, [find, searchCategory, retrieveFurniture]);
 
-  const findByCondition = useCallback(() => {
+	const findByCondition = useCallback(() => {
 		setCurrentSearchMode("findByCondition");
 		if (searchCondition === "All Conditions") {
 			retrieveFurniture();
@@ -100,18 +102,24 @@ const FurnitureList = ({ user, favorites, addFavorite, deleteFavorite }) => {
 		} else if (currentSearchMode === "findByCategory") {
 			findByCategory();
 		} else if (currentSearchMode === "findByCondition") {
-      findByCondition();
-    } else {
+			findByCondition();
+		} else {
 			retrieveFurniture();
 		}
-	}, [currentSearchMode, findByTitle, findByCategory, findByCondition, retrieveFurniture]);
+	}, [
+		currentSearchMode,
+		findByTitle,
+		findByCategory,
+		findByCondition,
+		retrieveFurniture,
+	]);
 
 	//Use effect to carry out side effect functionality
 	useEffect(() => {
 		retrieveCategories();
 	}, [retrieveCategories]);
 
-  useEffect(() => {
+	useEffect(() => {
 		retrieveConditions();
 	}, [retrieveConditions]);
 
@@ -135,13 +143,49 @@ const FurnitureList = ({ user, favorites, addFavorite, deleteFavorite }) => {
 		setSearchCategory(searchCategory);
 	};
 
-  const onChangeSearchCondition = (e) => {
-    const searchCondition = e.target.value;
-    setSearchCondition(searchCondition);
-  }
+	const onChangeSearchCondition = (e) => {
+		const searchCondition = e.target.value;
+		setSearchCondition(searchCondition);
+	};
 
 	return (
 		<div className="App">
+			<Navbar bg="secondary" expand="lg" sticky="top" variant="dark">
+				<Container className="container-fluid">
+					<Navbar.Brand className="brand" href="/">
+						Furniture Categories
+					</Navbar.Brand>
+					<Navbar.Toggle aria-controls="basic-navbar-nav" />
+					<Navbar.Collapse id="responsive-navbar-nav">
+						<Nav className="ml-auto">
+							<Nav.Link as={Link} to={"/furniture"}>
+								All Products
+							</Nav.Link>
+							<Nav.Link as={Link} to={"/furniture"}>
+								Living Room
+							</Nav.Link>
+							<Nav.Link as={Link} to={"/furniture"}>
+								Dinning Room
+							</Nav.Link>
+							<Nav.Link as={Link} to={"/furniture"}>
+								Bedroom
+							</Nav.Link>
+							<Nav.Link as={Link} to={"/furniture"}>
+								Bathroom
+							</Nav.Link>
+							<Nav.Link as={Link} to={"/furniture"}>
+								Bathroom
+							</Nav.Link>
+							<Nav.Link as={Link} to={"/furniture"}>
+								Garden
+							</Nav.Link>
+							<Nav.Link as={Link} to={"/furniture"}>
+								Other Products
+							</Nav.Link>
+						</Nav>
+					</Navbar.Collapse>
+				</Container>
+			</Navbar>
 			<Container className="main-container">
 				<Form>
 					<Row>
@@ -175,7 +219,7 @@ const FurnitureList = ({ user, favorites, addFavorite, deleteFavorite }) => {
 							</Button>
 						</Col>
 
-            <Col>
+						<Col>
 							<Form.Group className="mb-3">
 								<Form.Control as="select" onChange={onChangeSearchCondition}>
 									{conditions.map((condition, i) => {
@@ -191,7 +235,6 @@ const FurnitureList = ({ user, favorites, addFavorite, deleteFavorite }) => {
 								Search
 							</Button>
 						</Col>
-
 					</Row>
 				</Form>
 				<Row className="movieRow">
