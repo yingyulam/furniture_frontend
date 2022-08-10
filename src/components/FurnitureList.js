@@ -21,8 +21,7 @@ const FurnitureList = ({ user, favorites, addFavorite, deleteFavorite }) => {
 	const [conditions, setConditions] = useState(["All Conditions"]);
 	const [searchCondition, setSearchCondition] = useState("");
 	const [currentPage, setCurrentPage] = useState(0);
-	const [entriesPerPage, setEntriesPerPage] = useState(0);
-	const [currentSearchMode, setCurrentSearchMode] = useState("");
+	const [entriesPerPage, setEntriesPerPage] = useState(20);
 
 	// useCallback to define functions which should only be created once
 	// and will be dependencies for useEffect
@@ -47,9 +46,13 @@ const FurnitureList = ({ user, favorites, addFavorite, deleteFavorite }) => {
 			});
 	}, []);
 
-	const retrieveFurniture = useCallback(() => {
-		setCurrentSearchMode("");
-		FurnitureDataService.getAll(currentPage)
+	const findByQueries = useCallback(() => {
+		const queries = {
+			title: searchTitle,
+			condition: searchCondition,
+			category: searchCategory,
+		};
+		FurnitureDataService.find(queries, currentPage)
 			.then((response) => {
 				setFurniture(response.data.furniture);
 				setCurrentPage(response.data.page);
@@ -58,61 +61,17 @@ const FurnitureList = ({ user, favorites, addFavorite, deleteFavorite }) => {
 			.catch((e) => {
 				console.log(e);
 			});
-	}, [currentPage]);
+	}, [currentPage, searchTitle, searchCondition, searchCategory]);
 
-	const find = useCallback(
-		(query, by) => {
-			FurnitureDataService.find(query, by, currentPage)
-				.then((response) => {
-					setFurniture(response.data.furniture);
-				})
-				.catch((e) => {
-					console.log(e);
-				});
-		},
-		[currentPage]
-	);
+	const clearFilter = useCallback(() => {
+		setSearchTitle("");
+		setSearchCondition("All Conditions");
+		setSearchCategory("All Categories");
+	}, [setSearchTitle, setSearchCondition, setSearchCategory]);
 
-	const findByTitle = useCallback(() => {
-		setCurrentSearchMode("findByTitle");
-		find(searchTitle, "name");
-	}, [find, searchTitle]);
-
-	const findByCategory = useCallback(() => {
-		setCurrentSearchMode("findByCategory");
-		if (searchCategory === "All Categories") {
-			retrieveFurniture();
-		} else {
-			find(searchCategory, "category");
-		}
-	}, [find, searchCategory, retrieveFurniture]);
-
-	const findByCondition = useCallback(() => {
-		setCurrentSearchMode("findByCondition");
-		if (searchCondition === "All Conditions") {
-			retrieveFurniture();
-		} else {
-			find(searchCondition, "condition");
-		}
-	}, [find, searchCondition, retrieveFurniture]);
-
-	const retrieveNextPage = useCallback(() => {
-		if (currentSearchMode === "findByTitle") {
-			findByTitle();
-		} else if (currentSearchMode === "findByCategory") {
-			findByCategory();
-		} else if (currentSearchMode === "findByCondition") {
-			findByCondition();
-		} else {
-			retrieveFurniture();
-		}
-	}, [
-		currentSearchMode,
-		findByTitle,
-		findByCategory,
-		findByCondition,
-		retrieveFurniture,
-	]);
+	const retrieveDifferentPage = useCallback(() => {
+		findByQueries();
+	}, [findByQueries]);
 
 	//Use effect to carry out side effect functionality
 	useEffect(() => {
@@ -123,14 +82,10 @@ const FurnitureList = ({ user, favorites, addFavorite, deleteFavorite }) => {
 		retrieveConditions();
 	}, [retrieveConditions]);
 
-	useEffect(() => {
-		setCurrentPage(0);
-	}, [currentSearchMode]);
-
 	// Retrieve the next page if currentPage value changes
 	useEffect(() => {
-		retrieveNextPage();
-	}, [currentPage, retrieveNextPage]);
+		retrieveDifferentPage();
+	}, [currentPage, retrieveDifferentPage]);
 
 	// Other functions that are not depended on by useEffect
 	const onChangeSearchTitle = (e) => {
@@ -193,14 +148,11 @@ const FurnitureList = ({ user, favorites, addFavorite, deleteFavorite }) => {
 							<Form.Group className="mb-3">
 								<Form.Control
 									type="text"
-									placeholder="Search by title"
+									placeholder="Filter by title"
 									value={searchTitle}
 									onChange={onChangeSearchTitle}
 								/>
 							</Form.Group>
-							<Button variant="primary" type="button" onClick={findByTitle}>
-								Search
-							</Button>
 						</Col>
 						<Col>
 							<Form.Group className="mb-3">
@@ -214,9 +166,6 @@ const FurnitureList = ({ user, favorites, addFavorite, deleteFavorite }) => {
 									})}
 								</Form.Control>
 							</Form.Group>
-							<Button variant="primary" type="button" onClick={findByCategory}>
-								Search
-							</Button>
 						</Col>
 
 						<Col>
@@ -231,8 +180,10 @@ const FurnitureList = ({ user, favorites, addFavorite, deleteFavorite }) => {
 									})}
 								</Form.Control>
 							</Form.Group>
-							<Button variant="primary" type="button" onClick={findByCondition}>
-								Search
+						</Col>
+						<Col>
+							<Button variant="warning" type="button" onClick={clearFilter}>
+								Clear all filters
 							</Button>
 						</Col>
 					</Row>
@@ -278,7 +229,16 @@ const FurnitureList = ({ user, favorites, addFavorite, deleteFavorite }) => {
 					})}
 				</Row>
 				<br />
-				Showing page: {currentPage + 1},
+				<Button
+					variant="link"
+					disabled={currentPage <= 0}
+					onClick={() => {
+						setCurrentPage(currentPage - 1);
+					}}
+				>
+					Get previous {entriesPerPage} results
+				</Button>
+				Showing page: {currentPage + 1}
 				<Button
 					variant="link"
 					onClick={() => {

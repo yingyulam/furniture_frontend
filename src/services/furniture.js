@@ -1,15 +1,10 @@
 import axios from "axios";
 
 class FurnitureDataService {
-	getAll(page = 0) {
+	find(queries, page) {
+		const { title, condition, category } = queries;
 		return axios.get(
-			`${process.env.REACT_APP_API_BASE_URL}/api/v1/furniture?page=${page}`
-		);
-	}
-
-	find(query, by = "name", page = 0) {
-		return axios.get(
-			`${process.env.REACT_APP_API_BASE_URL}/api/v1/furniture?${by}=${query}&page=${page}`
+			`${process.env.REACT_APP_API_BASE_URL}/api/v1/furniture?title=${title}&condition=${condition}&category=${category}&page=${page}&furniturePerPage=20`
 		);
 	}
 
