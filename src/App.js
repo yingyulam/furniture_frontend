@@ -20,6 +20,15 @@ import UploadItem from "./components/UploadItem";
 import "./App.css";
 
 const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+const categories = [
+	"All Categories",
+	"Living Room",
+	"Dinning Room",
+	"Bedroom",
+	"Bathroom",
+	"Garden",
+	"Others",
+];
 
 function App() {
 	const [user, setUser] = useState(null);
@@ -96,7 +105,7 @@ function App() {
 						<Navbar.Toggle aria-controls="basic-navbar-nav" />
 						<Navbar.Collapse id="responsive-navbar-nav">
 							<Nav className="ml-auto">
-								<Nav.Link as={Link} to={"/furniture"}>
+								<Nav.Link as={Link} to={"/all_products"}>
 									Products
 								</Nav.Link>
 
@@ -132,13 +141,79 @@ function App() {
 					/>
 					<Route
 						exact
-						path={"/furniture"}
+						path={"/all_products"}
 						element={
 							<FurnitureList
 								user={user}
 								addFavorite={addFavorite}
 								deleteFavorite={deleteFavorite}
 								favorites={favorites}
+								_category={"All Categories"}
+							/>
+						}
+					/>
+					<Route
+						exact
+						path={"/living_room"}
+						element={
+							<FurnitureList
+								user={user}
+								addFavorite={addFavorite}
+								deleteFavorite={deleteFavorite}
+								favorites={favorites}
+								_category={"Living Room"}
+							/>
+						}
+					/>
+					<Route
+						exact
+						path={"/bedroom"}
+						element={
+							<FurnitureList
+								user={user}
+								addFavorite={addFavorite}
+								deleteFavorite={deleteFavorite}
+								favorites={favorites}
+								_category={"Bedroom"}
+							/>
+						}
+					/>
+					<Route
+						exact
+						path={"/bathroom"}
+						element={
+							<FurnitureList
+								user={user}
+								addFavorite={addFavorite}
+								deleteFavorite={deleteFavorite}
+								favorites={favorites}
+								_category={"Bathroom"}
+							/>
+						}
+					/>
+					<Route
+						exact
+						path={"/garden"}
+						element={
+							<FurnitureList
+								user={user}
+								addFavorite={addFavorite}
+								deleteFavorite={deleteFavorite}
+								favorites={favorites}
+								_category={"Garden"}
+							/>
+						}
+					/>
+					<Route
+						exact
+						path={"/others"}
+						element={
+							<FurnitureList
+								user={user}
+								addFavorite={addFavorite}
+								deleteFavorite={deleteFavorite}
+								favorites={favorites}
+								_category={"Others"}
 							/>
 						}
 					/>

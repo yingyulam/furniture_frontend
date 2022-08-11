@@ -12,30 +12,34 @@ import Navbar from "react-bootstrap/Navbar";
 import { BsStar, BsStarFill } from "react-icons/bs";
 import "./FurnitureList.css";
 
-const FurnitureList = ({ user, favorites, addFavorite, deleteFavorite }) => {
+const FurnitureList = ({
+	user,
+	favorites,
+	addFavorite,
+	deleteFavorite,
+	_category = "All Categories",
+}) => {
 	// useState to set state values
 	const [furniture, setFurniture] = useState([]);
 	const [searchTitle, setSearchTitle] = useState("");
-	const [searchCategory, setSearchCategory] = useState("");
-	const [categories, setCategories] = useState(["All Categories"]);
+	const [searchCategory, setSearchCategory] = useState(_category);
+	// const [categories, setCategories] = useState(["All Categories"]);
 	const [conditions, setConditions] = useState(["All Conditions"]);
 	const [searchCondition, setSearchCondition] = useState("");
 	const [currentPage, setCurrentPage] = useState(0);
 	const [entriesPerPage, setEntriesPerPage] = useState(20);
-
 	// useCallback to define functions which should only be created once
 	// and will be dependencies for useEffect
 
-	const retrieveCategories = useCallback(() => {
-		FurnitureDataService.getCategories()
-			.then((response) => {
-				setCategories(["All Categories"].concat(response.data));
-			})
-			.catch((e) => {
-				console.log(e);
-			});
-	}, []);
-
+	// const retrieveCategories = useCallback(() => {
+	// 	FurnitureDataService.getCategories()
+	// 		.then((response) => {
+	// 			setCategories(["All Categories"].concat(response.data));
+	// 		})
+	// 		.catch((e) => {
+	// 			console.log(e);
+	// 		});
+	// }, []);
 	const retrieveConditions = useCallback(() => {
 		FurnitureDataService.getConditions()
 			.then((response) => {
@@ -73,10 +77,10 @@ const FurnitureList = ({ user, favorites, addFavorite, deleteFavorite }) => {
 		findByQueries();
 	}, [findByQueries]);
 
-	//Use effect to carry out side effect functionality
-	useEffect(() => {
-		retrieveCategories();
-	}, [retrieveCategories]);
+	// //Use effect to carry out side effect functionality
+	// useEffect(() => {
+	// 	retrieveCategories();
+	// }, [retrieveCategories]);
 
 	useEffect(() => {
 		retrieveConditions();
@@ -93,10 +97,10 @@ const FurnitureList = ({ user, favorites, addFavorite, deleteFavorite }) => {
 		setSearchTitle(searchTitle);
 	};
 
-	const onChangeSearchCategory = (e) => {
-		const searchCategory = e.target.value;
-		setSearchCategory(searchCategory);
-	};
+	// const onChangeSearchCategory = (e) => {
+	// 	const searchCategory = e.target.value;
+	// 	setSearchCategory(searchCategory);
+	// };
 
 	const onChangeSearchCondition = (e) => {
 		const searchCondition = e.target.value;
@@ -105,38 +109,18 @@ const FurnitureList = ({ user, favorites, addFavorite, deleteFavorite }) => {
 
 	return (
 		<div className="App">
-			<Navbar bg="secondary" expand="lg" sticky="top" variant="dark">
+			<Navbar bg="secondary" expand="lg" variant="dark">
 				<Container className="container-fluid">
-					<Navbar.Brand className="brand" href="/">
-						Furniture Categories
-					</Navbar.Brand>
+					<Navbar.Brand className="brand">Furniture Categories</Navbar.Brand>
 					<Navbar.Toggle aria-controls="basic-navbar-nav" />
 					<Navbar.Collapse id="responsive-navbar-nav">
-						<Nav className="ml-auto">
-							<Nav.Link as={Link} to={"/furniture"}>
-								All Products
-							</Nav.Link>
-							<Nav.Link as={Link} to={"/furniture"}>
-								Living Room
-							</Nav.Link>
-							<Nav.Link as={Link} to={"/furniture"}>
-								Dinning Room
-							</Nav.Link>
-							<Nav.Link as={Link} to={"/furniture"}>
-								Bedroom
-							</Nav.Link>
-							<Nav.Link as={Link} to={"/furniture"}>
-								Bathroom
-							</Nav.Link>
-							<Nav.Link as={Link} to={"/furniture"}>
-								Bathroom
-							</Nav.Link>
-							<Nav.Link as={Link} to={"/furniture"}>
-								Garden
-							</Nav.Link>
-							<Nav.Link as={Link} to={"/furniture"}>
-								Other Products
-							</Nav.Link>
+						<Nav className="ml-auto sidebar">
+							<Nav.Link href="/all_products">All Products</Nav.Link>
+							<Nav.Link href="/living_room">Living Room</Nav.Link>
+							<Nav.Link href="/bedroom">Bedroom</Nav.Link>
+							<Nav.Link href="/bathroom">Bathroom</Nav.Link>
+							<Nav.Link href="/garden">Garden</Nav.Link>
+							<Nav.Link href="/others">Other Products</Nav.Link>
 						</Nav>
 					</Navbar.Collapse>
 				</Container>
@@ -154,20 +138,6 @@ const FurnitureList = ({ user, favorites, addFavorite, deleteFavorite }) => {
 								/>
 							</Form.Group>
 						</Col>
-						<Col>
-							<Form.Group className="mb-3">
-								<Form.Control as="select" onChange={onChangeSearchCategory}>
-									{categories.map((category, i) => {
-										return (
-											<option value={category} key={i}>
-												{category}
-											</option>
-										);
-									})}
-								</Form.Control>
-							</Form.Group>
-						</Col>
-
 						<Col>
 							<Form.Group className="mb-3">
 								<Form.Control as="select" onChange={onChangeSearchCondition}>
@@ -189,44 +159,51 @@ const FurnitureList = ({ user, favorites, addFavorite, deleteFavorite }) => {
 					</Row>
 				</Form>
 				<Row className="movieRow">
-					{furniture.map((furniture) => {
-						return (
-							<Col key={furniture._id}>
-								<Card className="moviesListCard">
-									{user &&
-										(favorites.includes(furniture._id) ? (
-											<BsStarFill
-												className="star starFill"
-												onClick={() => {
-													deleteFavorite(furniture._id);
-												}}
-											/>
-										) : (
-											<BsStar
-												className="star starEmpty"
-												onClick={() => {
-													addFavorite(furniture._id);
-												}}
-											/>
-										))}
-									<Card.Img
-										className="smallPoster"
-										src={furniture.imageUrl}
-										onError={({ currentTarget }) => {
-											currentTarget.onerror = null;
-											currentTarget.src = "/images/NoPosterAvailable-crop.jpg";
-										}}
-									/>
-									<Card.Body>
-										<Card.Title> {furniture.name} </Card.Title>
-										<Card.Text>Price: ${furniture.price}</Card.Text>
-										<Card.Text>{furniture.description}</Card.Text>
-										<Link to={"/furniture/" + furniture._id}>View Product</Link>
-									</Card.Body>
-								</Card>
-							</Col>
-						);
-					})}
+					{furniture.length > 0 ? (
+						furniture.map((furniture) => {
+							return (
+								<Col key={furniture._id}>
+									<Card className="moviesListCard">
+										{user &&
+											(favorites.includes(furniture._id) ? (
+												<BsStarFill
+													className="star starFill"
+													onClick={() => {
+														deleteFavorite(furniture._id);
+													}}
+												/>
+											) : (
+												<BsStar
+													className="star starEmpty"
+													onClick={() => {
+														addFavorite(furniture._id);
+													}}
+												/>
+											))}
+										<Card.Img
+											className="smallPoster"
+											src={furniture.imageUrl}
+											onError={({ currentTarget }) => {
+												currentTarget.onerror = null;
+												currentTarget.src =
+													"/images/NoPosterAvailable-crop.jpg";
+											}}
+										/>
+										<Card.Body>
+											<Card.Title> {furniture.name} </Card.Title>
+											<Card.Text>Price: ${furniture.price}</Card.Text>
+											<Card.Text>{furniture.description}</Card.Text>
+											<Link to={"/furniture/" + furniture._id}>
+												View Product
+											</Link>
+										</Card.Body>
+									</Card>
+								</Col>
+							);
+						})
+					) : (
+						<h3>Oops.. Wait for it to come</h3>
+					)}
 				</Row>
 				<br />
 				<Button
