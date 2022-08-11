@@ -86,7 +86,7 @@ const Furniture = ({ user }) => {
 							</Card.Body>
 						</Card>
 
-            <Map location={location} zoomLevel={17} />
+            {/* <Map location={location} zoomLevel={17} /> */}
 
             
 
