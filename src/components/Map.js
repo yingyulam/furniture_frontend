@@ -3,16 +3,19 @@ import GoogleMapReact from 'google-map-react'
 import { Icon } from '@iconify/react'
 import locationIcon from '@iconify/icons-mdi/map-marker'
 
-const mapKey = process.env.REACT_APP_GOOGLE_MAP_API_KEY
-
 const LocationPin = ({ text }) => (
   <div className="pin">
-    <Icon icon={locationIcon} className="pin-icon" />
+    <Icon icon={locationIcon} className="pin-icon" 
+    />
     <p className="pin-text">{text}</p>
   </div>
 )
 
-const Map = ({ location, zoomLevel }) => (
+const Map = ({ location, zoomLevel }) => {
+
+  const mapKey = process.env.REACT_APP_GOOGLE_MAP_API_KEY
+  
+  return (
   <div className="map">
     <h2 className="map-h2">Location for This Listing</h2>
 
@@ -22,15 +25,17 @@ const Map = ({ location, zoomLevel }) => (
         defaultCenter={location}
         defaultZoom={zoomLevel}
       >
-        <LocationPin
+        <LocationPin 
           lat={location.lat}
           lng={location.lng}
           text={location.address}
         />
+
       </GoogleMapReact>
     </div>
   </div>
-)
+  )
+}
 
 
 

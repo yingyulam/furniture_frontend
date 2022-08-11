@@ -20,6 +20,7 @@ const Furniture = ({ user }) => {
 		category: "",
 		price: "",
     user: [],
+    location: null,
 	});
 
 	useEffect(() => {
@@ -27,6 +28,7 @@ const Furniture = ({ user }) => {
 			FurnitureDataService.getFurnitureById(id)
 				.then((response) => {
 					setFurniture(response.data);
+          console.log(response.data)
 				})
 				.catch((e) => {
 					console.log(e);
@@ -35,11 +37,13 @@ const Furniture = ({ user }) => {
 		getFurniture(params.id);
 	}, [params.id]);
 
-  const location = {
-    address: 'Vancouver',
-    lat: 49.2827,
-    lng: -123.1207,
-  }
+  // const location = {
+  //   address: 'Vancouver',
+  //   lat: 49.2827,
+  //   lng: -123.1207,
+  // }
+
+  console.log(furniture);
 
 	return (
 		<div>
@@ -86,9 +90,8 @@ const Furniture = ({ user }) => {
 							</Card.Body>
 						</Card>
 
-            {/* <Map location={location} zoomLevel={17} /> */}
-
-            
+            {furniture.location 
+              && <Map location={furniture.location} zoomLevel={17} /> }
 
 						{/* <h2>Reviews</h2>
             <br></br>

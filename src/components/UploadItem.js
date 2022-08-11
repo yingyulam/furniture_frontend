@@ -8,6 +8,9 @@ import Dropdown from "react-bootstrap/Dropdown";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import FurnitureDataService from "../services/furniture";
 import Axios from "axios";
+// import Location from "./Location"
+import GooglePlacesAutocomplete from "react-google-autocomplete";
+import Map from "./Map"
 
 const UploadItem = ({ user }) => {
 	const conditions = ["Brand New", "Like New", "Good", "Fair"];
@@ -20,6 +23,12 @@ const UploadItem = ({ user }) => {
 		"Others",
 	];
 
+  // const defaultLocation = {
+  //   address: 'Vancouver',
+  //   lat: 49.2827,
+  //   lng: -123.1207,
+  // }
+
 	const navigate = useNavigate();
 	const [name, setName] = useState("");
 	const [price, setPrice] = useState("");
@@ -29,6 +38,7 @@ const UploadItem = ({ user }) => {
 	const [imageSelected, setImageSelected] = useState("");
 	const [imageLoading, setImageLoading] = useState(false);
 	const [condition, setCondition] = useState(conditions[0]);
+  const [location, setLocation] = useState(null);
 
 	const saveItem = () => {
 		let data = {
@@ -39,6 +49,7 @@ const UploadItem = ({ user }) => {
 			category: category,
 			imageUrl: imageUrl,
 			condition: condition,
+      location: location,
 		};
 
 		FurnitureDataService.uploadItem(data)
@@ -63,6 +74,10 @@ const UploadItem = ({ user }) => {
 	const onChangeCondition = (con) => {
 		setCondition(con);
 	};
+
+  // const onChangeLocation = (e) => {
+  //   setLocation(e.target.value);
+  // }
 
 	const uploadImage = () => {
 		const formData = new FormData();
@@ -164,6 +179,24 @@ const UploadItem = ({ user }) => {
 								})}
 							</DropdownButton>
 							<br />
+
+              <h5>Location</h5>
+              {/* <Location user={user} /> */}
+
+              <GooglePlacesAutocomplete
+                apiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY}
+                onPlaceSelected={(place) => {
+                  const location = {
+                    address: place.formatted_address,
+                    lat: place.geometry.location.lat(),
+                    lng: place.geometry.location.lng(),
+                  }
+                  console.log(location)
+                  setLocation(location);
+                }}
+              />
+              <br />
+              {/* <Map location={location} zoomLevel={17} /> */}
 							<Button
 								variant="primary"
 								onClick={saveItem}
@@ -172,6 +205,7 @@ const UploadItem = ({ user }) => {
 							>
 								Submit
 							</Button>
+              
 						</Form>
 					</Container>
 				</div>
