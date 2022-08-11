@@ -8,6 +8,7 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
 import moment from "moment";
+import Map from "./Map"
 import "./Movie.css";
 
 const Furniture = ({ user }) => {
@@ -33,6 +34,12 @@ const Furniture = ({ user }) => {
 		};
 		getFurniture(params.id);
 	}, [params.id]);
+
+  const location = {
+    address: 'Vancouver',
+    lat: 49.2827,
+    lng: -123.1207,
+  }
 
 	return (
 		<div>
@@ -78,6 +85,10 @@ const Furniture = ({ user }) => {
 								<Card.Text>Contact: {furniture.user.email}</Card.Text>
 							</Card.Body>
 						</Card>
+
+            <Map location={location} zoomLevel={17} />
+
+            
 
 						{/* <h2>Reviews</h2>
             <br></br>
