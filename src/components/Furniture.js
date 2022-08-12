@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import FurnitureDataService from "../services/furniture";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
 import Image from "react-bootstrap/Image";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-import Button from "react-bootstrap/Button";
-import moment from "moment";
 import Map from "./Map"
+import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import "./Movie.css";
 
 const Furniture = ({ user }) => {
@@ -37,11 +36,8 @@ const Furniture = ({ user }) => {
 		getFurniture(params.id);
 	}, [params.id]);
 
-  // const location = {
-  //   address: 'Vancouver',
-  //   lat: 49.2827,
-  //   lng: -123.1207,
-  // }
+  const mapKey = process.env.REACT_APP_GOOGLE_MAP_API_KEY;
+
 
   console.log(furniture);
 
@@ -66,6 +62,9 @@ const Furniture = ({ user }) => {
 						<Card>
 							<Card.Header as="h3">{furniture.name}</Card.Header>
 							<Card.Body>
+                {furniture.location 
+                  && <Card.Text>Location: {furniture.location.address}
+                    </Card.Text>}
 								<Card.Text>
 									Price: ${furniture.price}
 								</Card.Text>
@@ -75,6 +74,7 @@ const Furniture = ({ user }) => {
 								<Card.Text>
 									{furniture.description}
 								</Card.Text>
+                
 								{/* { user &&
                   <Link to={"/movies/" + params.id + "/review"} >
                     Add Review
@@ -91,7 +91,7 @@ const Furniture = ({ user }) => {
 						</Card>
 
             {furniture.location 
-              && <Map location={furniture.location} zoomLevel={17} /> }
+              && <Map location={furniture.location} zoomLevel={15} /> }
 
 						{/* <h2>Reviews</h2>
             <br></br>

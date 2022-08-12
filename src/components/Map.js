@@ -11,6 +11,22 @@ const LocationPin = ({ text }) => (
   </div>
 )
 
+// const LocationPin = ({ text }) => (
+//   <div style={{
+//     color: 'black', 
+//     background: 'grey',
+//     padding: '15px 10px',
+//     display: 'inline-flex',
+//     textAlign: 'center',
+//     alignItems: 'center',
+//     justifyContent: 'center',
+//     borderRadius: '100%',
+//     transform: 'translate(-50%, -50%)'
+//   }}>
+//     {text}
+//   </div>
+// );
+
 const Map = ({ location, zoomLevel }) => {
 
   const mapKey = process.env.REACT_APP_GOOGLE_MAP_API_KEY
@@ -28,7 +44,7 @@ const Map = ({ location, zoomLevel }) => {
         <LocationPin 
           lat={location.lat}
           lng={location.lng}
-          text={location.address}
+          text={location.address.split(",")[0]}
         />
 
       </GoogleMapReact>

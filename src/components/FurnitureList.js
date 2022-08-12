@@ -28,6 +28,7 @@ const FurnitureList = ({
 	const [searchCondition, setSearchCondition] = useState("");
 	const [currentPage, setCurrentPage] = useState(0);
 	const [entriesPerPage, setEntriesPerPage] = useState(20);
+  const [sortFurniture, setSortFurniture] = useState("Sort By: Feature");
 	// useCallback to define functions which should only be created once
 	// and will be dependencies for useEffect
 
@@ -40,6 +41,15 @@ const FurnitureList = ({
 	// 			console.log(e);
 	// 		});
 	// }, []);
+
+  const features = [
+    "Sort by: Feature", 
+    "Price: Low to High", 
+    "Price: High to Low",
+    // "Newest to Oldest",
+    // "Oldest to Newest",
+  ];
+
 	const retrieveConditions = useCallback(() => {
 		FurnitureDataService.getConditions()
 			.then((response) => {
@@ -61,11 +71,12 @@ const FurnitureList = ({
 				setFurniture(response.data.furniture);
 				setCurrentPage(response.data.page);
 				setEntriesPerPage(response.data.entries_per_page);
+        //sortFurnitureByFeature();
 			})
 			.catch((e) => {
 				console.log(e);
 			});
-	}, [currentPage, searchTitle, searchCondition, searchCategory]);
+	}, [currentPage, searchTitle, searchCondition, searchCategory, /*sortFurniture*/]);
 
 	const clearFilter = useCallback(() => {
 		setSearchTitle("");
@@ -106,6 +117,42 @@ const FurnitureList = ({
 		const searchCondition = e.target.value;
 		setSearchCondition(searchCondition);
 	};
+
+  const onChangeSortFurniture = (e) => {
+    const feature = e.target.value;
+    setSortFurniture(feature);
+  }
+
+  const sortFurnitureByFeature = useCallback(() => {
+    let furnitureList = furniture;
+    const queries = {
+			title: searchTitle,
+			condition: searchCondition,
+			category: searchCategory,
+		};
+		FurnitureDataService.find(queries, currentPage)
+			.then((response) => {
+				setFurniture(response.data.furniture);
+				setCurrentPage(response.data.page);
+				setEntriesPerPage(response.data.entries_per_page);
+        if (sortFurniture === "Price: Low to High") {
+          furnitureList.sort((a, b) => a.price - b.price);
+          setFurniture(furnitureList);
+        } else if (sortFurniture === "Price: High to Low") {
+          furnitureList.sort((a, b) => b.price - a.price);
+          setFurniture(furnitureList);
+        } 
+			})
+			.catch((e) => {
+				console.log(e);
+			});
+
+  }, [sortFurniture]);
+
+  useEffect(() => {
+		sortFurnitureByFeature();
+	}, [sortFurnitureByFeature]);
+
 
 	return (
 		<div className="App">
@@ -155,6 +202,19 @@ const FurnitureList = ({
 							<Button variant="warning" type="button" onClick={clearFilter}>
 								Clear all filters
 							</Button>
+						</Col>
+            <Col>
+							<Form.Group className="mb-3">
+								<Form.Control as="select" onChange={onChangeSortFurniture}>
+									{features.map((feature, i) => {
+										return (
+											<option value={feature} key={i}>
+												{feature}
+											</option>
+										);
+									})}
+								</Form.Control>
+							</Form.Group>
 						</Col>
 					</Row>
 				</Form>
