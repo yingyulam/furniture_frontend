@@ -13,6 +13,34 @@ Link to the app: https://furnitureapp-frontend.herokuapp.com/
 
 # Furniture-frontend
 
+<h1>Iteration 2</h1>
+
+<h2>Peter: </h2>
+
+1. Added the selling history to the user profile page. 
+![Selling History](public/images/iter2_my_listings.png)
+
+2. Created a navigation bar to look for furniture by categories.
+![Navigation Bar](public/images/iter2_navigation_bar.png)
+
+3. Improve the fiter functionality so we can filter by different features at the same time.
+![Filter](public/images/iter2_filter.png)
+
+<h2>Rain: </h2>
+
+1. Added a location section in the uploadItem page with autocomplete.
+![Location](public/images/iter2_uploadItem.png)
+
+2. Added a map in the product page to show the location of the listing.
+![Google Map](public/images/iter2_product_with_map.png)
+
+3. Working on the sort by price/date functionalities.
+![Sort](public/images/iter2_sort.png)
+
+<h4>Issues</h4>
+- We haven't worked on uploading multiple pictures for a listing yet.
+- The sorting function is not fully implemented yet.
+- We planned to put the navigation bar on the left side but haven't figured it how to do it yet.
 
 <h1>Iteration 1</h1>
 
@@ -32,7 +60,7 @@ The inputs are (in order)
 4. Description, scalable text box which stores string
 5. Category, divides the item into different locations in the house
 
-<h2>Rain</h2>
+<h2>Rain: </h2>
 
 1. Created the GitHub repositories and provided the starter code for this project.
 2. Worked on the homepage: modified the starter code and linked to the the new furniture database.
@@ -52,7 +80,7 @@ The inputs are (in order)
 
 5. Adapted the codes from the starter code to this new project, such as modifying variable names, module names, and routes. 
 
-<h2>Issues</h2>
+<h4>Issues</h4>
 
 - The new listing page can take only one picture. 
 - Now the filter functions (search by category/condition) work independently. We aimed at creating a filter functionality that can takes multiple arguments.
