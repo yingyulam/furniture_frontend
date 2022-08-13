@@ -6,8 +6,8 @@ import Container from "react-bootstrap/Container";
 import Image from "react-bootstrap/Image";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-import Map from "./Map"
-import { Wrapper, Status } from "@googlemaps/react-wrapper";
+import Map from "./Map";
+// import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import "./Movie.css";
 
 const Furniture = ({ user }) => {
@@ -18,8 +18,8 @@ const Furniture = ({ user }) => {
 		name: "",
 		category: "",
 		price: "",
-    user: [],
-    location: null,
+		user: [],
+		location: null,
 	});
 
 	useEffect(() => {
@@ -27,7 +27,7 @@ const Furniture = ({ user }) => {
 			FurnitureDataService.getFurnitureById(id)
 				.then((response) => {
 					setFurniture(response.data);
-          console.log(response.data)
+					console.log(response.data);
 				})
 				.catch((e) => {
 					console.log(e);
@@ -36,10 +36,9 @@ const Furniture = ({ user }) => {
 		getFurniture(params.id);
 	}, [params.id]);
 
-  const mapKey = process.env.REACT_APP_GOOGLE_MAP_API_KEY;
+	const mapKey = process.env.REACT_APP_GOOGLE_MAP_API_KEY;
 
-
-  console.log(furniture);
+	console.log(furniture);
 
 	return (
 		<div>
@@ -62,19 +61,13 @@ const Furniture = ({ user }) => {
 						<Card>
 							<Card.Header as="h3">{furniture.name}</Card.Header>
 							<Card.Body>
-                {furniture.location 
-                  && <Card.Text>Location: {furniture.location.address}
-                    </Card.Text>}
-								<Card.Text>
-									Price: ${furniture.price}
-								</Card.Text>
-								<Card.Text>
-									Condition: {furniture.condition}
-								</Card.Text>
-								<Card.Text>
-									{furniture.description}
-								</Card.Text>
-                
+								{furniture.location && (
+									<Card.Text>Location: {furniture.location.address}</Card.Text>
+								)}
+								<Card.Text>Price: ${furniture.price}</Card.Text>
+								<Card.Text>Condition: {furniture.condition}</Card.Text>
+								<Card.Text>{furniture.description}</Card.Text>
+
 								{/* { user &&
                   <Link to={"/movies/" + params.id + "/review"} >
                     Add Review
@@ -90,8 +83,9 @@ const Furniture = ({ user }) => {
 							</Card.Body>
 						</Card>
 
-            {furniture.location 
-              && <Map location={furniture.location} zoomLevel={15} /> }
+						{furniture.location && (
+							<Map location={furniture.location} zoomLevel={15} />
+						)}
 
 						{/* <h2>Reviews</h2>
             <br></br>
