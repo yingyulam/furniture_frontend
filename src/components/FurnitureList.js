@@ -46,8 +46,8 @@ const FurnitureList = ({
     "Sort by: Feature", 
     "Price: Low to High", 
     "Price: High to Low",
-    // "Newest to Oldest",
-    // "Oldest to Newest",
+    "Newest to Oldest",
+    "Oldest to Newest",
   ];
 
 	const retrieveConditions = useCallback(() => {
@@ -71,18 +71,26 @@ const FurnitureList = ({
 				setFurniture(response.data.furniture);
 				setCurrentPage(response.data.page);
 				setEntriesPerPage(response.data.entries_per_page);
-        //sortFurnitureByFeature();
 			})
 			.catch((e) => {
 				console.log(e);
 			});
-	}, [currentPage, searchTitle, searchCondition, searchCategory, /*sortFurniture*/]);
+	}, [currentPage, searchTitle, searchCondition, searchCategory]);
 
 	const clearFilter = useCallback(() => {
 		setSearchTitle("");
 		setSearchCondition("All Conditions");
 		setSearchCategory("All Categories");
-	}, [setSearchTitle, setSearchCondition, setSearchCategory]);
+    setSortFurniture("Sort by: Feature")
+	}, [setSearchTitle, setSearchCondition, setSearchCategory, setSortFurniture]);
+
+  // const clearFilter = () => {
+	// 	setSearchTitle("");
+	// 	setSearchCondition("All Conditions");
+	// 	setSearchCategory("All Categories");
+  //   setSortFurniture("Sort by: Feature")
+	// };
+
 
 	const retrieveDifferentPage = useCallback(() => {
 		findByQueries();
@@ -141,7 +149,17 @@ const FurnitureList = ({
         } else if (sortFurniture === "Price: High to Low") {
           furnitureList.sort((a, b) => b.price - a.price);
           setFurniture(furnitureList);
-        } 
+        } else if (sortFurniture === "Oldest to Newest") {
+          furnitureList.sort((a, b) => Date.parse(a.date) - Date.parse(b.date));
+          setFurniture(furnitureList);
+        } else if (sortFurniture === "Newest to Oldest") {
+          furnitureList.sort((a, b) => Date.parse(b.date) - Date.parse(a.date));
+          setFurniture(furnitureList);
+        }
+        // furniture.map((fur, i) => {
+        //   console.log(Date.parse(fur.date))
+        // })
+        
 			})
 			.catch((e) => {
 				console.log(e);
@@ -198,11 +216,6 @@ const FurnitureList = ({
 								</Form.Control>
 							</Form.Group>
 						</Col>
-						<Col>
-							<Button variant="warning" type="button" onClick={clearFilter}>
-								Clear all filters
-							</Button>
-						</Col>
             <Col>
 							<Form.Group className="mb-3">
 								<Form.Control as="select" onChange={onChangeSortFurniture}>
@@ -216,6 +229,12 @@ const FurnitureList = ({
 								</Form.Control>
 							</Form.Group>
 						</Col>
+						<Col>
+							<Button variant="warning" type="button" onClick={clearFilter}>
+								Clear all filters
+							</Button>
+						</Col>
+
 					</Row>
 				</Form>
 				<Row className="movieRow">
