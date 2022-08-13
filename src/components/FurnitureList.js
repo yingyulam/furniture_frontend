@@ -151,6 +151,23 @@ const FurnitureList = ({
 			});
 	}, [sortFurniture]);
 
+	const deleteFurniture = useCallback((objectId, googleId, index) => {
+		let data = {
+			objectId: objectId,
+			userId: googleId,
+		};
+		FurnitureDataService.deleteItem(data)
+			.then((res) => {
+				setFurniture((prevState) => {
+					prevState.splice(index, 1);
+					return [...prevState];
+				});
+			})
+			.catch((e) => {
+				console.log(e);
+			});
+	}, []);
+
 	useEffect(() => {
 		sortFurnitureByFeature();
 	}, [sortFurnitureByFeature]);
@@ -229,7 +246,7 @@ const FurnitureList = ({
 				</Form>
 				<Row className="movieRow">
 					{furniture.length > 0 ? (
-						furniture.map((furniture) => {
+						furniture.map((furniture, index) => {
 							return (
 								<Col key={furniture._id}>
 									<Card className="moviesListCard">
@@ -265,6 +282,20 @@ const FurnitureList = ({
 											<Link to={"/furniture/" + furniture._id}>
 												View Product
 											</Link>
+											{user && furniture.user.googleId === user.googleId && (
+												<Button
+													variant="link"
+													onClick={() => {
+														deleteFurniture(
+															furniture._id,
+															user.googleId,
+															index
+														);
+													}}
+												>
+													Delete
+												</Button>
+											)}
 										</Card.Body>
 									</Card>
 								</Col>
