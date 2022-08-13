@@ -27,7 +27,6 @@ const Furniture = ({ user }) => {
 			FurnitureDataService.getFurnitureById(id)
 				.then((response) => {
 					setFurniture(response.data);
-					console.log(response.data);
 				})
 				.catch((e) => {
 					console.log(e);
@@ -36,9 +35,7 @@ const Furniture = ({ user }) => {
 		getFurniture(params.id);
 	}, [params.id]);
 
-	const mapKey = process.env.REACT_APP_GOOGLE_MAP_API_KEY;
-
-	console.log(furniture);
+	// const mapKey = process.env.REACT_APP_GOOGLE_MAP_API_KEY;
 
 	return (
 		<div>
@@ -66,6 +63,8 @@ const Furniture = ({ user }) => {
 								)}
 								<Card.Text>Price: ${furniture.price}</Card.Text>
 								<Card.Text>Condition: {furniture.condition}</Card.Text>
+								<Card.Text>Category: {furniture.category}</Card.Text>
+								<Card.Text>Uploaded time: {furniture.date}</Card.Text>
 								<Card.Text>{furniture.description}</Card.Text>
 
 								{/* { user &&
@@ -86,54 +85,6 @@ const Furniture = ({ user }) => {
 						{furniture.location && (
 							<Map location={furniture.location} zoomLevel={15} />
 						)}
-
-						{/* <h2>Reviews</h2>
-            <br></br>
-            { furniture.reviews.map((review, index) => {
-              return (
-                <div className="d-flex">
-                  <div className="flex-shrink-0 reviewsText">
-                    <h5>{review.name + " review on "} { moment(review.date).format("Do MMMM YYYY") }</h5>
-                    <p className="review">{review.review}</p>
-                    { user && user.googleId === review.user_id &&
-                      <Row>
-                        <Col>
-                          <Link to={{
-                            pathname: "/movies/"+params.id+"/review"
-                          }}
-                            state = {{
-                              currentReview: review
-                          }} >
-                            Edit
-                          </Link>
-                        </Col>
-                        <Col>
-                          <Button variant="link" onClick={ () =>
-                            { 
-                              // TODO: Implement delete behavior
-                              MovieDataService.deleteReview({...review, review_id: review._id})
-                                .then(response => {
-                                  setFurniture((prevState) => {
-                                    prevState.reviews.splice(index, 1);
-                                    return ({
-                                      ...prevState
-                                    })
-                                  })
-                                })
-                                .catch(e => {
-                                  console.log(e);
-                                })                              
-
-                            } }>
-                              Delete
-                            </Button>
-                        </Col>
-                      </Row>
-                    }
-                  </div>
-                </div>
-              ) */
-						/* })} */}
 					</Col>
 				</Row>
 			</Container>

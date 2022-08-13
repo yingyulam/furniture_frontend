@@ -225,6 +225,7 @@ function App() {
 						}
 					/>
 					<Route exact path={"/upload"} element={<UploadItem user={user} />} />
+					<Route exact path={"/update"} element={<UploadItem user={user} />} />
 					<Route path={"/furniture/:id/"} element={<Furniture user={user} />} />
 					<Route
 						path={"/furniture/:id/review"}

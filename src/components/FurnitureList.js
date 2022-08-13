@@ -151,11 +151,12 @@ const FurnitureList = ({
 			});
 	}, [sortFurniture]);
 
-	const deleteFurniture = useCallback((objectId, googleId, index) => {
+	const deleteFurniture = (objectId, googleId, index) => {
 		let data = {
 			objectId: objectId,
 			userId: googleId,
 		};
+		deleteFavorite(objectId);
 		FurnitureDataService.deleteItem(data)
 			.then((res) => {
 				setFurniture((prevState) => {
@@ -166,7 +167,7 @@ const FurnitureList = ({
 			.catch((e) => {
 				console.log(e);
 			});
-	}, []);
+	};
 
 	useEffect(() => {
 		sortFurnitureByFeature();
@@ -282,9 +283,30 @@ const FurnitureList = ({
 											<Link to={"/furniture/" + furniture._id}>
 												View Product
 											</Link>
+											<br />
+											{user && furniture.user.googleId === user.googleId && (
+												<Link
+													className="ml-3"
+													to={{ pathname: "/update" }}
+													state={{
+														_id: furniture._id,
+														user: furniture.user,
+														name: furniture.name,
+														price: furniture.price,
+														description: furniture.description,
+														category: furniture.category,
+														imageUrl: furniture.imageUrl,
+														condition: furniture.condition,
+														location: furniture.location,
+													}}
+												>
+													Edit
+												</Link>
+											)}
+											<br />
 											{user && furniture.user.googleId === user.googleId && (
 												<Button
-													variant="link"
+													variant="danger"
 													onClick={() => {
 														deleteFurniture(
 															furniture._id,

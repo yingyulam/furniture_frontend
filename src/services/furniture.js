@@ -60,6 +60,13 @@ class FurnitureDataService {
 		);
 	}
 
+	updateItem(data) {
+		return axios.put(
+			`${process.env.REACT_APP_API_BASE_URL}/api/v1/furniture/update`,
+			data
+		);
+	}
+
 	deleteItem(data) {
 		console.log(data);
 		return axios.delete(
