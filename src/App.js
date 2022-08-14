@@ -20,15 +20,6 @@ import UploadItem from "./components/UploadItem";
 import "./App.css";
 
 const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
-const categories = [
-	"All Categories",
-	"Living Room",
-	"Dinning Room",
-	"Bedroom",
-	"Bathroom",
-	"Garden",
-	"Others",
-];
 
 function App() {
 	const [user, setUser] = useState(null);
@@ -59,9 +50,9 @@ function App() {
 
 	const retrieveFavorites = useCallback(() => {
 		if (user) {
+			console.log(user);
 			FavoritesDataService.getFavorites(user.googleId)
 				.then((response) => {
-					console.log(user);
 					setFavorites(response.data.favorites);
 				})
 				.catch((e) => {
@@ -235,7 +226,11 @@ function App() {
 						}
 					/>
 					<Route exact path={"/upload"} element={<UploadItem user={user} />} />
-					<Route path={"/furniture/:id/"} element={<Furniture user={user} />} />
+					<Route exact path={"/update"} element={<UploadItem user={user} />} />
+					<Route
+						path={"/furniture/:id/"}
+						element={<Furniture user={user} deleteFavorite={deleteFavorite} />}
+					/>
 					<Route
 						path={"/furniture/:id/review"}
 						element={<AddReview user={user} />}

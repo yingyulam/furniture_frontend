@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
@@ -8,9 +8,8 @@ import Dropdown from "react-bootstrap/Dropdown";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import FurnitureDataService from "../services/furniture";
 import Axios from "axios";
-// import Location from "./Location"
+
 import GooglePlacesAutocomplete from "react-google-autocomplete";
-import Map from "./Map"
 
 const UploadItem = ({ user }) => {
 	const conditions = ["Brand New", "Like New", "Good", "Fair"];
@@ -23,22 +22,34 @@ const UploadItem = ({ user }) => {
 		"Others",
 	];
 
-  // const defaultLocation = {
-  //   address: 'Vancouver',
-  //   lat: 49.2827,
-  //   lng: -123.1207,
-  // }
+	// const defaultLocation = {
+	//   address: 'Vancouver',
+	//   lat: 49.2827,
+	//   lng: -123.1207,
+	// }
 
 	const navigate = useNavigate();
-	const [name, setName] = useState("");
-	const [price, setPrice] = useState("");
-	const [description, setDescription] = useState("");
-	const [category, setCategory] = useState("None");
-	const [imageUrl, setImageUrl] = useState("");
-	const [imageSelected, setImageSelected] = useState("");
+
+	let loc = useLocation();
+	let editing = loc.state !== null;
+	const backLink = editing ? loc.state.to : "all_products";
+	const _id = editing ? loc.state._id : "";
+
+	const [name, setName] = useState(editing ? loc.state.name : "");
+	const [price, setPrice] = useState(editing ? loc.state.price : 0);
+	const [description, setDescription] = useState(
+		editing ? loc.state.description : ""
+	);
+	const [category, setCategory] = useState(
+		editing ? loc.state.category : "Others"
+	);
+	const [imageUrl, setImageUrl] = useState(editing ? loc.state.imageUrl : "");
+	const [condition, setCondition] = useState(
+		editing && loc.state.condition ? loc.state.condition : conditions[0]
+	);
+	const [location, setLocation] = useState(editing ? loc.state.location : null);
 	const [imageLoading, setImageLoading] = useState(false);
-	const [condition, setCondition] = useState(conditions[0]);
-  const [location, setLocation] = useState(null);
+	const [imageSelected, setImageSelected] = useState("");
 
 	const saveItem = () => {
 		let data = {
@@ -49,14 +60,24 @@ const UploadItem = ({ user }) => {
 			category: category,
 			imageUrl: imageUrl,
 			condition: condition,
-      location: location,
+			location: location,
 		};
 
-		FurnitureDataService.uploadItem(data)
-			.then((res) => {
-				navigate("/all_products");
-			})
-			.catch((e) => console.log(e));
+		if (!editing) {
+			FurnitureDataService.uploadItem(data)
+				.then((res) => {
+					navigate("/all_products");
+				})
+				.catch((e) => console.log(e));
+		} else {
+			FurnitureDataService.updateItem({ ...data, _id: _id }).then((res) => {
+				if (backLink === "detailed_page") {
+					navigate(`/furniture/${_id}`);
+				} else {
+					navigate("/all_products");
+				}
+			});
+		}
 	};
 
 	const onChangeName = (e) => {
@@ -75,9 +96,9 @@ const UploadItem = ({ user }) => {
 		setCondition(con);
 	};
 
-  // const onChangeLocation = (e) => {
-  //   setLocation(e.target.value);
-  // }
+	// const onChangeLocation = (e) => {
+	//   setLocation(e.target.value);
+	// }
 
 	const uploadImage = () => {
 		const formData = new FormData();
@@ -103,11 +124,19 @@ const UploadItem = ({ user }) => {
 			{user && (
 				<div>
 					<h2 style={{ textAlign: "center", marginTop: "10px" }}>
-						Create item for sell on this website!
+						{`${editing ? "Edit" : "Create"} item for sell on this website!`}
 					</h2>
 					<Container className="main-container">
 						<Form>
 							<Form.Group>
+								{editing &&
+									(imageUrl === "" ? (
+										<div>No image uploaded</div>
+									) : (
+										<div>
+											{`Image uploaded with url ${imageUrl}, upload again to replace`}
+										</div>
+									))}
 								<div className="mb-3">
 									<input
 										type="file"
@@ -116,7 +145,6 @@ const UploadItem = ({ user }) => {
 										}}
 									/>
 									<Button onClick={uploadImage} variant="success">
-										{" "}
 										Upload
 									</Button>
 								</div>
@@ -152,6 +180,8 @@ const UploadItem = ({ user }) => {
 										<Button
 											variant="light"
 											key={i}
+											value={cat}
+											active={cat === category}
 											onClick={() => {
 												setCategory(cat);
 											}}
@@ -180,32 +210,36 @@ const UploadItem = ({ user }) => {
 							</DropdownButton>
 							<br />
 
-              <h5>Location</h5>
-              {/* <Location user={user} /> */}
+							<h5>Location</h5>
+							{/* <Location user={user} /> */}
+							{location && (
+								<div>
+									Current location chosen: {location.address} Upload location
+									again to replace
+								</div>
+							)}
 
-              <GooglePlacesAutocomplete
-                apiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY}
-                onPlaceSelected={(place) => {
-                  const location = {
-                    address: place.formatted_address,
-                    lat: place.geometry.location.lat(),
-                    lng: place.geometry.location.lng(),
-                  }
-                  console.log(location)
-                  setLocation(location);
-                }}
-              />
-              <br />
-              {/* <Map location={location} zoomLevel={17} /> */}
+							<GooglePlacesAutocomplete
+								apiKey={process.env.REACT_APP_GOOGLE_MAP_API_KEY}
+								onPlaceSelected={(place) => {
+									const location = {
+										address: place.formatted_address,
+										lat: place.geometry.location.lat(),
+										lng: place.geometry.location.lng(),
+									};
+									setLocation(location);
+								}}
+							/>
+							<br />
+							{/* <Map location={location} zoomLevel={17} /> */}
 							<Button
 								variant="primary"
 								onClick={saveItem}
 								className="mt-3"
-								disabled={imageLoading}
+								disabled={imageLoading || name === ""}
 							>
 								Submit
 							</Button>
-              
 						</Form>
 					</Container>
 				</div>

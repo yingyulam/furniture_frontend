@@ -23,32 +23,21 @@ const FurnitureList = ({
 	const [furniture, setFurniture] = useState([]);
 	const [searchTitle, setSearchTitle] = useState("");
 	const [searchCategory, setSearchCategory] = useState(_category);
-	// const [categories, setCategories] = useState(["All Categories"]);
 	const [conditions, setConditions] = useState(["All Conditions"]);
 	const [searchCondition, setSearchCondition] = useState("");
 	const [currentPage, setCurrentPage] = useState(0);
 	const [entriesPerPage, setEntriesPerPage] = useState(20);
-  const [sortFurniture, setSortFurniture] = useState("Sort By: Feature");
+	const [sortFurniture, setSortFurniture] = useState("Sort By: Feature");
 	// useCallback to define functions which should only be created once
 	// and will be dependencies for useEffect
 
-	// const retrieveCategories = useCallback(() => {
-	// 	FurnitureDataService.getCategories()
-	// 		.then((response) => {
-	// 			setCategories(["All Categories"].concat(response.data));
-	// 		})
-	// 		.catch((e) => {
-	// 			console.log(e);
-	// 		});
-	// }, []);
-
-  const features = [
-    "Sort by: Feature", 
-    "Price: Low to High", 
-    "Price: High to Low",
-    "Newest to Oldest",
-    "Oldest to Newest",
-  ];
+	const features = [
+		"Sort by: Feature",
+		"Price: Low to High",
+		"Price: High to Low",
+		"Newest to Oldest",
+		"Oldest to Newest",
+	];
 
 	const retrieveConditions = useCallback(() => {
 		FurnitureDataService.getConditions()
@@ -80,17 +69,8 @@ const FurnitureList = ({
 	const clearFilter = useCallback(() => {
 		setSearchTitle("");
 		setSearchCondition("All Conditions");
-		setSearchCategory("All Categories");
-    setSortFurniture("Sort by: Feature")
-	}, [setSearchTitle, setSearchCondition, setSearchCategory, setSortFurniture]);
-
-  // const clearFilter = () => {
-	// 	setSearchTitle("");
-	// 	setSearchCondition("All Conditions");
-	// 	setSearchCategory("All Categories");
-  //   setSortFurniture("Sort by: Feature")
-	// };
-
+		setSortFurniture("Sort by: Feature");
+	}, [setSearchTitle, setSearchCondition, setSortFurniture]);
 
 	const retrieveDifferentPage = useCallback(() => {
 		findByQueries();
@@ -121,19 +101,25 @@ const FurnitureList = ({
 	// 	setSearchCategory(searchCategory);
 	// };
 
-	const onChangeSearchCondition = (e) => {
-		const searchCondition = e.target.value;
-		setSearchCondition(searchCondition);
-	};
+	const onChangeSearchCondition = useCallback(
+		(e) => {
+			const searchCondition = e.target.value;
+			setSearchCondition(searchCondition);
+		},
+		[setSearchCondition]
+	);
 
-  const onChangeSortFurniture = (e) => {
-    const feature = e.target.value;
-    setSortFurniture(feature);
-  }
+	const onChangeSortFurniture = useCallback(
+		(e) => {
+			const feature = e.target.value;
+			setSortFurniture(feature);
+		},
+		[setSortFurniture]
+	);
 
-  const sortFurnitureByFeature = useCallback(() => {
-    let furnitureList = furniture;
-    const queries = {
+	const sortFurnitureByFeature = useCallback(() => {
+		let furnitureList = furniture;
+		const queries = {
 			title: searchTitle,
 			condition: searchCondition,
 			category: searchCategory,
@@ -143,34 +129,49 @@ const FurnitureList = ({
 				setFurniture(response.data.furniture);
 				setCurrentPage(response.data.page);
 				setEntriesPerPage(response.data.entries_per_page);
-        if (sortFurniture === "Price: Low to High") {
-          furnitureList.sort((a, b) => a.price - b.price);
-          setFurniture(furnitureList);
-        } else if (sortFurniture === "Price: High to Low") {
-          furnitureList.sort((a, b) => b.price - a.price);
-          setFurniture(furnitureList);
-        } else if (sortFurniture === "Oldest to Newest") {
-          furnitureList.sort((a, b) => Date.parse(a.date) - Date.parse(b.date));
-          setFurniture(furnitureList);
-        } else if (sortFurniture === "Newest to Oldest") {
-          furnitureList.sort((a, b) => Date.parse(b.date) - Date.parse(a.date));
-          setFurniture(furnitureList);
-        }
-        // furniture.map((fur, i) => {
-        //   console.log(Date.parse(fur.date))
-        // })
-        
+				if (sortFurniture === "Price: Low to High") {
+					furnitureList.sort((a, b) => a.price - b.price);
+					setFurniture(furnitureList);
+				} else if (sortFurniture === "Price: High to Low") {
+					furnitureList.sort((a, b) => b.price - a.price);
+					setFurniture(furnitureList);
+				} else if (sortFurniture === "Oldest to Newest") {
+					furnitureList.sort((a, b) => Date.parse(a.date) - Date.parse(b.date));
+					setFurniture(furnitureList);
+				} else if (sortFurniture === "Newest to Oldest") {
+					furnitureList.sort((a, b) => Date.parse(b.date) - Date.parse(a.date));
+					setFurniture(furnitureList);
+				}
+				// furniture.map((fur, i) => {
+				//   console.log(Date.parse(fur.date))
+				// })
 			})
 			.catch((e) => {
 				console.log(e);
 			});
+	}, [sortFurniture]);
 
-  }, [sortFurniture]);
+	const deleteFurniture = (objectId, googleId, index) => {
+		let data = {
+			objectId: objectId,
+			userId: googleId,
+		};
+		deleteFavorite(objectId);
+		FurnitureDataService.deleteItem(data)
+			.then((res) => {
+				setFurniture((prevState) => {
+					prevState.splice(index, 1);
+					return [...prevState];
+				});
+			})
+			.catch((e) => {
+				console.log(e);
+			});
+	};
 
-  useEffect(() => {
+	useEffect(() => {
 		sortFurnitureByFeature();
 	}, [sortFurnitureByFeature]);
-
 
 	return (
 		<div className="App">
@@ -185,7 +186,7 @@ const FurnitureList = ({
 							<Nav.Link href="/bedroom">Bedroom</Nav.Link>
 							<Nav.Link href="/bathroom">Bathroom</Nav.Link>
 							<Nav.Link href="/garden">Garden</Nav.Link>
-							<Nav.Link href="/others">Other Products</Nav.Link>
+							<Nav.Link href="/others">Others</Nav.Link>
 						</Nav>
 					</Navbar.Collapse>
 				</Container>
@@ -205,7 +206,11 @@ const FurnitureList = ({
 						</Col>
 						<Col>
 							<Form.Group className="mb-3">
-								<Form.Control as="select" onChange={onChangeSearchCondition}>
+								<Form.Control
+									as="select"
+									onChange={onChangeSearchCondition}
+									value={searchCondition}
+								>
 									{conditions.map((condition, i) => {
 										return (
 											<option value={condition} key={i}>
@@ -216,9 +221,13 @@ const FurnitureList = ({
 								</Form.Control>
 							</Form.Group>
 						</Col>
-            <Col>
+						<Col>
 							<Form.Group className="mb-3">
-								<Form.Control as="select" onChange={onChangeSortFurniture}>
+								<Form.Control
+									as="select"
+									onChange={onChangeSortFurniture}
+									value={sortFurniture}
+								>
 									{features.map((feature, i) => {
 										return (
 											<option value={feature} key={i}>
@@ -234,12 +243,11 @@ const FurnitureList = ({
 								Clear all filters
 							</Button>
 						</Col>
-
 					</Row>
 				</Form>
 				<Row className="movieRow">
 					{furniture.length > 0 ? (
-						furniture.map((furniture) => {
+						furniture.map((furniture, index) => {
 							return (
 								<Col key={furniture._id}>
 									<Card className="moviesListCard">
@@ -275,6 +283,41 @@ const FurnitureList = ({
 											<Link to={"/furniture/" + furniture._id}>
 												View Product
 											</Link>
+											<br />
+											{user && furniture.user.googleId === user.googleId && (
+												<Link
+													to={{ pathname: "/update" }}
+													state={{
+														to: "furniture_list",
+														_id: furniture._id,
+														user: furniture.user,
+														name: furniture.name,
+														price: furniture.price,
+														description: furniture.description,
+														category: furniture.category,
+														imageUrl: furniture.imageUrl,
+														condition: furniture.condition,
+														location: furniture.location,
+													}}
+												>
+													Edit
+												</Link>
+											)}
+											<br />
+											{user && furniture.user.googleId === user.googleId && (
+												<Button
+													variant="danger"
+													onClick={() => {
+														deleteFurniture(
+															furniture._id,
+															user.googleId,
+															index
+														);
+													}}
+												>
+													Delete
+												</Button>
+											)}
 										</Card.Body>
 									</Card>
 								</Col>
@@ -300,6 +343,7 @@ const FurnitureList = ({
 					onClick={() => {
 						setCurrentPage(currentPage + 1);
 					}}
+					disabled={furniture.length === 0}
 				>
 					Get next {entriesPerPage} results
 				</Button>

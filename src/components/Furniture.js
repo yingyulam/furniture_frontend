@@ -1,24 +1,26 @@
 import React, { useState, useEffect } from "react";
 import FurnitureDataService from "../services/furniture";
-import { useParams } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
 import Image from "react-bootstrap/Image";
+import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-import Map from "./Map"
+import Map from "./Map";
 import "./Movie.css";
 
-const Furniture = ({ user }) => {
+const Furniture = ({ user, deleteFavorite }) => {
 	let params = useParams();
 
+	const navigate = useNavigate();
 	const [furniture, setFurniture] = useState({
 		id: null,
 		name: "",
 		category: "",
 		price: "",
-    user: [],
-    location: null,
+		user: [],
+		location: null,
 	});
 
 	useEffect(() => {
@@ -26,7 +28,6 @@ const Furniture = ({ user }) => {
 			FurnitureDataService.getFurnitureById(id)
 				.then((response) => {
 					setFurniture(response.data);
-          console.log(response.data)
 				})
 				.catch((e) => {
 					console.log(e);
@@ -35,11 +36,20 @@ const Furniture = ({ user }) => {
 		getFurniture(params.id);
 	}, [params.id]);
 
-  const mapKey = process.env.REACT_APP_GOOGLE_MAP_API_KEY;
-
-
-  console.log(furniture);
-
+	const deleteFurniture = (objectId, googleId) => {
+		let data = {
+			objectId: objectId,
+			userId: googleId,
+		};
+		deleteFavorite(objectId);
+		FurnitureDataService.deleteItem(data)
+			.then((res) => {
+				navigate("/all_products");
+			})
+			.catch((e) => {
+				console.log(e);
+			});
+	};
 	return (
 		<div>
 			<Container>
@@ -61,23 +71,16 @@ const Furniture = ({ user }) => {
 						<Card>
 							<Card.Header as="h3">{furniture.name}</Card.Header>
 							<Card.Body>
-                {furniture.location 
-                  && <Card.Text>Location: {furniture.location.address}
-                    </Card.Text>}
+								{furniture.location && (
+									<Card.Text>Location: {furniture.location.address}</Card.Text>
+								)}
+								<Card.Text>Price: ${furniture.price}</Card.Text>
+								<Card.Text>Condition: {furniture.condition}</Card.Text>
+								<Card.Text>Category: {furniture.category}</Card.Text>
 								<Card.Text>
-									Price: ${furniture.price}
+									Uploaded time: {new Date().toLocaleDateString()}
 								</Card.Text>
-								<Card.Text>
-									Condition: {furniture.condition}
-								</Card.Text>
-								<Card.Text>
-									{furniture.description}
-								</Card.Text>
-                
-								{/* { user &&
-                  <Link to={"/movies/" + params.id + "/review"} >
-                    Add Review
-                  </Link>} */}
+								<Card.Text>{furniture.description}</Card.Text>
 							</Card.Body>
 						</Card>
 
@@ -86,59 +89,43 @@ const Furniture = ({ user }) => {
 							<Card.Body>
 								<Card.Text>Name: {furniture.user.name}</Card.Text>
 								<Card.Text>Contact: {furniture.user.email}</Card.Text>
+								<br />
+								{user && furniture.user.googleId === user.googleId && (
+									<Link
+										to={{ pathname: "/update" }}
+										state={{
+											to: "detailed_page",
+											_id: furniture._id,
+											user: furniture.user,
+											name: furniture.name,
+											price: furniture.price,
+											description: furniture.description,
+											category: furniture.category,
+											imageUrl: furniture.imageUrl,
+											condition: furniture.condition,
+											location: furniture.location,
+										}}
+									>
+										Edit
+									</Link>
+								)}
+								<br />
+								{user && furniture.user.googleId === user.googleId && (
+									<Button
+										variant="danger"
+										onClick={() => {
+											deleteFurniture(furniture._id, user.googleId);
+										}}
+									>
+										Delete
+									</Button>
+								)}
 							</Card.Body>
 						</Card>
 
-            {furniture.location 
-              && <Map location={furniture.location} zoomLevel={15} /> }
-
-						{/* <h2>Reviews</h2>
-            <br></br>
-            { furniture.reviews.map((review, index) => {
-              return (
-                <div className="d-flex">
-                  <div className="flex-shrink-0 reviewsText">
-                    <h5>{review.name + " review on "} { moment(review.date).format("Do MMMM YYYY") }</h5>
-                    <p className="review">{review.review}</p>
-                    { user && user.googleId === review.user_id &&
-                      <Row>
-                        <Col>
-                          <Link to={{
-                            pathname: "/movies/"+params.id+"/review"
-                          }}
-                            state = {{
-                              currentReview: review
-                          }} >
-                            Edit
-                          </Link>
-                        </Col>
-                        <Col>
-                          <Button variant="link" onClick={ () =>
-                            { 
-                              // TODO: Implement delete behavior
-                              MovieDataService.deleteReview({...review, review_id: review._id})
-                                .then(response => {
-                                  setFurniture((prevState) => {
-                                    prevState.reviews.splice(index, 1);
-                                    return ({
-                                      ...prevState
-                                    })
-                                  })
-                                })
-                                .catch(e => {
-                                  console.log(e);
-                                })                              
-
-                            } }>
-                              Delete
-                            </Button>
-                        </Col>
-                      </Row>
-                    }
-                  </div>
-                </div>
-              ) */
-						/* })} */}
+						{furniture.location && (
+							<Map location={furniture.location} zoomLevel={15} />
+						)}
 					</Col>
 				</Row>
 			</Container>
