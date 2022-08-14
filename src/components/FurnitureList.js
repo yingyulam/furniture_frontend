@@ -265,7 +265,7 @@ const FurnitureList = ({
 											onError={({ currentTarget }) => {
 												currentTarget.onerror = null;
 												currentTarget.src =
-													"/images/NoPosterAvailable-crop.jpg";
+													"/images/NoImageAvailable.jpg";
 											}}
 										/>
 										<Card.Body>

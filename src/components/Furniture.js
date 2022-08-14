@@ -7,7 +7,6 @@ import Image from "react-bootstrap/Image";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Map from "./Map"
-import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import "./Movie.css";
 
 const Furniture = ({ user }) => {
@@ -52,7 +51,7 @@ const Furniture = ({ user }) => {
 								src={furniture.imageUrl}
 								onError={({ currentTarget }) => {
 									currentTarget.onerror = null;
-									currentTarget.src = "/images/NoPosterAvailable-crop.jpg";
+									currentTarget.src = "/images/NoImageAvailable.jpg";
 								}}
 								fluid
 							/>

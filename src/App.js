@@ -90,9 +90,10 @@ function App() {
 	}, [updateFavorites]);
 
 	return (
+ 
 		<GoogleOAuthProvider clientId={clientId}>
 			<div className="App">
-				<Navbar bg="primary" expand="lg" sticky="top" variant="dark">
+				<Navbar bg="primary" expand="lg" /*sticky="top"*/ variant="dark">
 					<Container className="container-fluid">
 						<Navbar.Brand className="brand" href="/">
 							<img
