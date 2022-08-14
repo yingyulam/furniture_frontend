@@ -32,9 +32,11 @@ const UploadItem = ({ user }) => {
 
 	let loc = useLocation();
 	let editing = loc.state !== null;
+	const backLink = editing ? loc.state.to : "all_products";
+	const _id = editing ? loc.state._id : "";
 
 	const [name, setName] = useState(editing ? loc.state.name : "");
-	const [price, setPrice] = useState(editing ? loc.state.price : "");
+	const [price, setPrice] = useState(editing ? loc.state.price : 0);
 	const [description, setDescription] = useState(
 		editing ? loc.state.description : ""
 	);
@@ -68,11 +70,13 @@ const UploadItem = ({ user }) => {
 				})
 				.catch((e) => console.log(e));
 		} else {
-			FurnitureDataService.updateItem({ ...data, _id: loc.state._id }).then(
-				(res) => {
+			FurnitureDataService.updateItem({ ...data, _id: _id }).then((res) => {
+				if (backLink === "detailed_page") {
+					navigate(`/furniture/${_id}`);
+				} else {
 					navigate("/all_products");
 				}
-			);
+			});
 		}
 	};
 
@@ -223,7 +227,6 @@ const UploadItem = ({ user }) => {
 										lat: place.geometry.location.lat(),
 										lng: place.geometry.location.lng(),
 									};
-									// console.log(location);
 									setLocation(location);
 								}}
 							/>
@@ -233,7 +236,7 @@ const UploadItem = ({ user }) => {
 								variant="primary"
 								onClick={saveItem}
 								className="mt-3"
-								disabled={imageLoading}
+								disabled={imageLoading || name === ""}
 							>
 								Submit
 							</Button>

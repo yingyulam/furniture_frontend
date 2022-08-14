@@ -32,27 +32,6 @@ class FurnitureDataService {
 		);
 	}
 
-	// createReview(data) {
-	// 	return axios.post(
-	// 		`${process.env.REACT_APP_API_BASE_URL}/api/v1/furniture/review`,
-	// 		data
-	// 	);
-	// }
-
-	// updateReview(data) {
-	// 	return axios.put(
-	// 		`${process.env.REACT_APP_API_BASE_URL}/api/v1/furniture/review`,
-	// 		data
-	// 	);
-	// }
-
-	// deleteReview(data) {
-	// 	return axios.delete(
-	// 		`${process.env.REACT_APP_API_BASE_URL}/api/v1/furniture/review`,
-	// 		data
-	// 	);
-	// }
-
 	uploadItem(data) {
 		return axios.post(
 			`${process.env.REACT_APP_API_BASE_URL}/api/v1/furniture/upload`,

@@ -186,7 +186,7 @@ const FurnitureList = ({
 							<Nav.Link href="/bedroom">Bedroom</Nav.Link>
 							<Nav.Link href="/bathroom">Bathroom</Nav.Link>
 							<Nav.Link href="/garden">Garden</Nav.Link>
-							<Nav.Link href="/others">Other Products</Nav.Link>
+							<Nav.Link href="/others">Others</Nav.Link>
 						</Nav>
 					</Navbar.Collapse>
 				</Container>
@@ -286,9 +286,9 @@ const FurnitureList = ({
 											<br />
 											{user && furniture.user.googleId === user.googleId && (
 												<Link
-													className="ml-3"
 													to={{ pathname: "/update" }}
 													state={{
+														to: "furniture_list",
 														_id: furniture._id,
 														user: furniture.user,
 														name: furniture.name,
@@ -343,6 +343,7 @@ const FurnitureList = ({
 					onClick={() => {
 						setCurrentPage(currentPage + 1);
 					}}
+					disabled={furniture.length === 0}
 				>
 					Get next {entriesPerPage} results
 				</Button>
