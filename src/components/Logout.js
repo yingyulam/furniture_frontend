@@ -16,7 +16,7 @@ function Logout({ setUser }) {
 
   return (
     <div>
-    <Button variant="danger" onClick={onSuccess}>Logout</Button>
+    <Button variant="light" onClick={onSuccess}>Logout</Button>
     </div>
   );
 }

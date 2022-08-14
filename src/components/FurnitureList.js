@@ -10,6 +10,8 @@ import Card from "react-bootstrap/Card";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { BsStar, BsStarFill } from "react-icons/bs";
+import NavDropdown from 'react-bootstrap/NavDropdown';
+import Offcanvas from 'react-bootstrap/Offcanvas';
 import "./FurnitureList.css";
 
 const FurnitureList = ({
@@ -174,10 +176,12 @@ const FurnitureList = ({
 	}, [sortFurnitureByFeature]);
 
 	return (
+    
 		<div className="App">
-			<Navbar bg="secondary" expand="lg" variant="dark">
+    
+			<Navbar bg="light" expand="lg" variant="light">
 				<Container className="container-fluid">
-					<Navbar.Brand className="brand">Furniture Categories</Navbar.Brand>
+					{/* <Navbar.Brand className="brand">Furniture Categories</Navbar.Brand> */}
 					<Navbar.Toggle aria-controls="basic-navbar-nav" />
 					<Navbar.Collapse id="responsive-navbar-nav">
 						<Nav className="ml-auto sidebar">
@@ -191,6 +195,18 @@ const FurnitureList = ({
 					</Navbar.Collapse>
 				</Container>
 			</Navbar>
+      {/* <Container>
+      <Navbar>
+        <NavDropdown title="Products" id="basic-nav-dropdown">
+          <NavDropdown.Item href="/all_products">All Products</NavDropdown.Item>
+          <NavDropdown.Item href="/living_room">Living Room</NavDropdown.Item>
+          <NavDropdown.Item href="/bedroom">Bedroom</NavDropdown.Item>
+          <NavDropdown.Item href="/bathroom">Bathroom</NavDropdown.Item>
+          <NavDropdown.Item href="/garden">Garden</NavDropdown.Item>
+          <NavDropdown.Item href="/others">Others</NavDropdown.Item>
+        </NavDropdown>
+      </Navbar>
+      </Container> */}
 			<Container className="main-container">
 				<Form>
 					<Row>
@@ -198,7 +214,7 @@ const FurnitureList = ({
 							<Form.Group className="mb-3">
 								<Form.Control
 									type="text"
-									placeholder="Filter by title"
+									placeholder="Search"
 									value={searchTitle}
 									onChange={onChangeSearchTitle}
 								/>

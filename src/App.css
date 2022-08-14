@@ -1,5 +1,5 @@
 .App {
-  background-color: white;
+  background-color: rgb(249, 249, 249);
   min-height: 100vh;
   padding-bottom: 100px;
 }
@@ -14,7 +14,7 @@ body {
 }
 
 .navbar-brand.brand {
-  color: white;
+  color: black;
   padding: 0;
 }
 

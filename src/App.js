@@ -6,6 +6,7 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
+import Card from 'react-bootstrap/Card';
 
 import Login from "./components/Login";
 import Logout from "./components/Logout";
@@ -16,6 +17,7 @@ import AddReview from "./components/AddReview";
 import FavoritesDataService from "./services/favorites";
 import MyAccount from "./components/MyAccount";
 import UploadItem from "./components/UploadItem";
+import NavDropdown from 'react-bootstrap/NavDropdown';
 
 import "./App.css";
 
@@ -84,19 +86,33 @@ function App() {
  
 		<GoogleOAuthProvider clientId={clientId}>
 			<div className="App">
-				<Navbar bg="primary" expand="lg" /*sticky="top"*/ variant="dark">
+				<Navbar bg="light" variant="light" expand="lg" sticky="top" >
 					<Container className="container-fluid">
 						<Navbar.Brand className="brand" href="/">
 							<img
-								src="/images/Sofa.svg"
-								alt="movies logo"
+								src="/images/furniture-logo.jpg"
+								alt="furniture logo"
 								className="moviesLogo"
 							/>
 							Once Upon A Furniture
 						</Navbar.Brand>
 						<Navbar.Toggle aria-controls="basic-navbar-nav" />
-						<Navbar.Collapse id="responsive-navbar-nav">
-							<Nav className="ml-auto">
+						{/* <Navbar.Collapse id="responsive-navbar-nav"> */}
+
+              {user ? <NavDropdown title={`Hello, ${user.name}`} id="basic-nav-dropdown">
+                  <NavDropdown.Item href="/profile">My Account</NavDropdown.Item>
+                  <NavDropdown.Item href="/all_products">All Products</NavDropdown.Item>
+                  <NavDropdown.Item href="/upload">Create New Listing</NavDropdown.Item>
+                  <NavDropdown.Divider />
+                  <Logout setUser={setUser} />
+                </NavDropdown>
+                  :
+                <NavDropdown title="Sign in" id="basic-nav-dropdown">
+                  <Login setUser={setUser} />
+                </NavDropdown>}
+							
+            {/* <Navbar.Collapse>
+              <Nav className="ml-auto">
 								<Nav.Link as={Link} to={"/all_products"}>
 									Products
 								</Nav.Link>
@@ -106,15 +122,16 @@ function App() {
 										My Account
 									</Nav.Link>
 								)}
-							</Nav>
+                </Nav> 
 						</Navbar.Collapse>
+            
 
 						{user && (
 							<Button href="/upload" variant="secondary">
 								+ Create New Listing
 							</Button>
 						)}
-						{user ? <Logout setUser={setUser} /> : <Login setUser={setUser} />}
+						{user ? <Logout setUser={setUser} /> : <Login setUser={setUser} />} */}
 					</Container>
 				</Navbar>
 
