@@ -92,99 +92,101 @@ function App() {
  
 		<GoogleOAuthProvider clientId={clientId}>
 			<div className="App">
-				<Navbar bg="light" variant="light" expand="lg"  >
-					<Container className="container-fluid">
-						<Navbar.Brand className="brand" href="/">
-							<img 
-								src="/images/furniture_logo.png"
-								alt="furniture logo"
-								className="furnitureLogo"
-							/>
-						</Navbar.Brand>
-						<Navbar.Toggle aria-controls="basic-navbar-nav" />
-						{/* <Navbar.Collapse id="responsive-navbar-nav"> */}
-            <Nav>
+        <div>
+          <Navbar bg="light" variant="light" expand="lg"  >
+            <Container className="container-fluid">
+              <Navbar.Brand className="brand" href="/">
+                <img 
+                  src="/images/furniture_logo.png"
+                  alt="furniture logo"
+                  className="furnitureLogo"
+                />
+              </Navbar.Brand>
+              <Navbar.Toggle aria-controls="basic-navbar-nav" />
+              {/* <Navbar.Collapse id="responsive-navbar-nav"> */}
+              <Nav>
 
-            {user ? <NavDropdown title={`Hello, ${user.name}`} id="basic-nav-dropdown">
-                  <NavDropdown.Item href="/profile">My Account</NavDropdown.Item>
-                  <NavDropdown.Item href="/all_products">All Products</NavDropdown.Item>
-                  <NavDropdown.Item href="/upload">Post Ad</NavDropdown.Item>
-                  <NavDropdown.Divider />
-                  <Logout setUser={setUser} />
-                </NavDropdown>
-                  :
-                <NavDropdown title="Sign in" id="basic-nav-dropdown">
-                  <Login setUser={setUser} />
-                </NavDropdown>}
-              <Button variant="secondary" onClick={handleShow}>
-                Post Ad
-              </Button>
+              {user ? <NavDropdown title={`Hello, ${user.name}`} id="basic-nav-dropdown">
+                    <NavDropdown.Item href="/profile">My Account</NavDropdown.Item>
+                    <NavDropdown.Item href="/all_products">All Products</NavDropdown.Item>
+                    <NavDropdown.Item href="/upload">Post Ad</NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <Logout setUser={setUser} />
+                  </NavDropdown>
+                    :
+                  <NavDropdown title="Sign in" id="basic-nav-dropdown">
+                    <Login setUser={setUser} />
+                  </NavDropdown>}
+                <Button variant="secondary" onClick={handleShow}>
+                  Post Ad
+                </Button>
 
-              <Modal 
-                show={show} 
-                onHide={handleClose}
-                backdrop="static"
-                keyboard={false}>
-                {/* <Modal.Header closeButton>
-                  <Modal.Title>Create item for sell on this website!</Modal.Title>
-                </Modal.Header> */}
-                <Modal.Body><UploadItem user={user}/></Modal.Body>
-                <Modal.Footer>
-                  <Button variant="warning" onClick={handleClose}>
-                    Close
-                  </Button>
-                </Modal.Footer>
-              </Modal>
+                <Modal 
+                  show={show} 
+                  onHide={handleClose}
+                  backdrop="static"
+                  keyboard={false}>
+                  {/* <Modal.Header closeButton>
+                    <Modal.Title>Create item for sell on this website!</Modal.Title>
+                  </Modal.Header> */}
+                  <Modal.Body><UploadItem user={user}/></Modal.Body>
+                  <Modal.Footer>
+                    <Button variant="warning" onClick={handleClose}>
+                      Close
+                    </Button>
+                  </Modal.Footer>
+                </Modal>
+                </Nav>
+                
+              {/* <Navbar.Collapse>
+                <Nav className="ml-auto">
+                  <Nav.Link as={Link} to={"/all_products"}>
+                    Products
+                  </Nav.Link>
+
+                  {user && (
+                    <Nav.Link as={Link} to={"/profile"}>
+                      My Account
+                    </Nav.Link>
+                  )}
+                  </Nav> 
+              </Navbar.Collapse>
+              
+
+              {user && (
+                <Button href="/upload" variant="secondary">
+                  + Create New Listing
+                </Button>
+              )}
+              {user ? <Logout setUser={setUser} /> : <Login setUser={setUser} />} */}
+            </Container>
+          </Navbar>
+
+          <Navbar className="title" bg="light" expand="lg" variant="light" >
+          <Container className="container-fluid">
+            <Nav className="m-auto">
+              <Nav.Link href="/">ONCE UPON A FURNITURE</Nav.Link>
+            </Nav>
+          </Container>
+        </Navbar>
+
+        <Navbar className="category" bg="light" expand="lg" variant="light" >
+          <Container className="container-fluid">
+            {/* <Navbar.Brand className="brand">Once Upon A Furniture</Navbar.Brand> */}
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse id="responsive-navbar-nav">
+              <Nav className="m-auto">
+                <Nav.Link href="/all_products">All Products</Nav.Link>
+                <Nav.Link href="/living_room">Living Room</Nav.Link>
+                <Nav.Link href="/bedroom">Bedroom</Nav.Link>
+                <Nav.Link href="/bathroom">Bathroom</Nav.Link>
+                <Nav.Link href="/garden">Garden</Nav.Link>
+                <Nav.Link href="/others">Others</Nav.Link>
               </Nav>
-							
-            {/* <Navbar.Collapse>
-              <Nav className="ml-auto">
-								<Nav.Link as={Link} to={"/all_products"}>
-									Products
-								</Nav.Link>
-
-								{user && (
-									<Nav.Link as={Link} to={"/profile"}>
-										My Account
-									</Nav.Link>
-								)}
-                </Nav> 
-						</Navbar.Collapse>
-            
-
-						{user && (
-							<Button href="/upload" variant="secondary">
-								+ Create New Listing
-							</Button>
-						)}
-						{user ? <Logout setUser={setUser} /> : <Login setUser={setUser} />} */}
-					</Container>
-				</Navbar>
-
-        <Navbar className="title" bg="light" expand="lg" variant="light" >
-				<Container className="container-fluid">
-					<Nav className="m-auto">
-            <Nav.Link href="/">ONCE UPON A FURNITURE</Nav.Link>
-          </Nav>
-        </Container>
-      </Navbar>
-
-			<Navbar className="category" bg="light" expand="lg" variant="light" >
-				<Container className="container-fluid">
-					{/* <Navbar.Brand className="brand">Once Upon A Furniture</Navbar.Brand> */}
-					<Navbar.Toggle aria-controls="basic-navbar-nav" />
-					<Navbar.Collapse id="responsive-navbar-nav">
-						<Nav className="m-auto">
-							<Nav.Link href="/all_products">All Products</Nav.Link>
-							<Nav.Link href="/living_room">Living Room</Nav.Link>
-							<Nav.Link href="/bedroom">Bedroom</Nav.Link>
-							<Nav.Link href="/bathroom">Bathroom</Nav.Link>
-							<Nav.Link href="/garden">Garden</Nav.Link>
-							<Nav.Link href="/others">Others</Nav.Link>
-						</Nav>
-					</Navbar.Collapse>
-				</Container>
-			</Navbar>
+            </Navbar.Collapse>
+          </Container>
+        </Navbar>
+      </div>
 
         
 				<Routes>

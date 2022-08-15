@@ -6,6 +6,7 @@
   margin-top: 15px;
 }
 
+
 .moviesListCard {
   position: relative;
   width: 18rem;
@@ -17,6 +18,10 @@ div.poster {
 
 .smallPoster {
   user-select: none;
+  width: 286px;
+  min-height: 300px;
+  height:300px;
+  object-fit: cover;
 }
 
 .star {
@@ -47,3 +52,4 @@ div.poster {
   margin-bottom: 20px;
   font-size: 30px;
 }
+

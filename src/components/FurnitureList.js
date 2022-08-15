@@ -7,9 +7,8 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
 import Card from "react-bootstrap/Card";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
-import { BsHeart, BsHeartFill } from "react-icons/bs";
+import { BsFillGeoAltFill, BsHeart, BsHeartFill } from "react-icons/bs";
+import Moment from 'react-moment';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Modal from 'react-bootstrap/Modal';
 import UploadItem from './UploadItem';
@@ -233,6 +232,7 @@ const FurnitureList = ({
 						</Col>
 					</Row>
 				</Form>
+        
 				<Row className="movieRow">
 					{furniture.length > 0 ? (
 						furniture.map((furniture, index) => {
@@ -267,11 +267,17 @@ const FurnitureList = ({
 										<Card.Body>
 											<Card.Title> {furniture.name} </Card.Title>
 											<Card.Text>Price: ${furniture.price}</Card.Text>
-											<Card.Text>{furniture.description}</Card.Text>
+                      {furniture.location && (
+                        <Card.Text>{furniture.location.address}</Card.Text>
+                      )}
+
+                      <Row>
+                      <Col>
 											<Link to={"/furniture/" + furniture._id}>
-												View Product
+												View
 											</Link>
-											<br />
+                      </Col>
+                      <Col>
 											{user && furniture.user.googleId === user.googleId && (
 												<Link
 													to={{ pathname: "/update" }}
@@ -291,10 +297,12 @@ const FurnitureList = ({
 													Edit
 												</Link>
 											)}
-											<br />
+                      </Col>
+                      <Col>
 											{user && furniture.user.googleId === user.googleId && (
 												<Button
-													variant="secondary"
+                          size="sm"
+													variant="outline-secondary"
 													onClick={() => {
 														deleteFurniture(
 															furniture._id,
@@ -306,7 +314,14 @@ const FurnitureList = ({
 													Delete
 												</Button>
 											)}
+                      </Col>
+                      </Row>
 										</Card.Body>
+                    <Card.Footer>
+                      <small className="text-muted">
+                        Updated <Moment fromNow>{furniture.date}</Moment>
+                      </small>
+                    </Card.Footer>
 									</Card>
 								</Col>
 							);
