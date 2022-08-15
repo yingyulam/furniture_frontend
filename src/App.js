@@ -6,7 +6,6 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
-import Card from 'react-bootstrap/Card';
 
 import Login from "./components/Login";
 import Logout from "./components/Logout";
@@ -19,6 +18,7 @@ import MyAccount from "./components/MyAccount";
 import UploadItem from "./components/UploadItem";
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Modal from 'react-bootstrap/Modal';
+import Footer from "./components/Footer"
 import "./App.css";
 
 const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
@@ -186,6 +186,7 @@ function App() {
             </Navbar.Collapse>
           </Container>
         </Navbar>
+
       </div>
 
         
@@ -307,8 +308,10 @@ function App() {
 						element={<AddReview user={user} />}
 					/>
 				</Routes>
+        <Footer />
 			</div>
 		</GoogleOAuthProvider>
+    
 	);
 }
 

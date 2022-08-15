@@ -7,9 +7,9 @@
 }
 
 
-.moviesListCard {
+.furnitureListCard {
   position: relative;
-  width: 18rem;
+  width: 300px;
 }
 
 div.poster {
@@ -18,7 +18,7 @@ div.poster {
 
 .smallPoster {
   user-select: none;
-  width: 286px;
+  width: 298px;
   min-height: 300px;
   height:300px;
   object-fit: cover;
@@ -26,7 +26,7 @@ div.poster {
 
 .star {
   position: absolute;
-  width: 34em;
+  width: 35.5em;
   height: 1.5em;
   filter: drop-shadow(2px 4px 6px rgb(219, 211, 211));
 }
@@ -36,7 +36,8 @@ div.poster {
 }
 
 .starEmpty {
-  fill: rgb(214, 57, 83);
+  /* fill: rgb(214, 57, 83); */
+  fill: gray;
 }
 
 .category {
@@ -53,3 +54,14 @@ div.poster {
   font-size: 30px;
 }
 
+.name {
+  margin-bottom: 5px;
+}
+
+.address {
+  font-size: 12px;
+}
+
+.button {
+  float: right;
+}

@@ -238,7 +238,7 @@ const FurnitureList = ({
 						furniture.map((furniture, index) => {
 							return (
 								<Col key={furniture._id}>
-									<Card className="moviesListCard">
+									<Card className="furnitureListCard" bg="light">
 										{user &&
 											(favorites.includes(furniture._id) ? (
 												<BsHeartFill
@@ -265,18 +265,15 @@ const FurnitureList = ({
 											}}
 										/>
 										<Card.Body>
-											<Card.Title> {furniture.name} </Card.Title>
-											<Card.Text>Price: ${furniture.price}</Card.Text>
+                      
+                      <Card.Title>${furniture.price}</Card.Title>
+											<Card.Text className="name"> {furniture.name} </Card.Text>
+											
                       {furniture.location && (
-                        <Card.Text>{furniture.location.address}</Card.Text>
+                        <Card.Text className="address">{furniture.location.address}</Card.Text>
                       )}
 
-                      <Row>
-                      <Col>
-											<Link to={"/furniture/" + furniture._id}>
-												View
-											</Link>
-                      </Col>
+                      {/* <Row>
                       <Col>
 											{user && furniture.user.googleId === user.googleId && (
 												<Link
@@ -315,11 +312,14 @@ const FurnitureList = ({
 												</Button>
 											)}
                       </Col>
-                      </Row>
+                      </Row> */}
 										</Card.Body>
                     <Card.Footer>
                       <small className="text-muted">
                         Updated <Moment fromNow>{furniture.date}</Moment>
+                        <Button className="button" size="sm" href={"/furniture/" + furniture._id} variant="outline-secondary">
+                        Details
+                      </Button>
                       </small>
                     </Card.Footer>
 									</Card>
