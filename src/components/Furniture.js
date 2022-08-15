@@ -8,6 +8,7 @@ import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Map from "./Map";
+import moment from 'moment';
 import "./Movie.css";
 
 const Furniture = ({ user, deleteFavorite }) => {
@@ -61,7 +62,7 @@ const Furniture = ({ user, deleteFavorite }) => {
 								src={furniture.imageUrl}
 								onError={({ currentTarget }) => {
 									currentTarget.onerror = null;
-									currentTarget.src = "/images/NoPosterAvailable-crop.jpg";
+									currentTarget.src = "/images/NoImageAvailable.jpg";
 								}}
 								fluid
 							/>
@@ -78,7 +79,7 @@ const Furniture = ({ user, deleteFavorite }) => {
 								<Card.Text>Condition: {furniture.condition}</Card.Text>
 								<Card.Text>Category: {furniture.category}</Card.Text>
 								<Card.Text>
-									Uploaded time: {new Date().toLocaleDateString()}
+									Last update: {moment(furniture.date).format("Do MMMM YYYY")}
 								</Card.Text>
 								<Card.Text>{furniture.description}</Card.Text>
 							</Card.Body>

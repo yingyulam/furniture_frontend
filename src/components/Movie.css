@@ -13,3 +13,14 @@ p.review {
 .bigPicture {
   float: right;
 }
+
+.navbar-brand.category {
+  color: black;
+  padding: 0;
+  font-size: 50px;
+  text-align: center;
+}
+
+.div.title{
+  display: flex;
+}

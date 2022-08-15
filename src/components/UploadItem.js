@@ -118,7 +118,7 @@ const UploadItem = ({ user }) => {
 		<div>
 			{!user && (
 				<h2 style={{ textAlign: "center", marginTop: "10px" }}>
-					Please log in to upload things to sell!
+					Please sign in to to sell!
 				</h2>
 			)}
 			{user && (
@@ -144,7 +144,7 @@ const UploadItem = ({ user }) => {
 											setImageSelected(e.target.files[0]);
 										}}
 									/>
-									<Button onClick={uploadImage} variant="success">
+									<Button onClick={uploadImage} variant="warning">
 										Upload
 									</Button>
 								</div>
@@ -233,7 +233,7 @@ const UploadItem = ({ user }) => {
 							<br />
 							{/* <Map location={location} zoomLevel={17} /> */}
 							<Button
-								variant="primary"
+								variant="warning"
 								onClick={saveItem}
 								className="mt-3"
 								disabled={imageLoading || name === ""}

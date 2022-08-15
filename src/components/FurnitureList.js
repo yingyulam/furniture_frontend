@@ -7,9 +7,11 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
 import Card from "react-bootstrap/Card";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
-import { BsStar, BsStarFill } from "react-icons/bs";
+import { BsFillGeoAltFill, BsHeart, BsHeartFill } from "react-icons/bs";
+import Moment from 'react-moment';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Modal from 'react-bootstrap/Modal';
+import UploadItem from './UploadItem';
 import "./FurnitureList.css";
 
 const FurnitureList = ({
@@ -174,23 +176,8 @@ const FurnitureList = ({
 	}, [sortFurnitureByFeature]);
 
 	return (
+    
 		<div className="App">
-			<Navbar bg="secondary" expand="lg" variant="dark">
-				<Container className="container-fluid">
-					<Navbar.Brand className="brand">Furniture Categories</Navbar.Brand>
-					<Navbar.Toggle aria-controls="basic-navbar-nav" />
-					<Navbar.Collapse id="responsive-navbar-nav">
-						<Nav className="ml-auto sidebar">
-							<Nav.Link href="/all_products">All Products</Nav.Link>
-							<Nav.Link href="/living_room">Living Room</Nav.Link>
-							<Nav.Link href="/bedroom">Bedroom</Nav.Link>
-							<Nav.Link href="/bathroom">Bathroom</Nav.Link>
-							<Nav.Link href="/garden">Garden</Nav.Link>
-							<Nav.Link href="/others">Others</Nav.Link>
-						</Nav>
-					</Navbar.Collapse>
-				</Container>
-			</Navbar>
 			<Container className="main-container">
 				<Form>
 					<Row>
@@ -198,7 +185,7 @@ const FurnitureList = ({
 							<Form.Group className="mb-3">
 								<Form.Control
 									type="text"
-									placeholder="Filter by title"
+									placeholder="Search Products"
 									value={searchTitle}
 									onChange={onChangeSearchTitle}
 								/>
@@ -222,7 +209,7 @@ const FurnitureList = ({
 							</Form.Group>
 						</Col>
 						<Col>
-							<Form.Group className="mb-3">
+							<Form.Group variant="light" className="mb-3">
 								<Form.Control
 									as="select"
 									onChange={onChangeSortFurniture}
@@ -239,12 +226,13 @@ const FurnitureList = ({
 							</Form.Group>
 						</Col>
 						<Col>
-							<Button variant="warning" type="button" onClick={clearFilter}>
+							<Button variant="outline-secondary" type="button" onClick={clearFilter}>
 								Clear all filters
 							</Button>
 						</Col>
 					</Row>
 				</Form>
+        
 				<Row className="movieRow">
 					{furniture.length > 0 ? (
 						furniture.map((furniture, index) => {
@@ -253,14 +241,14 @@ const FurnitureList = ({
 									<Card className="moviesListCard">
 										{user &&
 											(favorites.includes(furniture._id) ? (
-												<BsStarFill
+												<BsHeartFill
 													className="star starFill"
 													onClick={() => {
 														deleteFavorite(furniture._id);
 													}}
 												/>
 											) : (
-												<BsStar
+												<BsHeart
 													className="star starEmpty"
 													onClick={() => {
 														addFavorite(furniture._id);
@@ -273,17 +261,23 @@ const FurnitureList = ({
 											onError={({ currentTarget }) => {
 												currentTarget.onerror = null;
 												currentTarget.src =
-													"/images/NoPosterAvailable-crop.jpg";
+													"/images/NoImageAvailable.jpg";
 											}}
 										/>
 										<Card.Body>
 											<Card.Title> {furniture.name} </Card.Title>
 											<Card.Text>Price: ${furniture.price}</Card.Text>
-											<Card.Text>{furniture.description}</Card.Text>
+                      {furniture.location && (
+                        <Card.Text>{furniture.location.address}</Card.Text>
+                      )}
+
+                      <Row>
+                      <Col>
 											<Link to={"/furniture/" + furniture._id}>
-												View Product
+												View
 											</Link>
-											<br />
+                      </Col>
+                      <Col>
 											{user && furniture.user.googleId === user.googleId && (
 												<Link
 													to={{ pathname: "/update" }}
@@ -303,10 +297,12 @@ const FurnitureList = ({
 													Edit
 												</Link>
 											)}
-											<br />
+                      </Col>
+                      <Col>
 											{user && furniture.user.googleId === user.googleId && (
 												<Button
-													variant="danger"
+                          size="sm"
+													variant="outline-secondary"
 													onClick={() => {
 														deleteFurniture(
 															furniture._id,
@@ -318,7 +314,14 @@ const FurnitureList = ({
 													Delete
 												</Button>
 											)}
+                      </Col>
+                      </Row>
 										</Card.Body>
+                    <Card.Footer>
+                      <small className="text-muted">
+                        Updated <Moment fromNow>{furniture.date}</Moment>
+                      </small>
+                    </Card.Footer>
 									</Card>
 								</Col>
 							);
