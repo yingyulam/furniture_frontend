@@ -18,7 +18,7 @@ import FavoritesDataService from "./services/favorites";
 import MyAccount from "./components/MyAccount";
 import UploadItem from "./components/UploadItem";
 import NavDropdown from 'react-bootstrap/NavDropdown';
-
+import Modal from 'react-bootstrap/Modal';
 import "./App.css";
 
 const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
@@ -82,27 +82,34 @@ function App() {
 		updateFavorites();
 	}, [updateFavorites]);
 
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+
 	return (
  
 		<GoogleOAuthProvider clientId={clientId}>
 			<div className="App">
-				<Navbar bg="light" variant="light" expand="lg" sticky="top" >
+				<Navbar bg="light" variant="light" expand="lg"  >
 					<Container className="container-fluid">
 						<Navbar.Brand className="brand" href="/">
-							<img
-								src="/images/furniture-logo.jpg"
+							<img 
+								src="/images/furniture_logo.png"
 								alt="furniture logo"
-								className="moviesLogo"
+								className="furnitureLogo"
 							/>
-							Once Upon A Furniture
+							Furniture
 						</Navbar.Brand>
 						<Navbar.Toggle aria-controls="basic-navbar-nav" />
 						{/* <Navbar.Collapse id="responsive-navbar-nav"> */}
+            <Nav>
 
-              {user ? <NavDropdown title={`Hello, ${user.name}`} id="basic-nav-dropdown">
+            {user ? <NavDropdown title={`Hello, ${user.name}`} id="basic-nav-dropdown">
                   <NavDropdown.Item href="/profile">My Account</NavDropdown.Item>
                   <NavDropdown.Item href="/all_products">All Products</NavDropdown.Item>
-                  <NavDropdown.Item href="/upload">Create New Listing</NavDropdown.Item>
+                  <NavDropdown.Item href="/upload">Post Ad</NavDropdown.Item>
                   <NavDropdown.Divider />
                   <Logout setUser={setUser} />
                 </NavDropdown>
@@ -110,6 +117,26 @@ function App() {
                 <NavDropdown title="Sign in" id="basic-nav-dropdown">
                   <Login setUser={setUser} />
                 </NavDropdown>}
+              <Button variant="secondary" onClick={handleShow}>
+                Post Ad
+              </Button>
+
+              <Modal 
+                show={show} 
+                onHide={handleClose}
+                backdrop="static"
+                keyboard={false}>
+                {/* <Modal.Header closeButton>
+                  <Modal.Title>Create item for sell on this website!</Modal.Title>
+                </Modal.Header> */}
+                <Modal.Body><UploadItem user={user}/></Modal.Body>
+                <Modal.Footer>
+                  <Button variant="warning" onClick={handleClose}>
+                    Close
+                  </Button>
+                </Modal.Footer>
+              </Modal>
+              </Nav>
 							
             {/* <Navbar.Collapse>
               <Nav className="ml-auto">
@@ -135,6 +162,7 @@ function App() {
 					</Container>
 				</Navbar>
 
+        
 				<Routes>
 					<Route
 						exact

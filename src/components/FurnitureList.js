@@ -10,8 +10,9 @@ import Card from "react-bootstrap/Card";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { BsStar, BsStarFill } from "react-icons/bs";
-import NavDropdown from 'react-bootstrap/NavDropdown';
-import Offcanvas from 'react-bootstrap/Offcanvas';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Modal from 'react-bootstrap/Modal';
+import UploadItem from './UploadItem';
 import "./FurnitureList.css";
 
 const FurnitureList = ({
@@ -178,10 +179,12 @@ const FurnitureList = ({
 	return (
     
 		<div className="App">
-    
+
+      <div className="title">
+
 			<Navbar bg="light" expand="lg" variant="light">
 				<Container className="container-fluid">
-					{/* <Navbar.Brand className="brand">Furniture Categories</Navbar.Brand> */}
+					{/* <Navbar.Brand className="brand">Once Upon A Furniture</Navbar.Brand> */}
 					<Navbar.Toggle aria-controls="basic-navbar-nav" />
 					<Navbar.Collapse id="responsive-navbar-nav">
 						<Nav className="ml-auto sidebar">
@@ -192,21 +195,61 @@ const FurnitureList = ({
 							<Nav.Link href="/garden">Garden</Nav.Link>
 							<Nav.Link href="/others">Others</Nav.Link>
 						</Nav>
+            
+            {/* <OverlayTrigger trigger="click" placement="bottom" overlay={
+              <Card>
+                <Form>
+                    <Form.Group className="mb-3">
+                      <Form.Control
+                        type="text"
+                        placeholder="Search Products"
+                        value={searchTitle}
+                        onChange={onChangeSearchTitle}
+                      />
+                    </Form.Group>
+                    <Form.Group className="mb-3">
+                      <Form.Control
+                        as="select"
+                        onChange={onChangeSearchCondition}
+                        value={searchCondition}
+                      >
+                        {conditions.map((condition, i) => {
+                          return (
+                            <option value={condition} key={i}>
+                              {condition}
+                            </option>
+                          );
+                        })}
+                      </Form.Control>
+                    </Form.Group>
+                    <Form.Group variant="light" className="mb-3">
+                      <Form.Control
+                        as="select"
+                        onChange={onChangeSortFurniture}
+                        value={sortFurniture}
+                      >
+                        {features.map((feature, i) => {
+                          return (
+                            <option value={feature} key={i}>
+                              {feature}
+                            </option>
+                          );
+                        })}
+                      </Form.Control>
+                    </Form.Group>
+                    <Button variant="secondary" type="button" onClick={clearFilter}>
+                      Clear all filters
+                    </Button>
+                  </Form>
+              </Card>
+              }>
+              <Button variant="success">Sort & Filter</Button>
+            </OverlayTrigger> */}
 					</Navbar.Collapse>
 				</Container>
 			</Navbar>
-      {/* <Container>
-      <Navbar>
-        <NavDropdown title="Products" id="basic-nav-dropdown">
-          <NavDropdown.Item href="/all_products">All Products</NavDropdown.Item>
-          <NavDropdown.Item href="/living_room">Living Room</NavDropdown.Item>
-          <NavDropdown.Item href="/bedroom">Bedroom</NavDropdown.Item>
-          <NavDropdown.Item href="/bathroom">Bathroom</NavDropdown.Item>
-          <NavDropdown.Item href="/garden">Garden</NavDropdown.Item>
-          <NavDropdown.Item href="/others">Others</NavDropdown.Item>
-        </NavDropdown>
-      </Navbar>
-      </Container> */}
+      </div>
+
 			<Container className="main-container">
 				<Form>
 					<Row>
@@ -214,7 +257,7 @@ const FurnitureList = ({
 							<Form.Group className="mb-3">
 								<Form.Control
 									type="text"
-									placeholder="Search"
+									placeholder="Search Products"
 									value={searchTitle}
 									onChange={onChangeSearchTitle}
 								/>
@@ -238,7 +281,7 @@ const FurnitureList = ({
 							</Form.Group>
 						</Col>
 						<Col>
-							<Form.Group className="mb-3">
+							<Form.Group variant="light" className="mb-3">
 								<Form.Control
 									as="select"
 									onChange={onChangeSortFurniture}
@@ -255,7 +298,7 @@ const FurnitureList = ({
 							</Form.Group>
 						</Col>
 						<Col>
-							<Button variant="warning" type="button" onClick={clearFilter}>
+							<Button variant="outline-secondary" type="button" onClick={clearFilter}>
 								Clear all filters
 							</Button>
 						</Col>
@@ -322,7 +365,7 @@ const FurnitureList = ({
 											<br />
 											{user && furniture.user.googleId === user.googleId && (
 												<Button
-													variant="danger"
+													variant="success"
 													onClick={() => {
 														deleteFurniture(
 															furniture._id,
