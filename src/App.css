@@ -39,4 +39,16 @@ img.furnitureLogo {
   padding-right: 5px;
 }
 
+.category {
+  color: black;
+  padding: 0;
+  margin-bottom: 40px;
+  font-size: 18px;
+}
 
+.title {
+  color: black;
+  padding: 0;
+  margin-bottom: 20px;
+  font-size: 30px;
+}

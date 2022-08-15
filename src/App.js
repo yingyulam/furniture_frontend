@@ -161,6 +161,31 @@ function App() {
 					</Container>
 				</Navbar>
 
+        <Navbar className="title" bg="light" expand="lg" variant="light" >
+				<Container className="container-fluid">
+					<Nav className="m-auto">
+            <Nav.Link href="/">ONCE UPON A FURNITURE</Nav.Link>
+          </Nav>
+        </Container>
+      </Navbar>
+
+			<Navbar className="category" bg="light" expand="lg" variant="light" >
+				<Container className="container-fluid">
+					{/* <Navbar.Brand className="brand">Once Upon A Furniture</Navbar.Brand> */}
+					<Navbar.Toggle aria-controls="basic-navbar-nav" />
+					<Navbar.Collapse id="responsive-navbar-nav">
+						<Nav className="m-auto">
+							<Nav.Link href="/all_products">All Products</Nav.Link>
+							<Nav.Link href="/living_room">Living Room</Nav.Link>
+							<Nav.Link href="/bedroom">Bedroom</Nav.Link>
+							<Nav.Link href="/bathroom">Bathroom</Nav.Link>
+							<Nav.Link href="/garden">Garden</Nav.Link>
+							<Nav.Link href="/others">Others</Nav.Link>
+						</Nav>
+					</Navbar.Collapse>
+				</Container>
+			</Navbar>
+
         
 				<Routes>
 					<Route
