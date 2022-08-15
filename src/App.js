@@ -100,7 +100,6 @@ function App() {
 								alt="furniture logo"
 								className="furnitureLogo"
 							/>
-							Furniture
 						</Navbar.Brand>
 						<Navbar.Toggle aria-controls="basic-navbar-nav" />
 						{/* <Navbar.Collapse id="responsive-navbar-nav"> */}

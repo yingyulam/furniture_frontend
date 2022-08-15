@@ -9,7 +9,7 @@ import Container from "react-bootstrap/Container";
 import Card from "react-bootstrap/Card";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import { BsStar, BsStarFill } from "react-icons/bs";
+import { BsHeart, BsHeartFill } from "react-icons/bs";
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Modal from 'react-bootstrap/Modal';
 import UploadItem from './UploadItem';
@@ -179,15 +179,20 @@ const FurnitureList = ({
 	return (
     
 		<div className="App">
+      <Navbar className="title" bg="light" expand="lg" variant="light" >
+				<Container className="container-fluid">
+					<Nav className="m-auto">
+            <Nav.Link href="/">ONCE UPON A FURNITURE</Nav.Link>
+          </Nav>
+        </Container>
+      </Navbar>
 
-      <div className="title">
-
-			<Navbar bg="light" expand="lg" variant="light">
+			<Navbar className="category" bg="light" expand="lg" variant="light" >
 				<Container className="container-fluid">
 					{/* <Navbar.Brand className="brand">Once Upon A Furniture</Navbar.Brand> */}
 					<Navbar.Toggle aria-controls="basic-navbar-nav" />
 					<Navbar.Collapse id="responsive-navbar-nav">
-						<Nav className="ml-auto sidebar">
+						<Nav className="m-auto">
 							<Nav.Link href="/all_products">All Products</Nav.Link>
 							<Nav.Link href="/living_room">Living Room</Nav.Link>
 							<Nav.Link href="/bedroom">Bedroom</Nav.Link>
@@ -248,7 +253,7 @@ const FurnitureList = ({
 					</Navbar.Collapse>
 				</Container>
 			</Navbar>
-      </div>
+
 
 			<Container className="main-container">
 				<Form>
@@ -312,14 +317,14 @@ const FurnitureList = ({
 									<Card className="moviesListCard">
 										{user &&
 											(favorites.includes(furniture._id) ? (
-												<BsStarFill
+												<BsHeartFill
 													className="star starFill"
 													onClick={() => {
 														deleteFavorite(furniture._id);
 													}}
 												/>
 											) : (
-												<BsStar
+												<BsHeart
 													className="star starEmpty"
 													onClick={() => {
 														addFavorite(furniture._id);
@@ -365,7 +370,7 @@ const FurnitureList = ({
 											<br />
 											{user && furniture.user.googleId === user.googleId && (
 												<Button
-													variant="success"
+													variant="secondary"
 													onClick={() => {
 														deleteFurniture(
 															furniture._id,
