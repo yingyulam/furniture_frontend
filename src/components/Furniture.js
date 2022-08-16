@@ -8,7 +8,9 @@ import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Map from "./Map";
-import moment from 'moment';
+// import moment from 'moment';
+import Moment from 'react-moment';
+import ListGroup from 'react-bootstrap/ListGroup';
 import "./Movie.css";
 
 const Furniture = ({ user, deleteFavorite }) => {
@@ -53,6 +55,7 @@ const Furniture = ({ user, deleteFavorite }) => {
 	};
 	return (
 		<div>
+
 			<Container>
 				<Row>
 					<Col>
@@ -67,32 +70,39 @@ const Furniture = ({ user, deleteFavorite }) => {
 								fluid
 							/>
 						</div>
+
 					</Col>
 					<Col>
 						<Card>
-							<Card.Header as="h3">{furniture.name}</Card.Header>
+							<Card.Header as="h4">{furniture.name}</Card.Header>
 							<Card.Body>
-								{furniture.location && (
-									<Card.Text>Location: {furniture.location.address}</Card.Text>
-								)}
-								<Card.Text>Price: ${furniture.price}</Card.Text>
+                <Card.Text>Price: ${furniture.price}</Card.Text>
+                {furniture.location ? 
+                  <Card.Text>
+									Listed <Moment fromNow>{furniture.date}</Moment> in {furniture.location.address}
+								</Card.Text>
+                    : 
+                  <Card.Text>Listed <Moment fromNow>{furniture.date}</Moment></Card.Text>}
+
+                <Card.Text>Details</Card.Text>
 								<Card.Text>Condition: {furniture.condition}</Card.Text>
 								<Card.Text>Category: {furniture.category}</Card.Text>
-								<Card.Text>
-									Last update: {moment(furniture.date).format("Do MMMM YYYY")}
-								</Card.Text>
 								<Card.Text>{furniture.description}</Card.Text>
-							</Card.Body>
-						</Card>
 
-						<Card>
-							<Card.Header as="h5">Seller Information</Card.Header>
-							<Card.Body>
-								<Card.Text>Name: {furniture.user.name}</Card.Text>
-								<Card.Text>Contact: {furniture.user.email}</Card.Text>
-								<br />
-								{user && furniture.user.googleId === user.googleId && (
+                {furniture.location ? 
+                  <Container>
+                    <Map location={furniture.location} zoomLevel={15} />
+                    <Card.Text>{furniture.location.address}</Card.Text>
+                    <Card.Text>Location is approximate</Card.Text>
+                  </Container>
+                    : 
+                  <Card.Text>Location Not Available</Card.Text>}
+                  
+                <Row>
+                  <Col>
+                {user && furniture.user.googleId === user.googleId && (
 									<Link
+                    className="edit"
 										to={{ pathname: "/update" }}
 										state={{
 											to: "detailed_page",
@@ -110,10 +120,13 @@ const Furniture = ({ user, deleteFavorite }) => {
 										Edit
 									</Link>
 								)}
-								<br />
+                </Col>
+								<Col>
 								{user && furniture.user.googleId === user.googleId && (
-									<Button
-										variant="danger"
+									<Button 
+                    className="delete"
+										variant="outline-secondary"
+                    size="sm"
 										onClick={() => {
 											deleteFurniture(furniture._id, user.googleId);
 										}}
@@ -121,12 +134,17 @@ const Furniture = ({ user, deleteFavorite }) => {
 										Delete
 									</Button>
 								)}
+                </Col>
+                </Row>
+
+							</Card.Body>
+              <Card.Header as="h5">Seller Information</Card.Header>
+              <Card.Body>
+								<Card.Text>Name: {furniture.user.name}</Card.Text>
+								<Card.Text>Contact: {furniture.user.email}</Card.Text>
 							</Card.Body>
 						</Card>
 
-						{furniture.location && (
-							<Map location={furniture.location} zoomLevel={15} />
-						)}
 					</Col>
 				</Row>
 			</Container>

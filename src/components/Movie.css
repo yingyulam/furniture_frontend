@@ -24,3 +24,12 @@ p.review {
 .div.title{
   display: flex;
 }
+
+
+.delete {
+  float: right;
+}
+
+.edit {
+  float: right;
+}

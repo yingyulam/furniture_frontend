@@ -33,7 +33,7 @@ const Map = ({ location, zoomLevel }) => {
   
   return (
   <div className="map">
-    <h2 className="map-h2">Location for This Listing</h2>
+    {/* <h2 className="map-h2">Location for This Listing</h2> */}
 
     <div style={{ height: '100vh', width: '100%' }}>
       <GoogleMapReact
