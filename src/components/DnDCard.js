@@ -4,6 +4,7 @@ import FurnitureDataService from "../services/furniture.js";
 import Card from "react-bootstrap/Card";
 import Image from "react-bootstrap/Image";
 import Button from "react-bootstrap/Button";
+import { Link } from "react-router-dom";
 import "./DnDCard.css";
 
 const style = {
@@ -123,15 +124,14 @@ export const DnDCard = ({ id, index, moveCard, draggable }) => {
 					</div>
 
 					<div className="favoritesTitle">
-						<Card.Header>{furniture.name}</Card.Header>
-						<Button
-							className="button"
-							size="sm"
-							href={"/furniture/" + furniture._id}
-							variant="outline-secondary"
-						>
-							Details
-						</Button>
+						<Card.Title as="h5">
+              <Link 
+                to={"/furniture/" + furniture._id}>
+                {furniture.name}
+                <br />
+                ${furniture.price}
+              </Link>  
+            </Card.Title>
 					</div>
 
 					<div>

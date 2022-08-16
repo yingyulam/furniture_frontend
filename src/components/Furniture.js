@@ -85,6 +85,7 @@ const Furniture = ({ user, favorites, addFavorite, deleteFavorite }) => {
 				console.log(e);
 			});
 	};
+  
 	return (
 		<div>
 			{alertContent === "modified" && (
