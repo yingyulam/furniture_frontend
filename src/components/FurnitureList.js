@@ -1,17 +1,15 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { useSearchParams } from "react-router-dom";
 import FurnitureDataService from "../services/furniture";
-import { Link } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
 import Card from "react-bootstrap/Card";
-import { BsFillGeoAltFill, BsHeart, BsHeartFill } from "react-icons/bs";
-import Moment from 'react-moment';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Modal from 'react-bootstrap/Modal';
-import UploadItem from './UploadItem';
+import { BsHeart, BsHeartFill } from "react-icons/bs";
+import Moment from "react-moment";
+import Alert from "react-bootstrap/Alert";
 import "./FurnitureList.css";
 
 const FurnitureList = ({
@@ -30,6 +28,9 @@ const FurnitureList = ({
 	const [currentPage, setCurrentPage] = useState(0);
 	const [entriesPerPage, setEntriesPerPage] = useState(20);
 	const [sortFurniture, setSortFurniture] = useState("Sort By: Feature");
+	const [alertContent, setAlertContent] = useState("");
+	const [searchParams, setSearchParams] = useSearchParams();
+
 	// useCallback to define functions which should only be created once
 	// and will be dependencies for useEffect
 
@@ -82,6 +83,16 @@ const FurnitureList = ({
 	// useEffect(() => {
 	// 	retrieveCategories();
 	// }, [retrieveCategories]);
+
+	useEffect(() => {
+		const content = searchParams.get("alert");
+		if (content !== "") {
+			setAlertContent(content);
+			setTimeout(() => {
+				setAlertContent("");
+			}, 5000);
+		}
+	}, []);
 
 	useEffect(() => {
 		retrieveConditions();
@@ -153,31 +164,38 @@ const FurnitureList = ({
 			});
 	}, [sortFurniture]);
 
-	const deleteFurniture = (objectId, googleId, index) => {
-		let data = {
-			objectId: objectId,
-			userId: googleId,
-		};
-		deleteFavorite(objectId);
-		FurnitureDataService.deleteItem(data)
-			.then((res) => {
-				setFurniture((prevState) => {
-					prevState.splice(index, 1);
-					return [...prevState];
-				});
-			})
-			.catch((e) => {
-				console.log(e);
-			});
-	};
+	// const deleteFurniture = (objectId, googleId, index) => {
+	// 	let data = {
+	// 		objectId: objectId,
+	// 		userId: googleId,
+	// 	};
+	// 	deleteFavorite(objectId);
+	// 	FurnitureDataService.deleteItem(data)
+	// 		.then((res) => {
+	// 			setFurniture((prevState) => {
+	// 				prevState.splice(index, 1);
+	// 				return [...prevState];
+	// 			});
+	// 		})
+	// 		.catch((e) => {
+	// 			console.log(e);
+	// 		});
+	// };
 
 	useEffect(() => {
 		sortFurnitureByFeature();
 	}, [sortFurnitureByFeature]);
 
 	return (
-    
 		<div className="App">
+			{(alertContent === "created" ||
+				alertContent === "modified" ||
+				alertContent === "deleted") && (
+				<Alert variant="success">
+					{`Item successfully ${alertContent} on this site!`}
+				</Alert>
+			)}
+
 			<Container className="main-container">
 				<Form>
 					<Row>
@@ -226,13 +244,16 @@ const FurnitureList = ({
 							</Form.Group>
 						</Col>
 						<Col>
-							<Button variant="outline-secondary" type="button" onClick={clearFilter}>
+							<Button
+								variant="outline-secondary"
+								type="button"
+								onClick={clearFilter}
+							>
 								Clear all filters
 							</Button>
 						</Col>
 					</Row>
 				</Form>
-        
 				<Row className="movieRow">
 					{furniture.length > 0 ? (
 						furniture.map((furniture, index) => {
@@ -242,7 +263,17 @@ const FurnitureList = ({
 										{user &&
 											(favorites.includes(furniture._id) ? (
 												<BsHeartFill
+													style={{
+														fill: "red",
+														height: "40px",
+														width: "50px",
+														stroke: "red",
+														strokeWidth: "0.1",
+														top: "-15px",
+														right: "-25px",
+													}}
 													className="star starFill"
+													size={70}
 													onClick={() => {
 														deleteFavorite(furniture._id);
 													}}
@@ -250,6 +281,16 @@ const FurnitureList = ({
 											) : (
 												<BsHeart
 													className="star starEmpty"
+													style={{
+														fill: "red",
+														height: "40px",
+														width: "50px",
+														stroke: "red",
+														strokeWidth: "0.1",
+														top: "-15px",
+														right: "-25px",
+													}}
+													size={70}
 													onClick={() => {
 														addFavorite(furniture._id);
 													}}
@@ -260,20 +301,20 @@ const FurnitureList = ({
 											src={furniture.imageUrl}
 											onError={({ currentTarget }) => {
 												currentTarget.onerror = null;
-												currentTarget.src =
-													"/images/NoImageAvailable.jpg";
+												currentTarget.src = "/images/NoImageAvailable.jpg";
 											}}
 										/>
 										<Card.Body>
-                      
-                      <Card.Title>${furniture.price}</Card.Title>
+											<Card.Title>${furniture.price}</Card.Title>
 											<Card.Text className="name"> {furniture.name} </Card.Text>
-											
-                      {furniture.location && (
-                        <Card.Text className="address">{furniture.location.address}</Card.Text>
-                      )}
 
-                      {/* <Row>
+											{furniture.location && (
+												<Card.Text className="address">
+													{furniture.location.address}
+												</Card.Text>
+											)}
+
+											{/* <Row>
                       <Col>
 											{user && furniture.user.googleId === user.googleId && (
 												<Link
@@ -314,14 +355,19 @@ const FurnitureList = ({
                       </Col>
                       </Row> */}
 										</Card.Body>
-                    <Card.Footer>
-                      <small className="text-muted">
-                        Updated <Moment fromNow>{furniture.date}</Moment>
-                        <Button className="button" size="sm" href={"/furniture/" + furniture._id} variant="outline-secondary">
-                        Details
-                      </Button>
-                      </small>
-                    </Card.Footer>
+										<Card.Footer>
+											<small className="text-muted">
+												Updated <Moment fromNow>{furniture.date}</Moment>
+												<Button
+													className="button"
+													size="sm"
+													href={"/furniture/" + furniture._id}
+													variant="outline-secondary"
+												>
+													Details
+												</Button>
+											</small>
+										</Card.Footer>
 									</Card>
 								</Col>
 							);
