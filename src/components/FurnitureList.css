@@ -40,6 +40,10 @@ div.poster {
   fill: gray;
 }
 
+.star:hover {
+  transform: scale(1.2);
+}
+
 .category {
   color: black;
   padding: 0;

@@ -17,7 +17,7 @@ import { BsHeart, BsHeartFill } from "react-icons/bs";
 import Map from "./Map";
 import Moment from "react-moment";
 import Alert from "react-bootstrap/Alert";
-import "./Movie.css";
+import "./Furniture.css";
 
 const Furniture = ({ user, favorites, addFavorite, deleteFavorite }) => {
 	let params = useParams();
@@ -108,43 +108,46 @@ const Furniture = ({ user, favorites, addFavorite, deleteFavorite }) => {
 						</div>
 					</Col>
 					<Col>
+          <Card>
+          {user &&
+            (favorites.includes(furniture._id) ? (
+              <BsHeartFill
+                // style={{
+                //   fill: "red",
+                //   height: "40px",
+                //   width: "50px",
+                //   stroke: "red",
+                //   strokeWidth: "0.1",
+                //   top: "0px",
+                //   right: "0px",
+                // }}
+                className="heart heartFill"
+                // size={50}
+                onClick={() => {
+                  deleteFavorite(furniture._id);
+                }}
+              />
+            ) : (
+              <BsHeart
+                className="heart heartEmpty"
+                // style={{
+                //   fill: "red",
+                //   height: "40px",
+                //   width: "50px",
+                //   stroke: "red",
+                //   strokeWidth: "0.1",
+                //   top: "0px",
+                //   right: "0px",
+                // }}
+                // size={50}
+                onClick={() => {
+                  addFavorite(furniture._id);
+                }}
+              />
+            ))}
+            <Card.Header>Save to wishlist</Card.Header>
+            </Card>
 						<Card>
-              {user &&
-                    (favorites.includes(furniture._id) ? (
-                      <BsHeartFill
-                        style={{
-                        	fill: "red",
-                        	height: "40px",
-                        	width: "50px",
-                        	stroke: "red",
-                        	strokeWidth: "0.1",
-                        	top: "0px",
-                        	right: "0px",
-                        }}
-                        className="star starFill"
-                        size={70}
-                        onClick={() => {
-                          deleteFavorite(furniture._id);
-                        }}
-                      />
-                    ) : (
-                      <BsHeart
-                        className="star starEmpty"
-                        style={{
-                        	fill: "red",
-                        	height: "40px",
-                        	width: "50px",
-                        	stroke: "red",
-                        	strokeWidth: "0.1",
-                        	top: "0px",
-                        	right: "0px",
-                        }}
-                        size={70}
-                        onClick={() => {
-                          addFavorite(furniture._id);
-                        }}
-                      />
-                    ))}
 							<Card.Header as="h4">{furniture.name}</Card.Header>{" "}
 							<Card.Body>
 								<Card.Text>Price: ${furniture.price}</Card.Text>

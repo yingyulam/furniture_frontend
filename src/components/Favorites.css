@@ -6,7 +6,7 @@
 }
 
 .favoritesContainer {
-	display: flex;
+	display: inblock;
 }
 
 .favoritesList {
