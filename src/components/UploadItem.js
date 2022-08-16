@@ -9,6 +9,7 @@ import ButtonGroup from "react-bootstrap/ButtonGroup";
 import FurnitureDataService from "../services/furniture";
 import Axios from "axios";
 
+import "./UploadItem.css";
 import GooglePlacesAutocomplete from "react-google-autocomplete";
 
 const UploadItem = ({ user }) => {
@@ -66,15 +67,17 @@ const UploadItem = ({ user }) => {
 		if (!editing) {
 			FurnitureDataService.uploadItem(data)
 				.then((res) => {
-					navigate("/all_products");
+					navigate("/all_products/?alert=created");
+					window.location.reload();
 				})
 				.catch((e) => console.log(e));
 		} else {
 			FurnitureDataService.updateItem({ ...data, _id: _id }).then((res) => {
 				if (backLink === "detailed_page") {
-					navigate(`/furniture/${_id}`);
+					navigate(`/furniture/${_id}/?alert=modified`);
 				} else {
-					navigate("/all_products");
+					navigate("/all_products/?alert=modified");
+					window.location.reload();
 				}
 			});
 		}

@@ -3,7 +3,7 @@ import { useDrag, useDrop } from "react-dnd";
 import FurnitureDataService from "../services/furniture.js";
 import Card from "react-bootstrap/Card";
 import Image from "react-bootstrap/Image";
-import { Link } from "react-router-dom";
+import Button from "react-bootstrap/Button";
 import "./DnDCard.css";
 
 const style = {
@@ -124,11 +124,14 @@ export const DnDCard = ({ id, index, moveCard, draggable }) => {
 
 					<div className="favoritesTitle">
 						<Card.Header>{furniture.name}</Card.Header>
-						<Card.Text>
-							<Link className="DndLink" to={"/furniture/" + furniture._id}>
-								View Product
-							</Link>
-						</Card.Text>
+						<Button
+							className="button"
+							size="sm"
+							href={"/furniture/" + furniture._id}
+							variant="outline-secondary"
+						>
+							Details
+						</Button>
 					</div>
 
 					<div>
