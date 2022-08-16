@@ -109,45 +109,44 @@ const Furniture = ({ user, favorites, addFavorite, deleteFavorite }) => {
 					</Col>
 					<Col>
 						<Card>
+              {user &&
+                    (favorites.includes(furniture._id) ? (
+                      <BsHeartFill
+                        style={{
+                        	fill: "red",
+                        	height: "40px",
+                        	width: "50px",
+                        	stroke: "red",
+                        	strokeWidth: "0.1",
+                        	top: "0px",
+                        	right: "0px",
+                        }}
+                        className="star starFill"
+                        size={70}
+                        onClick={() => {
+                          deleteFavorite(furniture._id);
+                        }}
+                      />
+                    ) : (
+                      <BsHeart
+                        className="star starEmpty"
+                        style={{
+                        	fill: "red",
+                        	height: "40px",
+                        	width: "50px",
+                        	stroke: "red",
+                        	strokeWidth: "0.1",
+                        	top: "0px",
+                        	right: "0px",
+                        }}
+                        size={70}
+                        onClick={() => {
+                          addFavorite(furniture._id);
+                        }}
+                      />
+                    ))}
 							<Card.Header as="h4">{furniture.name}</Card.Header>{" "}
 							<Card.Body>
-								{user &&
-									(favorites.includes(furniture._id) ? (
-										<BsHeartFill
-											style={{
-												fill: "red",
-												height: "40px",
-												width: "50px",
-												stroke: "red",
-												strokeWidth: "0.1",
-												top: "-15px",
-												right: "-25px",
-											}}
-											className="star starFill"
-											size={70}
-											onClick={() => {
-												deleteFavorite(furniture._id);
-											}}
-										/>
-									) : (
-										<BsHeart
-											className="star starEmpty"
-											style={{
-												fill: "red",
-												height: "40px",
-												width: "50px",
-												stroke: "red",
-												strokeWidth: "0.1",
-												top: "-15px",
-												right: "-25px",
-											}}
-											size={70}
-											onClick={() => {
-												addFavorite(furniture._id);
-											}}
-										/>
-									))}
-
 								<Card.Text>Price: ${furniture.price}</Card.Text>
 								{furniture.location ? (
 									<Card.Text>

@@ -269,8 +269,7 @@ const FurnitureList = ({
 											}}
 										/>
 										<Card.Body>
-                      <Card.Title>${furniture.price}</Card.Title>
-                      {user &&
+                    {user &&
 											(favorites.includes(furniture._id) ? (
 												<BsHeartFill
 													className="star starFill"
@@ -288,6 +287,7 @@ const FurnitureList = ({
 													}}
 												/>
 											))}
+                      <Card.Title>${furniture.price}</Card.Title>
 											<Card.Text className="name"> {furniture.name} </Card.Text>
                       {furniture.location ? <Card.Text className="address">
 													{furniture.location.address}
