@@ -89,10 +89,6 @@ const MyAccount = ({ user }) => {
 		setEditProfile(false);
 	};
 
-  const close = () => {
-    setEditProfile(false)
-  }
-
 	useEffect(() => {
 		FurnitureDataService.getHistoryByUserId(user.googleId)
 			.then((response) => {
@@ -120,9 +116,9 @@ const MyAccount = ({ user }) => {
 	return (
 		<div>
 			<Container className="favoritesContainer">
-        <Row className="justify-content-md-center">
-          <Col md="auto">
-            <Card>
+				<Row>
+					<Col>
+						<Card>
 							<Card.Header as="h5">My Account</Card.Header>
 							<Card.Body>
 								<div>
@@ -137,15 +133,14 @@ const MyAccount = ({ user }) => {
 								</div>
 								<Card.Text>Account name: {user.name}</Card.Text>
 								<Card.Text>Account email: {user.email}</Card.Text>
-                <Card.Title>Display To Public</Card.Title>
 								<Card.Text>
-									Nickname: {nicknameToDisplay}
+									Nickname (display to public): {nicknameToDisplay}
 								</Card.Text>
 								<Card.Text>
-									Perferred contact: {contactToDisplay}
+									Perferred contact (display to public): {contactToDisplay}
 								</Card.Text>
 								<Button
-									variant="secondary"
+									variant="dark"
 									onClick={() => {
 										setEditProfile(true);
 									}}
@@ -154,11 +149,9 @@ const MyAccount = ({ user }) => {
 								</Button>
 							</Card.Body>
 						</Card>
-          </Col>
-          <Col>
-            {editProfile && (
+						{editProfile && (
 							<Card>
-								<Card.Header as="h5">Settings</Card.Header>
+								<Card.Header as="h5">Changing Account Profile</Card.Header>
 								<Card.Body>
 									<Form>
 										<Form.Group>
@@ -171,8 +164,7 @@ const MyAccount = ({ user }) => {
 												/>
 												<Button
 													onClick={uploadProfilePicture}
-													variant="outline-secondary"
-                          size="sm"
+													variant="warning"
 												>
 													Upload
 												</Button>
@@ -199,31 +191,19 @@ const MyAccount = ({ user }) => {
 											/>
 										</Form.Group>
 										<Button
-											variant="outline-secondary"
-                      size="sm"
+											variant="warning"
 											onClick={updateDetail}
 											className="mb-3"
 											disabled={imageLoading}
 										>
 											Submit
 										</Button>
-                    <Button
-											variant="outline-secondary"
-                      size="sm"
-											onClick={close}
-											className="mb-3"
-										>
-											Close
-										</Button>
-
 									</Form>
 								</Card.Body>
 							</Card>
 						)}
-          </Col>
-        </Row>
-        <br />
-        <Row>
+					</Col>
+
 					<Col>
 						<div className="favoritesList">
 							<h3>My Wishlist</h3>
