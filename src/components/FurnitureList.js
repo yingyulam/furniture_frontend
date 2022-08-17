@@ -260,42 +260,6 @@ const FurnitureList = ({
 							return (
 								<Col key={furniture._id}>
 									<Card className="furnitureListCard" bg="light">
-										{user &&
-											(favorites.includes(furniture._id) ? (
-												<BsHeartFill
-													style={{
-														fill: "red",
-														height: "40px",
-														width: "50px",
-														stroke: "red",
-														strokeWidth: "0.1",
-														top: "-15px",
-														right: "-25px",
-													}}
-													className="star starFill"
-													size={70}
-													onClick={() => {
-														deleteFavorite(furniture._id);
-													}}
-												/>
-											) : (
-												<BsHeart
-													className="star starEmpty"
-													style={{
-														fill: "red",
-														height: "40px",
-														width: "50px",
-														stroke: "red",
-														strokeWidth: "0.1",
-														top: "-15px",
-														right: "-25px",
-													}}
-													size={70}
-													onClick={() => {
-														addFavorite(furniture._id);
-													}}
-												/>
-											))}
 										<Card.Img
 											className="smallPoster"
 											src={furniture.imageUrl}
@@ -305,55 +269,29 @@ const FurnitureList = ({
 											}}
 										/>
 										<Card.Body>
-											<Card.Title>${furniture.price}</Card.Title>
-											<Card.Text className="name"> {furniture.name} </Card.Text>
-
-											{furniture.location && (
-												<Card.Text className="address">
-													{furniture.location.address}
-												</Card.Text>
-											)}
-
-											{/* <Row>
-                      <Col>
-											{user && furniture.user.googleId === user.googleId && (
-												<Link
-													to={{ pathname: "/update" }}
-													state={{
-														to: "furniture_list",
-														_id: furniture._id,
-														user: furniture.user,
-														name: furniture.name,
-														price: furniture.price,
-														description: furniture.description,
-														category: furniture.category,
-														imageUrl: furniture.imageUrl,
-														condition: furniture.condition,
-														location: furniture.location,
-													}}
-												>
-													Edit
-												</Link>
-											)}
-                      </Col>
-                      <Col>
-											{user && furniture.user.googleId === user.googleId && (
-												<Button
-                          size="sm"
-													variant="outline-secondary"
+                    {user &&
+											(favorites.includes(furniture._id) ? (
+												<BsHeartFill
+													className="star starFill"
+													size={70}
 													onClick={() => {
-														deleteFurniture(
-															furniture._id,
-															user.googleId,
-															index
-														);
+														deleteFavorite(furniture._id);
 													}}
-												>
-													Delete
-												</Button>
-											)}
-                      </Col>
-                      </Row> */}
+												/>
+											) : (
+												<BsHeart
+													className="star starEmpty"
+													size={70}
+													onClick={() => {
+														addFavorite(furniture._id);
+													}}
+												/>
+											))}
+                      <Card.Title>${furniture.price}</Card.Title>
+											<Card.Text className="name"> {furniture.name} </Card.Text>
+                      {furniture.location ? <Card.Text className="address">
+													{furniture.location.address}
+												</Card.Text> : <Card.Text className="address">Location not available</Card.Text>}
 										</Card.Body>
 										<Card.Footer>
 											<small className="text-muted">
@@ -384,9 +322,11 @@ const FurnitureList = ({
 						setCurrentPage(currentPage - 1);
 					}}
 				>
-					Get previous {entriesPerPage} results
+					{/* Get previous {entriesPerPage} results */}
+          Previous
 				</Button>
-				Showing page: {currentPage + 1}
+				{/* Showing page: {currentPage + 1} */}
+        page {currentPage + 1}
 				<Button
 					variant="link"
 					onClick={() => {
@@ -394,7 +334,8 @@ const FurnitureList = ({
 					}}
 					disabled={furniture.length === 0}
 				>
-					Get next {entriesPerPage} results
+					{/* Get next {entriesPerPage} results */}
+          Next
 				</Button>
 			</Container>
 		</div>

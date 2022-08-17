@@ -1,0 +1,11 @@
+.historyPicture {
+	width: 120px;
+	height: 80px;
+	object-fit: cover;
+	border-radius: 0.25rem;
+}
+
+.historyTable {
+  text-align: center;
+  vertical-align: middle;
+}

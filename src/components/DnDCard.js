@@ -4,6 +4,7 @@ import FurnitureDataService from "../services/furniture.js";
 import Card from "react-bootstrap/Card";
 import Image from "react-bootstrap/Image";
 import Button from "react-bootstrap/Button";
+import { Link } from "react-router-dom";
 import "./DnDCard.css";
 
 const style = {
@@ -111,31 +112,9 @@ export const DnDCard = ({ id, index, moveCard, draggable }) => {
 		>
 			{
 				<Card className="favoritesCard">
-					<div>
-						<Image
-							className="favoritesPoster"
-							src={furniture.imageUrl}
-							onError={({ currentTarget }) => {
-								currentTarget.onerror = null;
-								currentTarget.src = "/images/NoPosterAvailable-crop.jpg";
-							}}
-						/>
-					</div>
 
-					<div className="favoritesTitle">
-						<Card.Header>{furniture.name}</Card.Header>
-						<Button
-							className="button"
-							size="sm"
-							href={"/furniture/" + furniture._id}
-							variant="outline-secondary"
-						>
-							Details
-						</Button>
-					</div>
-
-					<div>
-						<Card.Text
+        <div>
+						<Card.Text 
 							className={
 								ranking < 10
 									? "favoritesNumber favoritesNumberOneDigit"
@@ -145,6 +124,37 @@ export const DnDCard = ({ id, index, moveCard, draggable }) => {
 							{ranking}
 						</Card.Text>
 					</div>
+
+					<div>
+						<Image
+							className="favoritesPoster"
+							src={furniture.imageUrl}
+							onError={({ currentTarget }) => {
+								currentTarget.onerror = null;
+								currentTarget.src = "/images/NoImageAvailable.jpg";
+							}}
+						/>
+					</div>
+
+					<div className="favoritesTitle">
+						<Card.Text>{furniture.name}</Card.Text>
+					</div>
+
+          <div className="favoritesTitle">
+						<Card.Text>${furniture.price}</Card.Text>
+					</div>
+
+          <div className="favoritesTitle">
+            <Button
+              size="sm"
+              className="details"
+              href={"/furniture/" + furniture._id}
+              variant="outline-secondary"
+            >
+              Details
+            </Button>
+          </div>
+
 				</Card>
 			}
 		</div>

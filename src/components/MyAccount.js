@@ -10,10 +10,12 @@ import Row from "react-bootstrap/Row";
 import Card from "react-bootstrap/Card";
 import { useState, useEffect } from "react";
 import Image from "react-bootstrap/Image";
-import "./Favorites.css";
+import "./MyAccount.css";
 import FavoritesDataService from "../services/favorites.js";
 import FurnitureDataService from "../services/furniture.js";
 import Axios from "axios";
+import MyListings from "./MyListings"
+
 
 const MyAccount = ({ user }) => {
 	const [favorites, setFavorites] = useState([]);
@@ -89,6 +91,10 @@ const MyAccount = ({ user }) => {
 		setEditProfile(false);
 	};
 
+  const closeEditPage = () => {
+    setEditProfile(false);
+  }
+
 	useEffect(() => {
 		FurnitureDataService.getHistoryByUserId(user.googleId)
 			.then((response) => {
@@ -140,7 +146,7 @@ const MyAccount = ({ user }) => {
 									Perferred contact (display to public): {contactToDisplay}
 								</Card.Text>
 								<Button
-									variant="dark"
+									variant="secondary"
 									onClick={() => {
 										setEditProfile(true);
 									}}
@@ -149,6 +155,8 @@ const MyAccount = ({ user }) => {
 								</Button>
 							</Card.Body>
 						</Card>
+            </Col>
+            <Col>
 						{editProfile && (
 							<Card>
 								<Card.Header as="h5">Changing Account Profile</Card.Header>
@@ -164,7 +172,7 @@ const MyAccount = ({ user }) => {
 												/>
 												<Button
 													onClick={uploadProfilePicture}
-													variant="warning"
+													variant="outline-secondary"
 												>
 													Upload
 												</Button>
@@ -191,41 +199,58 @@ const MyAccount = ({ user }) => {
 											/>
 										</Form.Group>
 										<Button
-											variant="warning"
+											variant="outline-secondary"
 											onClick={updateDetail}
-											className="mb-3"
+											className="me-3"
 											disabled={imageLoading}
 										>
 											Submit
+										</Button>
+                    <Button
+											variant="outline-secondary"
+											onClick={closeEditPage}
+											className="ms-3"
+										>
+											Close
 										</Button>
 									</Form>
 								</Card.Body>
 							</Card>
 						)}
 					</Col>
+        </Row>
 
+        <MyListings user={user}/>
+        
+        <Row>
 					<Col>
-						<div className="favoritesList">
-							<h3>My Wishlist</h3>
+						<div /*className="favoritesList"*/>
+              <Card>
+              <Card.Header as="h5">My Wishlist</Card.Header>
+							
 							<DndProvider backend={HTML5Backend}>
 								{favorites.length === 0 && <h5>No item in wishlist.</h5>}
 								<CardList user={user} list={favorites} isFavorite={true} />
 							</DndProvider>
+              </Card>
 						</div>
 					</Col>
-
+        </Row>
+        {/* <Row>
 					<Col>
 						<div className="favoritesList">
-							<h3>My Listings</h3>
+              <Card>
+							<Card.Header as="h4">My Listings</Card.Header>
 							<DndProvider backend={HTML5Backend}>
 								{history.length === 0 && (
 									<h4>Please make a posting to browse listing history.</h4>
 								)}
 								<CardList user={user} list={history} isFavorite={false} />
 							</DndProvider>
+              </Card>
 						</div>
 					</Col>
-				</Row>
+				</Row> */}
 			</Container>
 		</div>
 	);
