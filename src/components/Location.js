@@ -1,6 +1,4 @@
 import Autocomplete from "react-google-autocomplete";
-import Geocode from "react-geocode";
-import Map from './Map'
 
 const Location = ({ user }) => {
 

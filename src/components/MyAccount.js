@@ -15,6 +15,7 @@ import FavoritesDataService from "../services/favorites.js";
 import FurnitureDataService from "../services/furniture.js";
 import Axios from "axios";
 import MyListings from "./MyListings";
+import Table from 'react-bootstrap/Table';
 
 const MyAccount = ({ user }) => {
 	const [favorites, setFavorites] = useState([]);
@@ -111,7 +112,7 @@ const MyAccount = ({ user }) => {
 						<Card>
 							<Card.Header as="h5">My Account</Card.Header>
 							<Card.Body>
-								<div>
+								<div className="profile">
 									<Image
 										className="favoritesPoster mb-3"
 										src={imageUrlToDisplay}
@@ -121,14 +122,38 @@ const MyAccount = ({ user }) => {
 										}}
 									/>
 								</div>
-								<Card.Text>Account name: {user.name}</Card.Text>
-								<Card.Text>Account email: {user.email}</Card.Text>
+                <Table>
+                  <tbody>
+                    <tr>
+                      <td></td><td></td>
+                    </tr>
+                    <tr>
+                      <td>Account name</td>
+                      <td>{user.name}</td>
+                    </tr>
+                    <tr>
+                      <td>Account email</td>
+                      <td>{user.email}</td>
+                    </tr>
+                    <tr>
+                      <td>Nickname (display to public)</td>
+                      <td>{nicknameToDisplay}</td>
+                    </tr>
+                    <tr>
+                      <td>Perferred contact (display to public)</td>
+                      <td>{contactToDisplay}</td>
+                    </tr>
+
+                  </tbody>
+                </Table>
+								{/* <Card.Text><b>Account name: </b>{user.name}</Card.Text>
+								<Card.Text><b>Account email: </b>{user.email}</Card.Text>
 								<Card.Text>
-									Nickname (display to public): {nicknameToDisplay}
+									<b>Nickname (display to public): </b>{nicknameToDisplay}
 								</Card.Text>
 								<Card.Text>
-									Perferred contact (display to public): {contactToDisplay}
-								</Card.Text>
+									<b>Perferred contact (display to public): </b>{contactToDisplay}
+								</Card.Text> */}
 								<Button
 									variant="secondary"
 									onClick={() => {
