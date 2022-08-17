@@ -10,7 +10,7 @@ import Row from "react-bootstrap/Row";
 import Card from "react-bootstrap/Card";
 import { useState, useEffect } from "react";
 import Image from "react-bootstrap/Image";
-import "./Favorites.css";
+import "./MyAccount.css";
 import FavoritesDataService from "../services/favorites.js";
 import FurnitureDataService from "../services/furniture.js";
 import Axios from "axios";
@@ -224,9 +224,9 @@ const MyAccount = ({ user }) => {
         
         <Row>
 					<Col>
-						<div className="favoritesList">
+						<div /*className="favoritesList"*/>
               <Card>
-              <Card.Header as="h4">My Wishlist</Card.Header>
+              <Card.Header as="h5">My Wishlist</Card.Header>
 							
 							<DndProvider backend={HTML5Backend}>
 								{favorites.length === 0 && <h5>No item in wishlist.</h5>}

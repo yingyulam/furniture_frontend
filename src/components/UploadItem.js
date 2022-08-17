@@ -147,7 +147,7 @@ const UploadItem = ({ user }) => {
 											setImageSelected(e.target.files[0]);
 										}}
 									/>
-									<Button onClick={uploadImage} variant="warning">
+									<Button onClick={uploadImage} variant="secondary">
 										Upload
 									</Button>
 								</div>
@@ -236,7 +236,7 @@ const UploadItem = ({ user }) => {
 							<br />
 							{/* <Map location={location} zoomLevel={17} /> */}
 							<Button
-								variant="warning"
+								variant="secondary"
 								onClick={saveItem}
 								className="mt-3"
 								disabled={imageLoading || name === ""}

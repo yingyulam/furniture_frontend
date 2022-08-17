@@ -322,9 +322,11 @@ const FurnitureList = ({
 						setCurrentPage(currentPage - 1);
 					}}
 				>
-					Get previous {entriesPerPage} results
+					{/* Get previous {entriesPerPage} results */}
+          Previous
 				</Button>
-				Showing page: {currentPage + 1}
+				{/* Showing page: {currentPage + 1} */}
+        page {currentPage + 1}
 				<Button
 					variant="link"
 					onClick={() => {
@@ -332,7 +334,8 @@ const FurnitureList = ({
 					}}
 					disabled={furniture.length === 0}
 				>
-					Get next {entriesPerPage} results
+					{/* Get next {entriesPerPage} results */}
+          Next
 				</Button>
 			</Container>
 		</div>

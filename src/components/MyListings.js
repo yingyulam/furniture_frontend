@@ -34,9 +34,10 @@ const MyListings = ({ user }) => {
               <th>Details</th>
             </tr>
           </thead>
-          <tbody>
-            {history.map((furniture, i) => {
-              return (
+
+          {history.map((furniture, i) => {
+            return (
+              <tbody key={i}>
 							<tr>
                 <td>
                   <Card.Img
@@ -62,9 +63,10 @@ const MyListings = ({ user }) => {
 									</Button>
                 </td>
               </tr>
-              )
-						})}
-          </tbody>
+              </tbody>
+            )
+					})}
+
 
 
     </Table>
