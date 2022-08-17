@@ -54,20 +54,23 @@ const MyAccount = ({ user }) => {
 	};
 
 	const updateDetail = () => {
+		const uploadImageUrl =
+			imageUrl.trim() === "" ? imageUrlToDisplay : imageUrl.trim();
+		const uploadNickname =
+			nickname.trim() === "" ? nicknameToDisplay : nickname.trim();
+		const uploadContact =
+			contact.trim() === "" ? contactToDisplay : contact.trim();
 		let data = {
 			_id: user.googleId,
-			imageUrl: imageUrl,
-			nickname: nickname,
-			contact: contact,
+			imageUrl: uploadImageUrl,
+			nickname: uploadNickname,
+			contact: uploadContact,
 		};
+		debugger;
 		FavoritesDataService.updateUserProfile(data).then((res) => {
-			const response = res.data;
-			debugger;
-			setImageUrlToDisplay(
-				"imageUrl" in response ? response.imageUrl : imageUrl
-			);
-			setNicknameToDisplay(nickname.trim() !== "" ? nickname : user.name);
-			setContactToDisplay(contact.trim() !== "" ? contact : user.email);
+			setImageUrlToDisplay(uploadImageUrl);
+			setNicknameToDisplay(uploadNickname);
+			setContactToDisplay(uploadContact);
 		});
 		setImageUrl("");
 		setNickname("");
@@ -98,7 +101,7 @@ const MyAccount = ({ user }) => {
 		});
 	}, []);
 
-  console.log(user)
+	console.log(user);
 
 	return (
 		<div>

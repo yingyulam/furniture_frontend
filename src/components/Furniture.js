@@ -33,6 +33,7 @@ const Furniture = ({ user, favorites, addFavorite, deleteFavorite }) => {
 	});
 	const [alertContent, setAlertContent] = useState("");
 	const [searchParams, setSearchParams] = useSearchParams();
+	const [imageUrl, setImageUrl] = useState("");
 	const [nickname, setNickname] = useState("");
 	const [contact, setContact] = useState("");
 
@@ -55,6 +56,7 @@ const Furniture = ({ user, favorites, addFavorite, deleteFavorite }) => {
 			FavoriteController.getFavorites(furniture.user.googleId).then((res) => {
 				const response = res.data;
 				console.log(response);
+				setImageUrl("imageUrl" in response ? response.imageUrl : imageUrl);
 				setNickname("nickname" in response ? response.nickname : nickname);
 				setContact("contact" in response ? response.contact : contact);
 			});
@@ -85,7 +87,7 @@ const Furniture = ({ user, favorites, addFavorite, deleteFavorite }) => {
 				console.log(e);
 			});
 	};
-  
+
 	return (
 		<div>
 			{alertContent === "modified" && (
@@ -109,49 +111,51 @@ const Furniture = ({ user, favorites, addFavorite, deleteFavorite }) => {
 						</div>
 					</Col>
 					<Col>
-          <Card>
-          {user &&
-            (favorites.includes(furniture._id) ? (
-              <BsHeartFill
-                // style={{
-                //   fill: "red",
-                //   height: "40px",
-                //   width: "50px",
-                //   stroke: "red",
-                //   strokeWidth: "0.1",
-                //   top: "0px",
-                //   right: "0px",
-                // }}
-                className="heart heartFill"
-                // size={50}
-                onClick={() => {
-                  deleteFavorite(furniture._id);
-                }}
-              />
-            ) : (
-              <BsHeart
-                className="heart heartEmpty"
-                // style={{
-                //   fill: "red",
-                //   height: "40px",
-                //   width: "50px",
-                //   stroke: "red",
-                //   strokeWidth: "0.1",
-                //   top: "0px",
-                //   right: "0px",
-                // }}
-                // size={50}
-                onClick={() => {
-                  addFavorite(furniture._id);
-                }}
-              />
-            ))}
-            <Card.Header>Save to wishlist</Card.Header>
-            </Card>
+						<Card>
+							{user &&
+								(favorites.includes(furniture._id) ? (
+									<BsHeartFill
+										// style={{
+										//   fill: "red",
+										//   height: "40px",
+										//   width: "50px",
+										//   stroke: "red",
+										//   strokeWidth: "0.1",
+										//   top: "0px",
+										//   right: "0px",
+										// }}
+										className="heart heartFill"
+										// size={50}
+										onClick={() => {
+											deleteFavorite(furniture._id);
+										}}
+									/>
+								) : (
+									<BsHeart
+										className="heart heartEmpty"
+										// style={{
+										//   fill: "red",
+										//   height: "40px",
+										//   width: "50px",
+										//   stroke: "red",
+										//   strokeWidth: "0.1",
+										//   top: "0px",
+										//   right: "0px",
+										// }}
+										// size={50}
+										onClick={() => {
+											addFavorite(furniture._id);
+										}}
+									/>
+								))}
+							<Card.Header>Save to wishlist</Card.Header>
+						</Card>
 						<Card>
 							<Card.Header as="h4">{furniture.name}</Card.Header>{" "}
 							<Card.Body>
-								<Card.Text className="basic">Price: ${furniture.price}</Card.Text>
+								<Card.Text className="basic">
+									Price: ${furniture.price}
+								</Card.Text>
 								{furniture.location ? (
 									<Card.Text>
 										Listed <Moment fromNow>{furniture.date}</Moment> in{" "}
@@ -164,14 +168,24 @@ const Furniture = ({ user, favorites, addFavorite, deleteFavorite }) => {
 								)}
 
 								<Card.Text className="bold">Details</Card.Text>
-								<Card.Text className="basic"><b>Condition: </b>{furniture.condition}</Card.Text>
-								<Card.Text><b>Category: </b>{furniture.category}</Card.Text>
-								<Card.Text className="description">{furniture.description}</Card.Text>
+								<Card.Text className="basic">
+									<b>Condition: </b>
+									{furniture.condition}
+								</Card.Text>
+								<Card.Text>
+									<b>Category: </b>
+									{furniture.category}
+								</Card.Text>
+								<Card.Text className="description">
+									{furniture.description}
+								</Card.Text>
 
 								{furniture.location ? (
 									<Container>
 										<Map location={furniture.location} zoomLevel={15} />
-										<Card.Text className="basic">{furniture.location.address}</Card.Text>
+										<Card.Text className="basic">
+											{furniture.location.address}
+										</Card.Text>
 										<Card.Text>Location is approximate</Card.Text>
 									</Container>
 								) : (
@@ -219,15 +233,15 @@ const Furniture = ({ user, favorites, addFavorite, deleteFavorite }) => {
 							</Card.Body>
 							<Card.Header as="h5">Seller Information</Card.Header>
 							<Card.Body>
-                {console.log(furniture.user)}
-                {/* <Image
-										className="favoritesPoster mb-3"
-										src={furniture.user.imageUrl}
-										onError={({ currentTarget }) => {
-											currentTarget.onerror = null;
-											currentTarget.src = "/images/NoProfilePicture.png";
-										}}
-									/> */}
+								{console.log(furniture.user)}
+								<Image
+									className="favoritesPoster mb-3"
+									src={imageUrl}
+									onError={({ currentTarget }) => {
+										currentTarget.onerror = null;
+										currentTarget.src = "/images/NoProfilePicture.png";
+									}}
+								/>
 								<Card.Text>
 									Name: {nickname === "" ? furniture.user.name : nickname}
 								</Card.Text>
