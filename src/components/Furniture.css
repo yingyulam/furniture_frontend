@@ -54,3 +54,17 @@ p.review {
 .heart:hover {
   transform: scale(1.2);
 }
+
+.bold {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.description {
+  font-size: 15px
+}
+
+.basic {
+  padding: 0;
+  margin-bottom: 3px;
+}

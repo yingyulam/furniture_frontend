@@ -98,6 +98,8 @@ const MyAccount = ({ user }) => {
 		});
 	}, []);
 
+  console.log(user)
+
 	return (
 		<div>
 			<Container className="favoritesContainer">
