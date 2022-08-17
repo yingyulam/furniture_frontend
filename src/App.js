@@ -186,12 +186,24 @@ function App() {
 							<Navbar.Toggle aria-controls="basic-navbar-nav" />
 							<Navbar.Collapse id="responsive-navbar-nav">
 								<Nav className="m-auto">
-									<Nav.Link href="/all_products">All Products</Nav.Link>
-									<Nav.Link href="/living_room">Living Room</Nav.Link>
-									<Nav.Link href="/bedroom">Bedroom</Nav.Link>
-									<Nav.Link href="/bathroom">Bathroom</Nav.Link>
-									<Nav.Link href="/garden">Garden</Nav.Link>
-									<Nav.Link href="/others">Others</Nav.Link>
+									<Nav.Link className="underline" href="/all_products">
+                    All Products
+                  </Nav.Link>
+									<Nav.Link className="underline" href="/living_room">
+                    Living Room
+                  </Nav.Link>
+									<Nav.Link className="underline" href="/bedroom">
+                    Bedroom
+                  </Nav.Link>
+									<Nav.Link className="underline" href="/bathroom">
+                      Bathroom
+                  </Nav.Link>
+									<Nav.Link className="underline" href="/garden">
+                    Garden
+                  </Nav.Link>
+									<Nav.Link className="underline" href="/others">
+                    Others
+                  </Nav.Link>
 								</Nav>
 							</Navbar.Collapse>
 						</Container>
