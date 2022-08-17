@@ -32,7 +32,7 @@ const Map = ({ location, zoomLevel }) => {
 
 	return (
 		<div className="map">
-			<div style={{ height: "30vh", width: "100%" }}>
+			<div style={{ height: "400px", width: "100%" }}>
 				<GoogleMapReact
 					bootstrapURLKeys={{ key: mapKey }}
 					defaultCenter={location}
