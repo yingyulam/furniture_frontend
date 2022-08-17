@@ -14,8 +14,7 @@ import "./MyAccount.css";
 import FavoritesDataService from "../services/favorites.js";
 import FurnitureDataService from "../services/furniture.js";
 import Axios from "axios";
-import MyListings from "./MyListings"
-
+import MyListings from "./MyListings";
 
 const MyAccount = ({ user }) => {
 	const [favorites, setFavorites] = useState([]);
@@ -63,27 +62,12 @@ const MyAccount = ({ user }) => {
 		};
 		FavoritesDataService.updateUserProfile(data).then((res) => {
 			const response = res.data;
+			debugger;
 			setImageUrlToDisplay(
-				imageUrl in response
-					? response.imageUrl
-					: imageUrl === ""
-					? imageUrlToDisplay
-					: imageUrl
+				"imageUrl" in response ? response.imageUrl : imageUrl
 			);
-			setNicknameToDisplay(
-				nickname in response
-					? response.nickname
-					: nickname === ""
-					? nicknameToDisplay
-					: nickname
-			);
-			setContactToDisplay(
-				contact in response
-					? response.contact
-					: contact === ""
-					? contactToDisplay
-					: contact
-			);
+			setNicknameToDisplay(nickname.trim() !== "" ? nickname : user.name);
+			setContactToDisplay(contact.trim() !== "" ? contact : user.email);
 		});
 		setImageUrl("");
 		setNickname("");
@@ -91,20 +75,9 @@ const MyAccount = ({ user }) => {
 		setEditProfile(false);
 	};
 
-  const closeEditPage = () => {
-    setEditProfile(false);
-  }
-
-	// useEffect(() => {
-	// 	FurnitureDataService.getHistoryByUserId(user.googleId)
-	// 		.then((response) => {
-	// 			const history = response.data.map((res) => res._id);
-	// 			setHistory(history);
-	// 		})
-	// 		.catch((e) => {
-	// 			console.log(e);
-	// 		});
-	// }, []);
+	const closeEditPage = () => {
+		setEditProfile(false);
+	};
 
 	useEffect(() => {
 		FavoritesDataService.getFavorites(user.googleId).then((res) => {
@@ -113,9 +86,15 @@ const MyAccount = ({ user }) => {
 				"imageUrl" in response ? response.imageUrl : imageUrl
 			);
 			setNicknameToDisplay(
-				"nickname" in response ? response.nickname : nickname
+				"nickname" in response && response.nickname.trim() !== ""
+					? response.nickname
+					: user.name
 			);
-			setContactToDisplay("contact" in response ? response.contact : contact);
+			setContactToDisplay(
+				"contact" in response && response.contact.trim() !== ""
+					? response.contact
+					: user.email
+			);
 		});
 	}, []);
 
@@ -155,8 +134,8 @@ const MyAccount = ({ user }) => {
 								</Button>
 							</Card.Body>
 						</Card>
-            </Col>
-            <Col>
+					</Col>
+					<Col>
 						{editProfile && (
 							<Card>
 								<Card.Header as="h5">Changing Account Profile</Card.Header>
@@ -206,7 +185,7 @@ const MyAccount = ({ user }) => {
 										>
 											Submit
 										</Button>
-                    <Button
+										<Button
 											variant="outline-secondary"
 											onClick={closeEditPage}
 											className="ms-3"
@@ -218,25 +197,25 @@ const MyAccount = ({ user }) => {
 							</Card>
 						)}
 					</Col>
-        </Row>
+				</Row>
 
-        <MyListings user={user}/>
-        
-        <Row>
+				<MyListings user={user} />
+
+				<Row>
 					<Col>
 						<div /*className="favoritesList"*/>
-              <Card>
-              <Card.Header as="h5">My Wishlist</Card.Header>
-							
-							<DndProvider backend={HTML5Backend}>
-								{favorites.length === 0 && <h5>No item in wishlist.</h5>}
-								<CardList user={user} list={favorites} isFavorite={true} />
-							</DndProvider>
-              </Card>
+							<Card>
+								<Card.Header as="h5">My Wishlist</Card.Header>
+
+								<DndProvider backend={HTML5Backend}>
+									{favorites.length === 0 && <h5>No item in wishlist.</h5>}
+									<CardList user={user} list={favorites} isFavorite={true} />
+								</DndProvider>
+							</Card>
 						</div>
 					</Col>
-        </Row>
-        {/* <Row>
+				</Row>
+				{/* <Row>
 					<Col>
 						<div className="favoritesList">
               <Card>
