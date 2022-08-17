@@ -132,6 +132,7 @@ function App() {
 									onHide={handleClose}
 									backdrop="static"
 									keyboard={false}
+                  size="lg"
 								>
 									{/* <Modal.Header closeButton>
                     <Modal.Title>Create item for sell on this website!</Modal.Title>

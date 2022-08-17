@@ -19,7 +19,7 @@ import MyListings from "./MyListings"
 
 const MyAccount = ({ user }) => {
 	const [favorites, setFavorites] = useState([]);
-	const [history, setHistory] = useState([]);
+	//const [history, setHistory] = useState([]);
 	const [nicknameToDisplay, setNicknameToDisplay] = useState("");
 	const [contactToDisplay, setContactToDisplay] = useState("");
 	const [imageUrlToDisplay, setImageUrlToDisplay] = useState("");
@@ -95,16 +95,16 @@ const MyAccount = ({ user }) => {
     setEditProfile(false);
   }
 
-	useEffect(() => {
-		FurnitureDataService.getHistoryByUserId(user.googleId)
-			.then((response) => {
-				const history = response.data.map((res) => res._id);
-				setHistory(history);
-			})
-			.catch((e) => {
-				console.log(e);
-			});
-	}, []);
+	// useEffect(() => {
+	// 	FurnitureDataService.getHistoryByUserId(user.googleId)
+	// 		.then((response) => {
+	// 			const history = response.data.map((res) => res._id);
+	// 			setHistory(history);
+	// 		})
+	// 		.catch((e) => {
+	// 			console.log(e);
+	// 		});
+	// }, []);
 
 	useEffect(() => {
 		FavoritesDataService.getFavorites(user.googleId).then((res) => {
