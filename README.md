@@ -14,7 +14,11 @@ Link to the app: https://furnitureapp-frontend.herokuapp.com/
 # Furniture-frontend
 
 <h1>Iteration 3</h1>
-In this iteration, we have done a lot of alterations on the frontend part of the app based on css, and added some function (i.e. sorting, user designated name). A brief overview of the app's UI and function
+In this iteration, we have done a lot of alterations on the frontend part of the app based on css, and added some function (i.e. sorting, user designated name).
+
+Run the application after cloning the repository: **npm install** and **npm start** or visit the link above.
+
+A brief overview of the app's UI and function
 
 1. Home page when logged out, there are not favorite (heart) for this page
 ![1  Home page log out](https://media.github.ccs.neu.edu/user/11225/files/fe30ea68-7a49-40a0-a2c2-68783bea02ff)
