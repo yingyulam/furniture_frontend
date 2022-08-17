@@ -1,0 +1,14 @@
+.pin {
+  display: flex;
+  align-items: center;
+  width: 100px;
+  color: var(--main-blue);
+}
+
+.pin-icon {
+  font-size: 4rem;
+}
+
+.pin-text {
+  font-size: 1.3em;
+}

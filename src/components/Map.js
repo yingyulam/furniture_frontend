@@ -1,28 +1,30 @@
+/*source: https://blog.logrocket.com/integrating-google-maps-react/*/
+
 import React from 'react'
 import GoogleMapReact from 'google-map-react'
 import { Icon } from '@iconify/react'
 import locationIcon from '@iconify/icons-mdi/map-marker'
-
-const LocationPin = ({ text }) => (
-  <div className="pin">
-    <Icon icon={locationIcon} className="pin-icon" 
-    />
-    <p className="pin-text">{text}</p>
-  </div>
-)
+import './Map.css'
 
 // const LocationPin = ({ text }) => (
-//   <div style={{
-//     color: 'black', 
-//     background: 'grey',
-//     padding: '15px 10px',
-//     display: 'inline-flex',
-//     textAlign: 'center',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//     borderRadius: '100%',
-//     transform: 'translate(-50%, -50%)'
-//   }}>
+//   <div className="pin">
+//     <Icon icon={locationIcon} className="pin-icon" 
+//     />
+//     <p className="pin-text">{text}</p>
+//   </div>
+// )
+
+// const LocationPin = ({ text }) => (
+//     <div style={{
+//       color: 'black', 
+//       padding: '15px 15px',
+//       display: 'inline-flex',
+//       textAlign: 'center',
+//       alignItems: 'center',
+//       justifyContent: 'center',
+//       borderRadius: '100%',
+//       transform: 'translate(-50%, -50%)'
+//     }} className="circle">
 //     {text}
 //   </div>
 // );
@@ -33,7 +35,6 @@ const Map = ({ location, zoomLevel }) => {
   
   return (
   <div className="map">
-    {/* <h2 className="map-h2">Location for This Listing</h2> */}
 
     <div style={{ height: '100vh', width: '100%' }}>
       <GoogleMapReact
@@ -41,11 +42,11 @@ const Map = ({ location, zoomLevel }) => {
         defaultCenter={location}
         defaultZoom={zoomLevel}
       >
-        <LocationPin 
+        {/* <LocationPin 
           lat={location.lat}
           lng={location.lng}
           text={location.address.split(",")[0]}
-        />
+        /> */}
 
       </GoogleMapReact>
     </div>

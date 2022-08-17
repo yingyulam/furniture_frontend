@@ -147,7 +147,6 @@ export const DnDCard = ({ id, index, moveCard, draggable }) => {
           <div className="favoritesTitle">
             <Button
               size="sm"
-              className="details"
               href={"/furniture/" + furniture._id}
               variant="outline-secondary"
             >

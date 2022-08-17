@@ -1,7 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora&display=swap');
+
 .App {
   background-color: rgb(249, 249, 249);
   min-height: 100vh;
   padding-bottom: 100px;
+  /* font-family: 'Lora', serif; */
 }
 
 body {
@@ -44,11 +47,19 @@ img.furnitureLogo {
   padding: 0;
   margin-bottom: 40px;
   font-size: 18px;
+  font-family: 'Lora', serif;
+}
+
+.underline:hover {
+  text-decoration: underline;
 }
 
 .title {
   color: black;
   padding: 0;
   margin-bottom: 20px;
-  font-size: 30px;
+  font-size: 35px;
+  font-family: 'Lora', serif;
+  /* font-weight: bold */
 }
+
