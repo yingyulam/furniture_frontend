@@ -151,7 +151,7 @@ const Furniture = ({ user, favorites, addFavorite, deleteFavorite }) => {
 						<Card>
 							<Card.Header as="h4">{furniture.name}</Card.Header>{" "}
 							<Card.Body>
-								<Card.Text>Price: ${furniture.price}</Card.Text>
+								<Card.Text className="basic">Price: ${furniture.price}</Card.Text>
 								{furniture.location ? (
 									<Card.Text>
 										Listed <Moment fromNow>{furniture.date}</Moment> in{" "}
@@ -163,15 +163,15 @@ const Furniture = ({ user, favorites, addFavorite, deleteFavorite }) => {
 									</Card.Text>
 								)}
 
-								<Card.Text>Details</Card.Text>
-								<Card.Text>Condition: {furniture.condition}</Card.Text>
-								<Card.Text>Category: {furniture.category}</Card.Text>
-								<Card.Text>{furniture.description}</Card.Text>
+								<Card.Text className="bold">Details</Card.Text>
+								<Card.Text className="basic"><b>Condition: </b>{furniture.condition}</Card.Text>
+								<Card.Text><b>Category: </b>{furniture.category}</Card.Text>
+								<Card.Text className="description">{furniture.description}</Card.Text>
 
 								{furniture.location ? (
 									<Container>
 										<Map location={furniture.location} zoomLevel={15} />
-										<Card.Text>{furniture.location.address}</Card.Text>
+										<Card.Text className="basic">{furniture.location.address}</Card.Text>
 										<Card.Text>Location is approximate</Card.Text>
 									</Container>
 								) : (
@@ -219,6 +219,15 @@ const Furniture = ({ user, favorites, addFavorite, deleteFavorite }) => {
 							</Card.Body>
 							<Card.Header as="h5">Seller Information</Card.Header>
 							<Card.Body>
+                {console.log(furniture.user)}
+                {/* <Image
+										className="favoritesPoster mb-3"
+										src={furniture.user.imageUrl}
+										onError={({ currentTarget }) => {
+											currentTarget.onerror = null;
+											currentTarget.src = "/images/NoProfilePicture.png";
+										}}
+									/> */}
 								<Card.Text>
 									Name: {nickname === "" ? furniture.user.name : nickname}
 								</Card.Text>
