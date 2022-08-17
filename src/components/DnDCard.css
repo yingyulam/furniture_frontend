@@ -1,8 +1,11 @@
 .favoritesCard {
 	margin-top: 0;
 	width: 100%;
+  text-align: center;
 	display: flex;
 	flex-direction: row;
+  align-items: center;
+
 }
 
 .favoritesPoster {
@@ -10,6 +13,7 @@
 	height: 80px;
 	object-fit: cover;
 	border-radius: 0.25rem;
+  margin: 10px;
 }
 
 .favoritesNumber {
@@ -31,7 +35,7 @@
 	font-size: 1.5rem;
 }
 
-.favoritesTitle {
+/* .favoritesTitle {
 	display: flex;
 	flex-direction: column;
 	text-align: center;
@@ -42,11 +46,24 @@
 	display: inline;
 	overflow: hidden;
 	background-color: white;
-  margin-top:20px;
+  margin: 20px;
+} */
+
+.favoritesTitle {
+  text-align: center;
+  align-content: center;
+  width: 100%;
+  font-size: 1em;
+  vertical-align: middle;
+  display: inline;
+  vertical-align: middle;
+  max-height: 100px;
+  overflow: hidden;
+  background-color: white;
 }
 
 .DndLink {
 	font-size: medium;
 	position: relative;
-	bottom: 10px;
+	/* bottom: 10px; */
 }
