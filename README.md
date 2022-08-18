@@ -49,6 +49,8 @@ A brief overview of the app's UI and function
 
 10. My Account, including the personal profile, wishlist and listing history (Only accessible when logged in)
 ![10  My account](https://media.github.ccs.neu.edu/user/11225/files/11bde70e-cbff-4807-948c-7cf5b4465faa)
+![10  My account 2](https://media.github.ccs.neu.edu/user/11145/files/907e06c3-6903-4bea-a630-c36238918ec8)
+
 
 11. Draggable wishlist (only accessible when logged in)
 ![11  Dragging wishlist](https://media.github.ccs.neu.edu/user/11225/files/ba972ef2-20c5-443b-91bf-98cdb0d8f40d)
