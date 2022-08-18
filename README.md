@@ -59,7 +59,19 @@ A brief overview of the app's UI and function
 ![12  Editing page](https://media.github.ccs.neu.edu/user/11225/files/c82092e6-ce24-49d6-9adf-2ba448a44bd1)
 
 <h2>Contribution of work</h2>
-Our contribution in the last iteration is easy to describe. Peter: edit and delete listing, edit profile, sorting and filtering and other functions. Rain: working on UI design.
+Peter mainly worked on function implementations:
+
+1. Refined the Filter and Sort function.
+2. Implement new functions: Edit and Delete Listings, Edit User Profile, and other functions.
+3. Debugged and fine-tuned functions.
+4. Wrote README.
+
+Rain mainly worked on User interface design:
+
+1. Worked on UI design (Minimalist Design): mainly used react-bootstrap and CSS to achieve style and effects. 
+2. Implemented furniture sorting.
+3. Changed the listing history to a table
+4. Added a footer.
 
 
 <h1>Iteration 2</h1>
