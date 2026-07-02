@@ -9,7 +9,55 @@ Project idea: Once Upon A Furniture. An online platform for used furniture buy a
 
 Source of starter code: Rain's Movie Time Project in CS5610, Summer 2022
 
-Link to the app: https://furnitureapp-frontend.herokuapp.com/
+**Live app:** https://furniture-frontend-weld.vercel.app
+**Backend API:** https://furniture-backend-255g.onrender.com
+
+---
+
+# 2026 Update — Modernized & Redeployed
+
+The original app was hosted on Heroku's free tier, which was discontinued in
+November 2022, taking the site offline. In 2026 the project was updated so all
+features work again and redeployed on a modern free stack.
+
+**What changed**
+- Migrated React rendering to the React 18 `createRoot` API.
+- Fixed Google login (`@react-oauth/google` props) and upgraded `jwt-decode` to v4.
+- Moved all secrets/config to environment variables (Cloudinary, API base URL,
+  Google OAuth Client ID, Google Maps key) — nothing hardcoded.
+- Fixed the product detail page crash (google-map-react vs React 18 StrictMode)
+  and made the favorites lookup tolerate a missing profile.
+- Added upload feedback (progress bar, spinner, success/error, thumbnail) on both
+  Post Ad and Edit Profile.
+- Added SPA routing rewrites so deep links don't 404 on refresh.
+
+**Tech stack**
+- Frontend: React 18 (Create React App), React Router 6, React-Bootstrap
+- Backend: Node/Express + MongoDB (Atlas) — see the `furniture_backend` repo
+- Auth: Google OAuth 2.0 · Maps: Google Maps + Places · Images: Cloudinary
+- Hosting: Vercel (frontend) · Render (backend) · MongoDB Atlas (database)
+
+## Running locally
+
+```bash
+npm install
+cp .env.example .env    # then fill in the values (see below)
+npm start               # http://localhost:3000
+```
+
+Requires the backend running (see the `furniture_backend` repo) and a `.env` with:
+
+| Variable | Purpose |
+| --- | --- |
+| `REACT_APP_API_BASE_URL` | Backend URL (e.g. `http://localhost:8000`) |
+| `REACT_APP_GOOGLE_CLIENT_ID` | Google OAuth 2.0 client ID (login) |
+| `REACT_APP_GOOGLE_MAP_API_KEY` | Google Maps JavaScript + Places API key |
+| `REACT_APP_CLOUDINARY_CLOUD_NAME` | Cloudinary cloud name (image upload) |
+| `REACT_APP_CLOUDINARY_UPLOAD_PRESET` | Cloudinary **unsigned** upload preset |
+
+`.env` is gitignored; never commit real secrets.
+
+---
 
 # Furniture-frontend
 
