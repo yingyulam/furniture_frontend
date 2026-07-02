@@ -52,14 +52,20 @@ const Furniture = ({ user, favorites, addFavorite, deleteFavorite }) => {
 	}, [params.id]);
 
 	useEffect(() => {
-		if ("googleId" in furniture.user) {
-			FavoriteController.getFavorites(furniture.user.googleId).then((res) => {
-				const response = res.data;
-				console.log(response);
-				setImageUrl("imageUrl" in response ? response.imageUrl : imageUrl);
-				setNickname("nickname" in response ? response.nickname : nickname);
-				setContact("contact" in response ? response.contact : contact);
-			});
+		if (furniture.user && "googleId" in furniture.user) {
+			FavoriteController.getFavorites(furniture.user.googleId)
+				.then((res) => {
+					const response = res.data;
+					if (response && typeof response === "object") {
+						if ("imageUrl" in response) setImageUrl(response.imageUrl);
+						if ("nickname" in response) setNickname(response.nickname);
+						if ("contact" in response) setContact(response.contact);
+					}
+				})
+				.catch((e) => {
+					// 404 = seller has no saved profile yet; ignore
+					console.log(e);
+				});
 		}
 	}, [furniture]);
 

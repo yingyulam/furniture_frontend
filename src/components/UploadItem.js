@@ -6,6 +6,10 @@ import Button from "react-bootstrap/Button";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import Dropdown from "react-bootstrap/Dropdown";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
+import ProgressBar from "react-bootstrap/ProgressBar";
+import Spinner from "react-bootstrap/Spinner";
+import Alert from "react-bootstrap/Alert";
+import Image from "react-bootstrap/Image";
 import FurnitureDataService from "../services/furniture";
 import Axios from "axios";
 
@@ -51,6 +55,9 @@ const UploadItem = ({ user }) => {
 	const [location, setLocation] = useState(editing ? loc.state.location : null);
 	const [imageLoading, setImageLoading] = useState(false);
 	const [imageSelected, setImageSelected] = useState("");
+	const [uploadProgress, setUploadProgress] = useState(0);
+	const [uploadError, setUploadError] = useState("");
+	const [uploadSuccess, setUploadSuccess] = useState(false);
 
 	const saveItem = () => {
 		let data = {
@@ -104,17 +111,44 @@ const UploadItem = ({ user }) => {
 	// }
 
 	const uploadImage = () => {
+		if (!imageSelected) {
+			setUploadError("Please choose an image file first.");
+			return;
+		}
+		const cloudName = process.env.REACT_APP_CLOUDINARY_CLOUD_NAME;
+		const uploadPreset = process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET;
 		const formData = new FormData();
 		formData.append("file", imageSelected);
-		formData.append("upload_preset", "dsvru7rj");
+		formData.append("upload_preset", uploadPreset);
+		setUploadError("");
+		setUploadSuccess(false);
+		setUploadProgress(0);
 		setImageLoading(true);
 		Axios.post(
-			"https://api.cloudinary.com/v1_1/ddprfjhmn/image/upload",
-			formData
-		).then((res) => {
-			setImageUrl(res.data.secure_url);
-			setImageLoading(false);
-		});
+			`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+			formData,
+			{
+				onUploadProgress: (progressEvent) => {
+					const total = progressEvent.total || progressEvent.loaded;
+					const percent = Math.round((progressEvent.loaded * 100) / total);
+					setUploadProgress(percent);
+				},
+			}
+		)
+			.then((res) => {
+				setImageUrl(res.data.secure_url);
+				setUploadProgress(100);
+				setUploadSuccess(true);
+				setImageLoading(false);
+			})
+			.catch((e) => {
+				console.log(e);
+				setUploadError(
+					"Upload failed. Please check your connection and try again."
+				);
+				setUploadProgress(0);
+				setImageLoading(false);
+			});
 	};
 
 	return (
@@ -143,13 +177,61 @@ const UploadItem = ({ user }) => {
 								<div className="mb-3">
 									<input
 										type="file"
+										accept="image/*"
 										onChange={(e) => {
 											setImageSelected(e.target.files[0]);
+											setUploadError("");
+											setUploadSuccess(false);
+											setUploadProgress(0);
 										}}
 									/>
-									<Button onClick={uploadImage} variant="secondary">
-										Upload
+									<Button
+										onClick={uploadImage}
+										variant="secondary"
+										disabled={imageLoading || !imageSelected}
+									>
+										{imageLoading ? (
+											<>
+												<Spinner
+													as="span"
+													animation="border"
+													size="sm"
+													role="status"
+													aria-hidden="true"
+												/>{" "}
+												Uploading...
+											</>
+										) : (
+											"Upload"
+										)}
 									</Button>
+
+									{imageLoading && (
+										<ProgressBar
+											className="mt-2"
+											now={uploadProgress}
+											label={`${uploadProgress}%`}
+											animated
+										/>
+									)}
+
+									{uploadError && (
+										<Alert variant="danger" className="mt-2 mb-0 py-2">
+											{uploadError}
+										</Alert>
+									)}
+
+									{!imageLoading && uploadSuccess && imageUrl !== "" && (
+										<Alert variant="success" className="mt-2 mb-0 py-2">
+											<div>✓ Image uploaded successfully!</div>
+											<Image
+												src={imageUrl}
+												thumbnail
+												style={{ maxHeight: "120px", marginTop: "8px" }}
+												alt="uploaded preview"
+											/>
+										</Alert>
+									)}
 								</div>
 								<Form.Control
 									type="text"
