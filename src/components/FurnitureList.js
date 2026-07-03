@@ -7,6 +7,7 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
 import Card from "react-bootstrap/Card";
+import Spinner from "react-bootstrap/Spinner";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
 import Moment from "react-moment";
 import Alert from "react-bootstrap/Alert";
@@ -29,6 +30,7 @@ const FurnitureList = ({
 	const [entriesPerPage, setEntriesPerPage] = useState(20);
 	const [sortFurniture, setSortFurniture] = useState("Sort By: Feature");
 	const [alertContent, setAlertContent] = useState("");
+	const [loading, setLoading] = useState(true);
 	const [searchParams, setSearchParams] = useSearchParams();
 
 	// useCallback to define functions which should only be created once
@@ -58,6 +60,7 @@ const FurnitureList = ({
 			condition: searchCondition,
 			category: searchCategory,
 		};
+		setLoading(true);
 		FurnitureDataService.find(queries, currentPage)
 			.then((response) => {
 				setFurniture(response.data.furniture);
@@ -66,6 +69,9 @@ const FurnitureList = ({
 			})
 			.catch((e) => {
 				console.log(e);
+			})
+			.finally(() => {
+				setLoading(false);
 			});
 	}, [currentPage, searchTitle, searchCondition, searchCategory]);
 
@@ -255,7 +261,16 @@ const FurnitureList = ({
 					</Row>
 				</Form>
 				<Row className="movieRow">
-					{furniture.length > 0 ? (
+					{loading ? (
+						<div style={{ textAlign: "center", padding: "40px", width: "100%" }}>
+							<Spinner animation="border" role="status" />
+							<h5 className="mt-3">Loading listings…</h5>
+							<p className="text-muted">
+								The server may be waking up — the first visit can take up to a
+								minute.
+							</p>
+						</div>
+					) : furniture.length > 0 ? (
 						furniture.map((furniture, index) => {
 							return (
 								<Col key={furniture._id}>
