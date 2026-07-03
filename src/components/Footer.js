@@ -24,8 +24,7 @@ export const Footer = () => {
           </a>
         </CDBBox>
         <CDBBox>
-          <small className="ml-2 d-block text-end">&copy; Peter and Rain in Vancouver, 2022. All rights reserved.</small>
-          <small className="ml-2 d-block text-end text-muted">Updated in 2026.</small>
+          <small className="ml-2">&copy; 2026. All rights reserved.</small>
         </CDBBox>
       </CDBBox>
     </CDBFooter>
